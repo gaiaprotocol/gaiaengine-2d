@@ -1,11 +1,10 @@
-import { Container } from "pixi.js";
-import GameNode from "../GameNode.js";
+import Node from "../Node.js";
 interface MovableOptions {
     speedX?: number;
 }
-export default class Movable<T extends Container = Container> extends GameNode<T> {
+export default class Movable extends Node {
     private options?;
-    constructor(container?: T, options?: MovableOptions | undefined);
+    constructor(x: number, y: number, options?: MovableOptions | undefined);
     step(deltaTime: number): void;
 }
 export {};

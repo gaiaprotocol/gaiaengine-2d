@@ -1,17 +1,17 @@
 import { DomNode } from "@common-module/app";
 import { Renderer } from "pixi.js";
-import GameNode from "../GameNode.js";
+import Node from "../Node.js";
 import Camera from "./Camera.js";
 export default class Screen extends DomNode {
     width: number;
     height: number;
-    root: GameNode<import("pixi.js").Container<import("pixi.js").ContainerChild>>;
+    root: Node;
     camera: Camera;
     protected renderer: Renderer | undefined;
     private animationInterval;
     private beforeTime;
     ratio: number;
-    constructor(width: number, height: number, ...nodes: GameNode[]);
+    constructor(width: number, height: number, ...nodes: Node[]);
     protected resize(width: number, height: number, ratio: number): void;
     private createRenderer;
     private step;

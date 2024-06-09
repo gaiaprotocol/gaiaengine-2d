@@ -1,8 +1,8 @@
-import GameNode from "../GameNode.js";
+import Node from "../Node.js";
 export default class Camera {
     x: number;
     y: number;
-    target: GameNode;
-    constructor(target: GameNode);
+    target: Node;
+    constructor(target: Node);
 }
 //# sourceMappingURL=Camera.d.ts.map

@@ -1,5 +1,5 @@
 import { BodyNode, DomNode, Style } from "@common-module/app";
-import GameNode from "../GameNode.js";
+import Node from "../Node.js";
 import Screen from "./Screen.js";
 
 class Letterbox extends DomNode {
@@ -23,7 +23,7 @@ export default class LetterboxedScreen extends Screen {
     right: new Letterbox({ right: 0, top: 0, height: "100%" }),
   };
 
-  constructor(width: number, height: number, ...nodes: GameNode[]) {
+  constructor(width: number, height: number, ...nodes: Node[]) {
     super(width, height, ...nodes);
 
     this.style({

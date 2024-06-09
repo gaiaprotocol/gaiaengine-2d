@@ -1,11 +1,11 @@
-import GameNode from "../GameNode.js";
+import Node from "../Node.js";
 
 export default class Camera {
   public x = 0;
   public y = 0;
-  public target: GameNode;
+  public target: Node;
 
-  constructor(target: GameNode) {
+  constructor(target: Node) {
     this.target = target;
   }
 }

@@ -1,10 +1,10 @@
 import { DomNode } from "@common-module/app";
 import { autoDetectRenderer, Renderer } from "pixi.js";
-import GameNode from "../GameNode.js";
+import Node from "../Node.js";
 import Camera from "./Camera.js";
 
 export default class Screen extends DomNode {
-  public root = new GameNode();
+  public root = new Node(0, 0);
   public camera = new Camera(this.root);
 
   protected renderer: Renderer | undefined;
@@ -17,7 +17,7 @@ export default class Screen extends DomNode {
   constructor(
     public width: number,
     public height: number,
-    ...nodes: GameNode[]
+    ...nodes: Node[]
   ) {
     super();
     this.root.screen = this;
@@ -30,6 +30,7 @@ export default class Screen extends DomNode {
     this.width = width;
     this.height = height;
     this.ratio = ratio;
+
     if (this.renderer) {
       this.renderer.resize(this.width, this.height);
       this.renderer.canvas.width = this.width;
@@ -37,6 +38,8 @@ export default class Screen extends DomNode {
       this.renderer.canvas.style.width = `${this.width * this.ratio}px`;
       this.renderer.canvas.style.height = `${this.height * this.ratio}px`;
     }
+
+    this.root.setPosition(this.width / 2, this.height / 2);
   }
 
   private async createRenderer() {
@@ -44,10 +47,7 @@ export default class Screen extends DomNode {
       width: this.width,
       height: this.height,
     });
-    this.renderer.canvas.width = this.width;
-    this.renderer.canvas.height = this.height;
-    this.renderer.canvas.style.width = `${this.width * this.ratio}px`;
-    this.renderer.canvas.style.height = `${this.height * this.ratio}px`;
+    this.resize(this.width, this.height, this.ratio);
     this.domElement.appendChild(this.renderer.canvas);
   }
 

@@ -1,13 +1,12 @@
 import { DomChild, DomNode } from "@common-module/app";
-import GameNode from "../GameNode.js";
+import Node from "../Node.js";
 import Screen from "../screen/Screen.js";
 
-export default class Dom extends GameNode {
+export default class Dom extends Node {
   protected domNode: DomNode;
 
   constructor(x: number, y: number, tag: string, ...children: DomChild[]) {
-    super();
-    this.container.position.set(x, y);
+    super(x, y);
     this.domNode = new DomNode(tag, ...children);
     this.domNode.style({
       position: "absolute",
@@ -34,10 +33,8 @@ export default class Dom extends GameNode {
         this.container.position,
       );
 
-      const left = (this.screen.width / 2 + globalPosition.x) *
-        this.screen.ratio;
-      const top = (this.screen.height / 2 + globalPosition.y) *
-        this.screen.ratio;
+      const left = globalPosition.x * this.screen.ratio;
+      const top = globalPosition.y * this.screen.ratio;
 
       if (this.beforeLeft !== left || this.beforeTop !== top) {
         this.beforeLeft = left;
