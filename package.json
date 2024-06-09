@@ -1,7 +1,7 @@
 {
-  "name": "@common-module/game",
-  "author": "yj.gaia",
-  "homepage": "https://yj.dev",
+  "name": "@gaiaengine/gaiaengine",
+  "author": "Gaia Protocol",
+  "homepage": "https://gaiaprotocol.com",
   "version": "0.0.1",
   "type": "module",
   "types": "./lib/index.d.ts",
@@ -9,7 +9,7 @@
   "dependencies": {
     "@common-module/app": "^0.0.1",
     "pixi-spine": "^4.0.4",
-    "pixi.js": "^7.4.0"
+    "pixi.js": "^8.1.6"
   },
   "devDependencies": {}
 }

@@ -1,0 +1,1 @@
+{"version":3,"file":"Dom.d.ts","sourceRoot":"","sources":["../../src/domnode/Dom.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,oBAAoB,CAAC;AAC9C,OAAO,QAAQ,MAAM,gBAAgB,CAAC;AAEtC,MAAM,CAAC,OAAO,OAAO,GAAI,SAAQ,QAAQ;gBAC3B,GAAG,EAAE,MAAM,EAAE,GAAG,QAAQ,EAAE,QAAQ,EAAE;CAGjD"}

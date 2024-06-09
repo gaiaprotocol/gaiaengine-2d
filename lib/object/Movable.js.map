@@ -1,0 +1,1 @@
+{"version":3,"file":"Movable.js","sourceRoot":"","sources":["../../src/object/Movable.ts"],"names":[],"mappings":"AACA,OAAO,QAAQ,MAAM,gBAAgB,CAAC;AAMtC,MAAM,CAAC,OAAO,OAAO,OACnB,SAAQ,QAAW;IACnB,YAAY,SAAa,EAAE,OAAwB;QACjD,KAAK,CAAC,SAAS,CAAC,CAAC;IACnB,CAAC;CACF"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"LetterboxedScreen.d.ts","sourceRoot":"","sources":["../../src/screen/LetterboxedScreen.ts"],"names":[],"mappings":"AACA,OAAO,QAAQ,MAAM,gBAAgB,CAAC;AACtC,OAAO,MAAM,MAAM,aAAa,CAAC;AAcjC,MAAM,CAAC,OAAO,OAAO,iBAAkB,SAAQ,MAAM;IACnD,OAAO,CAAC,WAAW,CAKjB;gBAEU,KAAK,EAAE,MAAM,EAAE,MAAM,EAAE,MAAM,EAAE,GAAG,KAAK,EAAE,QAAQ,EAAE;IAe/D,OAAO,CAAC,MAAM,CAEZ;IAEK,MAAM;CAId"}
