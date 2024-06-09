@@ -1,10 +1,12 @@
 import Node from "../Node.js";
 export default class StateSet {
     private states;
+    private currentState;
     private currentStateNode;
     constructor(target: Node, states: {
         [state: string]: Node;
-    }, initialState: string);
-    setState(state: string): void;
+    }, currentState: string);
+    set state(state: string);
+    get state(): string;
 }
 //# sourceMappingURL=StateSet.d.ts.map
