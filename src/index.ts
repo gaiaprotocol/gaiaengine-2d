@@ -1,4 +1,5 @@
 export { default as Node } from "./Node.js";
+export { default as WindowEventNode } from "./WindowEventNode.js";
 export { default as Dom } from "./dom/Dom.js";
 export { default as Text } from "./dom/Text.js";
 export { default as Background } from "./image/Background.js";
