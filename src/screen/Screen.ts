@@ -12,11 +12,11 @@ export default class Screen extends DomNode {
   private animationInterval: number | undefined;
   private beforeTime = 0;
 
-  protected ratio = 1;
+  public ratio = 1;
 
   constructor(
-    protected width: number,
-    protected height: number,
+    public width: number,
+    public height: number,
     ...nodes: GameNode[]
   ) {
     super();

@@ -1,8 +1,13 @@
 import { Style } from "@common-module/app";
-import GameNode from "../GameNode.js";
+import Dom from "./Dom.js";
 
-export default class Text extends GameNode {
+export default class Text extends Dom {
   constructor(x: number, y: number, text: string, style?: Style) {
-    super();
+    super(x, y, "", text);
+    if (style) this.domNode.style(style);
+  }
+
+  public step(deltaTime: number) {
+    super.step(deltaTime);
   }
 }

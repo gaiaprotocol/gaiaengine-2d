@@ -6,7 +6,7 @@ class Letterbox extends DomNode {
   constructor(style: Style) {
     super();
     this.style({
-      position: "absolute",
+      position: "fixed",
       zIndex: 9999998,
       backgroundColor: "#000000",
       ...style,
