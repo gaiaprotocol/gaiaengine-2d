@@ -1,9 +1,13 @@
 import { Assets, TilingSprite } from "pixi.js";
-import Movable, { MovableOptions } from "../object/Movable.js";
+import GameNode from "../GameNode.js";
 
-export default class Background extends Movable<TilingSprite> {
-  constructor(src: string, options?: MovableOptions) {
-    super(new TilingSprite(), options);
+interface BackgroundOptions {
+  scrollSpeedX?: number;
+}
+
+export default class Background extends GameNode<TilingSprite> {
+  constructor(src: string, private options?: BackgroundOptions) {
+    super(new TilingSprite());
     this.src = src;
   }
 
@@ -16,5 +20,12 @@ export default class Background extends Movable<TilingSprite> {
 
   public set src(src: string) {
     this.load(src);
+  }
+
+  public step(deltaTime: number) {
+    if (this.options?.scrollSpeedX) {
+      this.container.tilePosition.x += this.options.scrollSpeedX * deltaTime;
+    }
+    super.step(deltaTime);
   }
 }

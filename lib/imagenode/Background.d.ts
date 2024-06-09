@@ -1,8 +1,14 @@
 import { TilingSprite } from "pixi.js";
-import Movable, { MovableOptions } from "../object/Movable.js";
-export default class Background extends Movable<TilingSprite> {
-    constructor(src: string, options?: MovableOptions);
+import GameNode from "../GameNode.js";
+interface BackgroundOptions {
+    scrollSpeedX?: number;
+}
+export default class Background extends GameNode<TilingSprite> {
+    private options?;
+    constructor(src: string, options?: BackgroundOptions | undefined);
     private load;
     set src(src: string);
+    step(deltaTime: number): void;
 }
+export {};
 //# sourceMappingURL=Background.d.ts.map

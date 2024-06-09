@@ -3,7 +3,7 @@ import Screen from "./Screen.js";
 
 export default class Fullscreen extends Screen {
   constructor() {
-    super();
+    super(0, 0);
     BodyNode.append(this);
   }
 }

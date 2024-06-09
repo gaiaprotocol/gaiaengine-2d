@@ -7,11 +7,18 @@ export default class Screen extends DomNode {
   public root = new GameNode();
   public camera = new Camera(this.root);
 
-  private renderer: Renderer | undefined;
+  protected renderer: Renderer | undefined;
+
   private animationInterval: number | undefined;
   private beforeTime = 0;
 
-  constructor(...nodes: GameNode[]) {
+  protected ratio = 1;
+
+  constructor(
+    protected width: number,
+    protected height: number,
+    ...nodes: GameNode[]
+  ) {
     super();
     this.root.screen = this;
     this.root.append(...nodes);
@@ -19,8 +26,28 @@ export default class Screen extends DomNode {
     this.resume();
   }
 
+  protected resize(width: number, height: number, ratio: number) {
+    this.width = width;
+    this.height = height;
+    this.ratio = ratio;
+    if (this.renderer) {
+      this.renderer.resize(this.width, this.height);
+      this.renderer.canvas.width = this.width;
+      this.renderer.canvas.height = this.height;
+      this.renderer.canvas.style.width = `${this.width * this.ratio}px`;
+      this.renderer.canvas.style.height = `${this.height * this.ratio}px`;
+    }
+  }
+
   private async createRenderer() {
-    this.renderer = await autoDetectRenderer({});
+    this.renderer = await autoDetectRenderer({
+      width: this.width,
+      height: this.height,
+    });
+    this.renderer.canvas.width = this.width;
+    this.renderer.canvas.height = this.height;
+    this.renderer.canvas.style.width = `${this.width * this.ratio}px`;
+    this.renderer.canvas.style.height = `${this.height * this.ratio}px`;
     this.domElement.appendChild(this.renderer.canvas);
   }
 
@@ -30,7 +57,7 @@ export default class Screen extends DomNode {
   }
 
   private tic = (now: number) => {
-    const deltaTime = now - this.beforeTime;
+    const deltaTime = (now - this.beforeTime) / 1000;
     if (deltaTime > 0) {
       this.step(deltaTime);
       this.beforeTime = now;

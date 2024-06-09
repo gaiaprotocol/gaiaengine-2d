@@ -11,19 +11,20 @@ class Letterbox extends DomNode {
       backgroundColor: "#000000",
       ...style,
     });
+    BodyNode.append(this);
   }
 }
 
 export default class LetterboxedScreen extends Screen {
   private letterboxes = {
-    top: new Letterbox({ left: 0, top: 0, width: "100%" }).appendTo(this),
-    bottom: new Letterbox({ left: 0, bottom: 0, width: "100%" }).appendTo(this),
-    left: new Letterbox({ left: 0, top: 0, height: "100%" }).appendTo(this),
-    right: new Letterbox({ right: 0, top: 0, height: "100%" }).appendTo(this),
+    top: new Letterbox({ left: 0, top: 0, width: "100%" }),
+    bottom: new Letterbox({ left: 0, bottom: 0, width: "100%" }),
+    left: new Letterbox({ left: 0, top: 0, height: "100%" }),
+    right: new Letterbox({ right: 0, top: 0, height: "100%" }),
   };
 
   constructor(width: number, height: number, ...nodes: GameNode[]) {
-    super(...nodes);
+    super(width, height, ...nodes);
 
     this.style({
       position: "fixed",
@@ -33,16 +34,34 @@ export default class LetterboxedScreen extends Screen {
       height: "100%",
     });
 
-    window.addEventListener("resize", this.resize);
+    this.windowResize();
+    window.addEventListener("resize", this.windowResize);
     BodyNode.append(this);
   }
 
-  private resize = () => {
-    //TODO:
+  private windowResize = () => {
+    const winWidth = document.documentElement.clientWidth;
+    const winHeight = window.innerHeight;
+
+    const widthRatio = winWidth / this.width;
+    const heightRatio = winHeight / this.height;
+    this.ratio = widthRatio < heightRatio ? widthRatio : heightRatio;
+
+    this.resize(this.width, this.height, this.ratio);
+
+    const left = (winWidth - this.width * this.ratio) / 2;
+    const top = (winHeight - this.height * this.ratio) / 2;
+
+    this.style({ left, top });
+
+    this.letterboxes.left.style({ width: left });
+    this.letterboxes.top.style({ height: top });
+    this.letterboxes.right.style({ width: left });
+    this.letterboxes.bottom.style({ height: top });
   };
 
   public delete() {
-    window.removeEventListener("resize", this.resize);
+    window.removeEventListener("resize", this.windowResize);
     super.delete();
   }
 }
