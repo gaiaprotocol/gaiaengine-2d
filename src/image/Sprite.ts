@@ -5,7 +5,7 @@ import {
   Spritesheet,
   SpritesheetFrameData,
 } from "pixi.js";
-import Node from "../Node.js";
+import Node from "../base/Node.js";
 
 export default class Sprite extends Node {
   private animatedSprite: AnimatedSprite | undefined;

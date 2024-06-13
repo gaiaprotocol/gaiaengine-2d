@@ -1,4 +1,4 @@
-import Node from "../Node.js";
+import Node from "../base/Node.js";
 export default class Sprite extends Node {
     private _src;
     private frameCount;

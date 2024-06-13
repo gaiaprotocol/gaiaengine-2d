@@ -1,5 +1,5 @@
 import { DomChild, DomNode } from "@common-module/app";
-import Node from "../Node.js";
+import Node from "../base/Node.js";
 import Screen from "../screen/Screen.js";
 export default class Dom extends Node {
     protected domNode: DomNode;

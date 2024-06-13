@@ -1,4 +1,4 @@
-import Node from "./Node.js";
+import Node from "./base/Node.js";
 type WindowEventHandler<ET extends Event, NT extends Node> = (event: ET, node: NT) => any;
 export default class WindowEventNode extends Node {
     private windowEventMap;

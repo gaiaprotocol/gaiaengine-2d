@@ -1,6 +1,6 @@
 import { DomNode } from "@common-module/app";
 import { Renderer } from "pixi.js";
-import Node from "../Node.js";
+import Node from "../base/Node.js";
 import Camera from "./Camera.js";
 export default class Screen extends DomNode {
     width: number;

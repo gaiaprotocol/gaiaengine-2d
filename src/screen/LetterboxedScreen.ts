@@ -1,5 +1,5 @@
 import { BodyNode, DomNode, Style } from "@common-module/app";
-import Node from "../Node.js";
+import Node from "../base/Node.js";
 import Screen from "./Screen.js";
 
 class Letterbox extends DomNode {

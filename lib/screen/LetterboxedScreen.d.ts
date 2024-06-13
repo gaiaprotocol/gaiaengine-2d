@@ -1,4 +1,4 @@
-import Node from "../Node.js";
+import Node from "../base/Node.js";
 import Screen from "./Screen.js";
 export default class LetterboxedScreen extends Screen {
     private letterboxes;

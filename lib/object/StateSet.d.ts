@@ -1,4 +1,4 @@
-import Node from "../Node.js";
+import Node from "../base/Node.js";
 export default class StateSet {
     private states;
     private currentState;

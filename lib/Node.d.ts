@@ -1,6 +1,6 @@
 import { TreeNode } from "@common-module/app";
 import { Container } from "pixi.js";
-import Screen from "./screen/Screen.js";
+import Screen from "../screen/Screen.js";
 export default class Node extends TreeNode {
     parent: Node | undefined;
     children: Node[];

@@ -1,8 +1,8 @@
-import { TreeNode } from "@common-module/app";
 import { Container } from "pixi.js";
-import Screen from "./screen/Screen.js";
+import Screen from "../screen/Screen.js";
+import Entity from "./Entity.js";
 
-export default class Node extends TreeNode {
+export default class Node extends Entity {
   declare parent: Node | undefined;
   declare children: Node[];
   private _screen: Screen | undefined;
@@ -16,6 +16,22 @@ export default class Node extends TreeNode {
 
   public setPosition(x: number, y: number) {
     this.container.position.set(x, y);
+  }
+
+  public set x(x: number) {
+    this.container.x = x;
+  }
+
+  public get x() {
+    return this.container.x;
+  }
+
+  public set y(y: number) {
+    this.container.y = y;
+  }
+
+  public get y() {
+    return this.container.y;
   }
 
   public set scaleX(scaleX: number) {
@@ -32,12 +48,6 @@ export default class Node extends TreeNode {
 
   public show(): void {
     this.container.visible = true;
-  }
-
-  public step(deltaTime: number) {
-    for (const child of this.children) {
-      child.step(deltaTime);
-    }
   }
 
   public set screen(screen: Screen | undefined) {
