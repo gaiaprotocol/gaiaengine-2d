@@ -4,7 +4,7 @@ export default class Sprite extends Node {
     private frameCount;
     private fps;
     private animatedSprite;
-    constructor(_src: string, frameCount: number, fps: number);
+    constructor(x: number, y: number, _src: string, frameCount: number, fps: number);
     private load;
     set src(src: string);
     get src(): string;

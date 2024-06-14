@@ -6,4 +6,12 @@ export default class Text extends Dom {
     super(x, y, "", text);
     if (style) this.domNode.style(style);
   }
+
+  public set text(text: string) {
+    this.domNode.text = text;
+  }
+
+  public get text() {
+    return this.domNode.text;
+  }
 }

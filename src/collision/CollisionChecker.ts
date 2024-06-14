@@ -2,11 +2,11 @@ import Entity from "../base/Entity.js";
 import Collidable from "./Collidable.js";
 import CollisionUtil from "./CollisionUtil.js";
 
-export default class CollisionChecker extends Entity {
+export default class CollisionChecker<T extends Collidable> extends Entity {
   constructor(
     private target: Collidable,
-    private others: Collidable[],
-    private onCollision: (collided: Collidable) => void,
+    private others: T[],
+    private onCollision: (collided: T) => void,
   ) {
     super();
   }

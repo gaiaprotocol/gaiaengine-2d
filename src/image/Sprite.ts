@@ -11,11 +11,13 @@ export default class Sprite extends Node {
   private animatedSprite: AnimatedSprite | undefined;
 
   constructor(
+    x: number,
+    y: number,
     private _src: string,
     private frameCount: number,
     private fps: number,
   ) {
-    super(0, 0);
+    super(x, y);
     this.src = _src;
   }
 

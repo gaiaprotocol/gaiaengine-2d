@@ -4,8 +4,8 @@ import Node from "../base/Node.js";
 export default class Image extends Node {
   private sprite: Sprite | undefined;
 
-  constructor(private _src: string) {
-    super(0, 0);
+  constructor(x: number, y: number, private _src: string) {
+    super(x, y);
     this.src = _src;
   }
 

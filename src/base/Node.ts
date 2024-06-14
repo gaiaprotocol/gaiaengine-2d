@@ -105,6 +105,12 @@ export default class Node extends Entity {
         this.parent.worldTransform.scaleY;
       this.worldTransform.rotation = this.rotation +
         this.parent.worldTransform.rotation;
+    } else {
+      this.worldTransform.x = this.x;
+      this.worldTransform.y = this.y;
+      this.worldTransform.scaleX = this.scaleX;
+      this.worldTransform.scaleY = this.scaleY;
+      this.worldTransform.rotation = this.rotation;
     }
   }
 

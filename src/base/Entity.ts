@@ -8,8 +8,10 @@ export default abstract class Entity extends TreeNode {
 
   private _tick(deltaTime: number) {
     this.update(deltaTime);
-    for (const child of this.children) {
-      child._tick(deltaTime);
+    if (!this.deleted) {
+      for (const child of this.children) {
+        child._tick(deltaTime);
+      }
     }
   }
 }
