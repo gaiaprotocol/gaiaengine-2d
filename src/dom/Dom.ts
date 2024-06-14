@@ -13,6 +13,7 @@ export default class Dom extends Node {
       left: -9999999,
       top: -9999999,
     });
+    document.fonts.addEventListener("loadingdone", this.clearBefore);
   }
 
   public set screen(screen: Screen | undefined) {
@@ -26,6 +27,11 @@ export default class Dom extends Node {
 
   private beforeLeft = -9999999;
   private beforeTop = -9999999;
+
+  private clearBefore = () => {
+    this.beforeLeft = -9999999;
+    this.beforeTop = -9999999;
+  };
 
   public update(deltaTime: number) {
     super.update(deltaTime);
@@ -55,6 +61,7 @@ export default class Dom extends Node {
 
   public delete(): void {
     this.domNode.delete();
+    document.fonts.removeEventListener("loadingdone", this.clearBefore);
     super.delete();
   }
 }
