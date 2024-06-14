@@ -51,24 +51,24 @@ export default class Screen extends DomNode {
     this.domElement.appendChild(this.renderer.canvas);
   }
 
-  private step(deltaTime: number) {
-    this.root.step(deltaTime);
+  private _tick(deltaTime: number) {
+    (this.root as any)._tick(deltaTime);
     this.renderer?.render(this.root.container);
   }
 
-  private tic = (now: number) => {
+  private _animate = (now: number) => {
     const deltaTime = (now - this.beforeTime) / 1000;
     if (deltaTime > 0) {
-      this.step(deltaTime);
+      this._tick(deltaTime);
       this.beforeTime = now;
     }
-    this.animationInterval = requestAnimationFrame(this.tic);
+    this.animationInterval = requestAnimationFrame(this._animate);
   };
 
   public resume(): void {
     if (!this.animationInterval) {
       this.beforeTime = performance.now();
-      this.animationInterval = requestAnimationFrame(this.tic);
+      this.animationInterval = requestAnimationFrame(this._animate);
     }
   }
 }

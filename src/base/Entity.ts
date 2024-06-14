@@ -1,16 +1,15 @@
 import { TreeNode } from "@common-module/app";
 
-export default class Entity extends TreeNode {
+export default abstract class Entity extends TreeNode {
   declare parent: Entity | undefined;
   declare children: Entity[];
 
-  constructor() {
-    super();
-  }
+  protected abstract update(deltaTime: number): void;
 
-  public step(deltaTime: number) {
+  private _tick(deltaTime: number) {
+    this.update(deltaTime);
     for (const child of this.children) {
-      child.step(deltaTime);
+      child._tick(deltaTime);
     }
   }
 }

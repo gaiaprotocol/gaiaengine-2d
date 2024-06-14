@@ -14,10 +14,6 @@ export default class WindowEventNode extends Node {
     }[];
   } = {};
 
-  constructor(x: number, y: number) {
-    super(x, y);
-  }
-
   public onWindow<ET extends Event>(
     eventName: string,
     eventHandler: WindowEventHandler<ET, this>,

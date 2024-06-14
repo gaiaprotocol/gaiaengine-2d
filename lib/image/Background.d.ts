@@ -10,7 +10,7 @@ export default class Background extends Node {
     private load;
     set src(src: string);
     get src(): string;
-    step(deltaTime: number): void;
+    protected update(deltaTime: number): void;
 }
 export {};
 //# sourceMappingURL=Background.d.ts.map

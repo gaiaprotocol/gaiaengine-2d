@@ -34,10 +34,10 @@ export default class Background extends Node {
     return this._src;
   }
 
-  public step(deltaTime: number) {
+  protected update(deltaTime: number) {
     if (this.tilingSprite && this.options?.scrollSpeedX) {
       this.tilingSprite.tilePosition.x += this.options.scrollSpeedX * deltaTime;
     }
-    super.step(deltaTime);
+    super.update(deltaTime);
   }
 }

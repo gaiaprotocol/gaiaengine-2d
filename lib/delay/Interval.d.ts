@@ -4,6 +4,6 @@ export default class Interval extends Entity {
     private onInterval;
     private elapsedTime;
     constructor(ms: number, onInterval: () => void);
-    step(deltaTime: number): void;
+    protected update(deltaTime: number): void;
 }
 //# sourceMappingURL=Interval.d.ts.map

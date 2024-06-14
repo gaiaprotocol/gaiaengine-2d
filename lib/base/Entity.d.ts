@@ -1,8 +1,8 @@
 import { TreeNode } from "@common-module/app";
-export default class Entity extends TreeNode {
+export default abstract class Entity extends TreeNode {
     parent: Entity | undefined;
     children: Entity[];
-    constructor();
-    step(deltaTime: number): void;
+    protected abstract update(deltaTime: number): void;
+    private _tick;
 }
 //# sourceMappingURL=Entity.d.ts.map

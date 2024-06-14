@@ -27,20 +27,22 @@ export default class Dom extends Node {
   private beforeLeft = -9999999;
   private beforeTop = -9999999;
 
-  public step(deltaTime: number) {
-    if (this.screen) {
-      const globalPosition = this.screen.root.container.toGlobal(
-        this.container.position,
-      );
+  public update(deltaTime: number) {
+    super.update(deltaTime);
 
-      const left = globalPosition.x * this.screen.ratio;
-      const top = globalPosition.y * this.screen.ratio;
+    if (this.screen) {
+      const left = this.worldTransform.x * this.screen.ratio;
+      const top = this.worldTransform.y * this.screen.ratio;
 
       if (this.beforeLeft !== left || this.beforeTop !== top) {
         this.beforeLeft = left;
         this.beforeTop = top;
 
-        this.domNode.style({ transform: `scale(${this.screen.ratio})` });
+        this.domNode.style({
+          transform: `scale(${
+            this.worldTransform.scaleX * this.screen.ratio
+          }, ${this.worldTransform.scaleY * this.screen.ratio})`,
+        });
 
         const rect = this.domNode.rect;
         this.domNode.style({
@@ -49,7 +51,6 @@ export default class Dom extends Node {
         });
       }
     }
-    super.step(deltaTime);
   }
 
   public delete(): void {

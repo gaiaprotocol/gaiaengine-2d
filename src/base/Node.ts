@@ -1,6 +1,7 @@
 import { Container } from "pixi.js";
 import Screen from "../screen/Screen.js";
 import Entity from "./Entity.js";
+import Transform from "./Transform.js";
 
 export default class Node extends Entity {
   declare parent: Node | undefined;
@@ -8,6 +9,13 @@ export default class Node extends Entity {
   private _screen: Screen | undefined;
 
   public container: Container;
+  public worldTransform: Transform = {
+    x: 0,
+    y: 0,
+    scaleX: 1,
+    scaleY: 1,
+    rotation: 0,
+  };
 
   constructor(x: number, y: number) {
     super();
@@ -42,6 +50,22 @@ export default class Node extends Entity {
     return this.container.scale.x;
   }
 
+  public set scaleY(scaleY: number) {
+    this.container.scale.y = scaleY;
+  }
+
+  public get scaleY() {
+    return this.container.scale.y;
+  }
+
+  public set rotation(rotation: number) {
+    this.container.rotation = rotation;
+  }
+
+  public get rotation() {
+    return this.container.rotation;
+  }
+
   public hide(): void {
     this.container.visible = false;
   }
@@ -69,6 +93,19 @@ export default class Node extends Entity {
     }
     this.screen = node.screen;
     return super.appendTo(node, index);
+  }
+
+  protected update(deltaTime: number) {
+    if (this.parent) {
+      this.worldTransform.x = this.x + this.parent.worldTransform.x;
+      this.worldTransform.y = this.y + this.parent.worldTransform.y;
+      this.worldTransform.scaleX = this.scaleX *
+        this.parent.worldTransform.scaleX;
+      this.worldTransform.scaleY = this.scaleY *
+        this.parent.worldTransform.scaleY;
+      this.worldTransform.rotation = this.rotation +
+        this.parent.worldTransform.rotation;
+    }
   }
 
   public delete(): void {

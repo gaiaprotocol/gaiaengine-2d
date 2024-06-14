@@ -1,5 +1,5 @@
-import Node from "../base/Node.js";
-export default class Movable extends Node {
+import Collidable from "../collision/Collidable.js";
+export default class Movable extends Collidable {
     protected minX: number;
     protected maxX: number;
     private _speedX;
@@ -18,7 +18,6 @@ export default class Movable extends Node {
     protected onMaxXReached?: () => void;
     protected onMinYReached?: () => void;
     protected onMaxYReached?: () => void;
-    constructor(x: number, y: number);
-    step(deltaTime: number): void;
+    protected update(deltaTime: number): void;
 }
 //# sourceMappingURL=Movable.d.ts.map

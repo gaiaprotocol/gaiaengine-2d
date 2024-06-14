@@ -6,8 +6,4 @@ export default class Text extends Dom {
     super(x, y, "", text);
     if (style) this.domNode.style(style);
   }
-
-  public step(deltaTime: number) {
-    super.step(deltaTime);
-  }
 }

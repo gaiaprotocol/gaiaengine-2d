@@ -14,8 +14,8 @@ export default class Screen extends DomNode {
     constructor(width: number, height: number, ...nodes: Node[]);
     protected resize(width: number, height: number, ratio: number): void;
     private createRenderer;
-    private step;
-    private tic;
+    private _tick;
+    private _animate;
     resume(): void;
 }
 //# sourceMappingURL=Screen.d.ts.map

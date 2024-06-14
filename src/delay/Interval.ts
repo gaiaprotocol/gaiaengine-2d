@@ -7,12 +7,11 @@ export default class Interval extends Entity {
     super();
   }
 
-  public step(deltaTime: number) {
+  protected update(deltaTime: number) {
     this.elapsedTime += deltaTime;
     if (this.elapsedTime >= this.ms) {
       this.elapsedTime %= this.ms;
       this.onInterval();
     }
-    super.step(deltaTime);
   }
 }

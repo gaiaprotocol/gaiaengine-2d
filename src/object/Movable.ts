@@ -1,6 +1,6 @@
-import Node from "../base/Node.js";
+import Collidable from "../collision/Collidable.js";
 
-export default class Movable extends Node {
+export default class Movable extends Collidable {
   protected minX = -Infinity;
   protected maxX = Infinity;
   private _speedX = 0;
@@ -38,11 +38,7 @@ export default class Movable extends Node {
   protected onMinYReached?: () => void;
   protected onMaxYReached?: () => void;
 
-  constructor(x: number, y: number) {
-    super(x, y);
-  }
-
-  public step(deltaTime: number) {
+  protected update(deltaTime: number) {
     if (this.accelX !== 0) {
       this._speedX += this.accelX * deltaTime;
       if (this.toSpeedX !== undefined) {
@@ -109,6 +105,6 @@ export default class Movable extends Node {
       this.y = y;
     }
 
-    super.step(deltaTime);
+    super.update(deltaTime);
   }
 }

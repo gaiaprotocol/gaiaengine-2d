@@ -8,7 +8,7 @@ export default class Dom extends Node {
     get screen(): Screen | undefined;
     private beforeLeft;
     private beforeTop;
-    step(deltaTime: number): void;
+    update(deltaTime: number): void;
     delete(): void;
 }
 //# sourceMappingURL=Dom.d.ts.map
