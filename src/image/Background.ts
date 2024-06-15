@@ -1,5 +1,6 @@
-import { Assets, TilingSprite } from "pixi.js";
+import { TilingSprite } from "pixi.js";
 import Node from "../base/Node.js";
+import TextureLoader from "../texture/TextureLoader.js";
 
 interface BackgroundOptions {
   scrollSpeedX?: number;
@@ -14,7 +15,7 @@ export default class Background extends Node {
   }
 
   private async load(src: string) {
-    const texture = await Assets.load(src);
+    const texture = await TextureLoader.load(src);
     this.container.addChild(
       this.tilingSprite = new TilingSprite({
         texture,
@@ -39,5 +40,10 @@ export default class Background extends Node {
       this.tilingSprite.tilePosition.x += this.options.scrollSpeedX * deltaTime;
     }
     super.update(deltaTime);
+  }
+
+  public delete(): void {
+    TextureLoader.release(this._src);
+    super.delete();
   }
 }

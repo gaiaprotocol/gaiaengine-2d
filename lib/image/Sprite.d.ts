@@ -8,5 +8,6 @@ export default class Sprite extends Node {
     private load;
     set src(src: string);
     get src(): string;
+    delete(): void;
 }
 //# sourceMappingURL=Sprite.d.ts.map

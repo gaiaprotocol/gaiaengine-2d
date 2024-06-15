@@ -1,18 +1,17 @@
-import { Assets, Sprite } from "pixi.js";
+import { Sprite } from "pixi.js";
 import Node from "../base/Node.js";
+import TextureLoader from "../texture/TextureLoader.js";
 
 export default class Image extends Node {
-  private sprite: Sprite | undefined;
-
   constructor(x: number, y: number, private _src: string) {
     super(x, y);
     this.src = _src;
   }
 
   private async load(src: string) {
-    const texture = await Assets.load(src);
+    const texture = await TextureLoader.load(src);
     this.container.addChild(
-      this.sprite = new Sprite({
+      new Sprite({
         texture,
         anchor: { x: 0.5, y: 0.5 },
       }),
@@ -26,5 +25,10 @@ export default class Image extends Node {
 
   public get src() {
     return this._src;
+  }
+
+  public delete(): void {
+    TextureLoader.release(this._src);
+    super.delete();
   }
 }

@@ -1,11 +1,11 @@
 import {
   AnimatedSprite,
-  Assets,
   Dict,
   Spritesheet,
   SpritesheetFrameData,
 } from "pixi.js";
 import Node from "../base/Node.js";
+import TextureLoader from "../texture/TextureLoader.js";
 
 export default class Sprite extends Node {
   private animatedSprite: AnimatedSprite | undefined;
@@ -22,7 +22,7 @@ export default class Sprite extends Node {
   }
 
   private async load(src: string) {
-    const texture = await Assets.load(src);
+    const texture = await TextureLoader.load(src);
 
     const frameWidth = texture.width / this.frameCount;
     const frames: Dict<SpritesheetFrameData> = {};
@@ -70,5 +70,10 @@ export default class Sprite extends Node {
 
   public get src() {
     return this._src;
+  }
+
+  public delete(): void {
+    TextureLoader.release(this._src);
+    super.delete();
   }
 }
