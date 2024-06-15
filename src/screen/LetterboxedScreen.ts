@@ -23,7 +23,7 @@ export default class LetterboxedScreen extends Screen {
     right: new Letterbox({ right: 0, top: 0, height: "100%" }),
   };
 
-  constructor(width: number, height: number, ...nodes: Node[]) {
+  constructor(width: number, height: number, ...nodes: (Node | undefined)[]) {
     super(width, height, ...nodes);
 
     this.style({

@@ -17,7 +17,7 @@ export default class Screen extends DomNode {
   constructor(
     public width: number,
     public height: number,
-    ...nodes: Node[]
+    ...nodes: (Node | undefined)[]
   ) {
     super();
     this.root.screen = this;

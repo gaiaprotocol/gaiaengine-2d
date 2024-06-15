@@ -16,6 +16,8 @@ export default class Background extends Node {
 
   private async load(src: string) {
     const texture = await TextureLoader.load(src);
+    if (!texture || this.deleted) return;
+
     this.container.addChild(
       this.tilingSprite = new TilingSprite({
         texture,

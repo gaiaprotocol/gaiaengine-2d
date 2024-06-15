@@ -10,6 +10,8 @@ export default class Image extends Node {
 
   private async load(src: string) {
     const texture = await TextureLoader.load(src);
+    if (!texture || this.deleted) return;
+
     this.container.addChild(
       new Sprite({
         texture,

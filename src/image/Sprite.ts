@@ -23,6 +23,7 @@ export default class Sprite extends Node {
 
   private async load(src: string) {
     const texture = await TextureLoader.load(src);
+    if (!texture || this.deleted) return;
 
     const frameWidth = texture.width / this.frameCount;
     const frames: Dict<SpritesheetFrameData> = {};
