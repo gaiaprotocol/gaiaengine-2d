@@ -10,13 +10,20 @@ class TextureLoader {
     }
     this.textureUsedCount[src]++;
 
-    if (this.unloadPromises[src] !== undefined) await this.unloadPromises[src];
-    if (this.textureUsedCount[src] > 0) return await Assets.load(src);
-    else this.unload(src);
+    if (this.unloadPromises[src] !== undefined) {
+      await this.unloadPromises[src];
+    }
+
+    if (this.textureUsedCount[src] > 0) {
+      const texture = await Assets.load(src);
+      if (this.textureUsedCount[src] > 0) return texture;
+      else this.unload(src);
+    } else this.unload(src);
   }
 
   private async unload(src: string) {
     if (this.unloadPromises[src] !== undefined) return;
+
     this.unloadPromises[src] = Assets.unload(src);
     await this.unloadPromises[src];
     delete this.unloadPromises[src];
@@ -26,6 +33,7 @@ class TextureLoader {
     if (this.textureUsedCount[src] === undefined) {
       throw new Error("Texture not loaded");
     }
+
     this.textureUsedCount[src]--;
     if (this.textureUsedCount[src] === 0) {
       delete this.textureUsedCount[src];
