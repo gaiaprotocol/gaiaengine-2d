@@ -28,7 +28,7 @@ export default class Dom extends Node {
   private beforeLeft = -9999999;
   private beforeTop = -9999999;
 
-  private clearBefore = () => {
+  protected clearBefore = () => {
     this.beforeLeft = -9999999;
     this.beforeTop = -9999999;
   };

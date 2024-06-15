@@ -9,6 +9,7 @@ export default class Text extends Dom {
 
   public set text(text: string) {
     this.domNode.text = text;
+    this.clearBefore();
   }
 
   public get text() {
