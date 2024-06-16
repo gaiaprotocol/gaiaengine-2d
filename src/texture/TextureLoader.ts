@@ -61,7 +61,7 @@ class TextureLoader {
 
   public release(src: string): void {
     const count = this.textureUsedCount.get(src);
-    if (count === undefined) return;
+    if (count === undefined) throw new Error("Texture not found");
 
     if (count === 1) {
       this.textureUsedCount.delete(src);

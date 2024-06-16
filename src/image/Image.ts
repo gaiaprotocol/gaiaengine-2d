@@ -3,9 +3,11 @@ import Node from "../base/Node.js";
 import TextureLoader from "../texture/TextureLoader.js";
 
 export default class Image extends Node {
-  constructor(x: number, y: number, private _src: string) {
+  private _src: string | undefined;
+
+  constructor(x: number, y: number, src: string) {
     super(x, y);
-    this.src = _src;
+    this.src = src;
   }
 
   private async load(src: string) {
@@ -21,16 +23,18 @@ export default class Image extends Node {
   }
 
   public set src(src: string) {
+    if (this._src === src) return;
+    if (this._src) TextureLoader.release(this._src);
     this._src = src;
     this.load(src);
   }
 
   public get src() {
-    return this._src;
+    return this._src ?? "";
   }
 
   public delete(): void {
-    TextureLoader.release(this._src);
+    if (this._src) TextureLoader.release(this._src);
     super.delete();
   }
 }

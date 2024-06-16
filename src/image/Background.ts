@@ -7,11 +7,12 @@ interface BackgroundOptions {
 }
 
 export default class Background extends Node {
+  private _src: string | undefined;
   private tilingSprite: TilingSprite | undefined;
 
-  constructor(private _src: string, private options?: BackgroundOptions) {
+  constructor(src: string, private options?: BackgroundOptions) {
     super(0, 0);
-    this.src = _src;
+    this.src = src;
   }
 
   private async load(src: string) {
@@ -29,12 +30,14 @@ export default class Background extends Node {
   }
 
   public set src(src: string) {
+    if (this._src === src) return;
+    if (this._src) TextureLoader.release(this._src);
     this._src = src;
     this.load(src);
   }
 
   public get src() {
-    return this._src;
+    return this._src ?? "";
   }
 
   protected update(deltaTime: number) {
@@ -45,7 +48,7 @@ export default class Background extends Node {
   }
 
   public delete(): void {
-    TextureLoader.release(this._src);
+    if (this._src) TextureLoader.release(this._src);
     super.delete();
   }
 }

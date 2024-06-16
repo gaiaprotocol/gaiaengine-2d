@@ -3,10 +3,10 @@ interface BackgroundOptions {
     scrollSpeedX?: number;
 }
 export default class Background extends Node {
-    private _src;
     private options?;
+    private _src;
     private tilingSprite;
-    constructor(_src: string, options?: BackgroundOptions | undefined);
+    constructor(src: string, options?: BackgroundOptions | undefined);
     private load;
     set src(src: string);
     get src(): string;

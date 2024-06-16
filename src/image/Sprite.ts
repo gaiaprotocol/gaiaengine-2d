@@ -8,17 +8,18 @@ import Node from "../base/Node.js";
 import TextureLoader from "../texture/TextureLoader.js";
 
 export default class Sprite extends Node {
+  private _src: string | undefined;
   private animatedSprite: AnimatedSprite | undefined;
 
   constructor(
     x: number,
     y: number,
-    private _src: string,
+    src: string,
     private frameCount: number,
     private fps: number,
   ) {
     super(x, y);
-    this.src = _src;
+    this.src = src;
   }
 
   private async load(src: string) {
@@ -65,16 +66,18 @@ export default class Sprite extends Node {
   }
 
   public set src(src: string) {
+    if (this._src === src) return;
+    if (this._src) TextureLoader.release(this._src);
     this._src = src;
     this.load(src);
   }
 
   public get src() {
-    return this._src;
+    return this._src ?? "";
   }
 
   public delete(): void {
-    TextureLoader.release(this._src);
+    if (this._src) TextureLoader.release(this._src);
     super.delete();
   }
 }
