@@ -1,61 +1,77 @@
-import { Assets, Texture } from "pixi.js";
+import { CanvasSource, Texture } from "pixi.js";
 
 class TextureLoader {
-  private textureLoaded: { [src: string]: boolean } = {};
-  private textureUsedCount: { [src: string]: number } = {};
-  private loadPromises: { [src: string]: Promise<Texture> } = {};
-  private unloadPromises: { [src: string]: Promise<void> } = {};
+  private textures: Map<string, Texture> = new Map();
+  private textureUsedCount: Map<string, number> = new Map();
+  private loadPromises: Map<string, Promise<Texture | undefined>> = new Map();
 
-  private async loadTexture(src: string): Promise<Texture> {
-    const texture = await Assets.load(src);
-    this.textureLoaded[src] = true;
-    return texture;
+  private checkTextureUsing(src: string): boolean {
+    return this.textureUsedCount.has(src) &&
+      this.textureUsedCount.get(src)! > 0;
+  }
+
+  private async loadTexture(src: string): Promise<Texture | undefined> {
+    const image = new Image();
+    image.src = src;
+    image.crossOrigin = "anonymous";
+    const loadPromise = new Promise<Texture | undefined>((resolve, reject) => {
+      image.onload = () => {
+        if (this.checkTextureUsing(src)) {
+          const canvas = document.createElement("canvas");
+          canvas.width = image.width;
+          canvas.height = image.height;
+
+          const context = canvas.getContext("2d");
+          if (!context) reject(new Error("Failed to get 2d context"));
+          else {
+            context.drawImage(image, 0, 0);
+
+            const source = new CanvasSource({ resource: canvas });
+            const texture = new Texture({ source });
+
+            if (this.textures.has(src)) {
+              reject(new Error("Texture already exists"));
+            } else {
+              this.textures.set(src, texture);
+              resolve(texture);
+            }
+          }
+
+          canvas.remove();
+        } else {
+          resolve(undefined);
+        }
+        this.loadPromises.delete(src);
+      };
+      image.onerror = (error) => {
+        reject(error);
+        this.loadPromises.delete(src);
+      };
+    });
+    this.loadPromises.set(src, loadPromise);
+    return await loadPromise;
   }
 
   public async load(src: string): Promise<Texture | undefined> {
-    if (this.textureUsedCount[src] === undefined) {
-      this.textureUsedCount[src] = 0;
-    }
-    this.textureUsedCount[src]++;
+    this.textureUsedCount.set(src, (this.textureUsedCount.get(src) || 0) + 1);
+    if (this.textures.has(src)) return this.textures.get(src)!;
+    if (this.loadPromises.has(src)) return await this.loadPromises.get(src)!;
+    return await this.loadTexture(src);
+  }
 
-    if (this.unloadPromises[src] !== undefined) {
-      await this.unloadPromises[src];
-    }
+  public release(src: string): void {
+    const count = this.textureUsedCount.get(src);
+    if (count === undefined) return;
 
-    if (this.textureUsedCount[src] > 0) {
-      if (this.loadPromises[src] === undefined) {
-        this.loadPromises[src] = this.loadTexture(src);
+    if (count === 1) {
+      this.textureUsedCount.delete(src);
+      const texture = this.textures.get(src);
+      if (texture) {
+        texture.destroy();
+        this.textures.delete(src);
       }
-      const texture = await this.loadPromises[src];
-      delete this.loadPromises[src];
-
-      if (this.textureUsedCount[src] > 0) return texture;
-      else this.unload(src);
-    } else this.unload(src);
-  }
-
-  private async unload(src: string) {
-    if (
-      !this.textureLoaded[src] ||
-      this.unloadPromises[src] !== undefined
-    ) return;
-
-    this.unloadPromises[src] = Assets.unload(src);
-    await this.unloadPromises[src];
-    delete this.unloadPromises[src];
-
-    delete this.textureLoaded[src];
-  }
-
-  public release(src: string) {
-    if (this.textureUsedCount[src] === undefined) {
-      throw new Error("Texture not loaded");
-    }
-
-    this.textureUsedCount[src]--;
-    if (this.textureUsedCount[src] === 0) {
-      delete this.textureUsedCount[src];
-      this.unload(src);
+    } else {
+      this.textureUsedCount.set(src, count - 1);
     }
   }
 }

@@ -1,12 +1,11 @@
 import { Texture } from "pixi.js";
 declare class TextureLoader {
-    private textureLoaded;
+    private textures;
     private textureUsedCount;
     private loadPromises;
-    private unloadPromises;
+    private checkTextureUsing;
     private loadTexture;
     load(src: string): Promise<Texture | undefined>;
-    private unload;
     release(src: string): void;
 }
 declare const _default: TextureLoader;
