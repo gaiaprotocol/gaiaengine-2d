@@ -15,4 +15,3 @@ export { default as LetterboxedScreen } from "./screen/LetterboxedScreen.js";
 export { default as Screen } from "./screen/Screen.js";
 export { default as TextureLoader } from "./texture/TextureLoader.js";
 export { default as FpsDisplay } from "./util/FpsDisplay.js";
-
