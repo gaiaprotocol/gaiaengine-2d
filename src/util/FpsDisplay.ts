@@ -36,5 +36,10 @@ export default class FpsDisplay extends Text {
   public update(deltaTime: number): void {
     super.update(deltaTime);
     this.deltaTime = deltaTime;
+
+    if (this.screen) {
+      this.x = this.screen.width / 2 - 60;
+      this.y = 30 - this.screen.height / 2;
+    }
   }
 }

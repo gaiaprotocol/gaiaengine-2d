@@ -4,7 +4,7 @@ import Screen from "./Screen.js";
 
 export default class Fullscreen extends Screen {
   constructor(...nodes: (Node | undefined)[]) {
-    super(0, 0, ...nodes);
+    super(document.documentElement.clientWidth, window.innerHeight, ...nodes);
 
     this.style({
       position: "fixed",

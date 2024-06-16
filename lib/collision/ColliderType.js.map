@@ -1,1 +1,1 @@
-{"version":3,"file":"ColliderType.js","sourceRoot":"","sources":["../../src/collision/ColliderType.ts"],"names":[],"mappings":"AAAA,IAAK,YAEJ;AAFD,WAAK,YAAY;IACf,+CAAI,CAAA;AACN,CAAC,EAFI,YAAY,KAAZ,YAAY,QAEhB;AAED,eAAe,YAAY,CAAC"}
+{"version":3,"file":"ColliderType.js","sourceRoot":"","sources":["../../src/collision/ColliderType.ts"],"names":[],"mappings":"AAAA,IAAK,YAGJ;AAHD,WAAK,YAAY;IACf,+CAAI,CAAA;IACJ,mDAAM,CAAA;AACR,CAAC,EAHI,YAAY,KAAZ,YAAY,QAGhB;AAED,eAAe,YAAY,CAAC"}

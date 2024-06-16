@@ -1,3 +1,4 @@
+export { default as Collider } from "./collision/Collider.js";
 export { default as Node } from "./base/Node.js";
 export { default as WindowEventNode } from "./base/WindowEventNode.js";
 export { default as ColliderType } from "./collision/ColliderType.js";
