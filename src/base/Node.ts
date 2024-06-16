@@ -58,6 +58,14 @@ export default class Node extends Entity {
     return this.container.scale.y;
   }
 
+  public set scale(scale: number) {
+    this.container.scale = scale;
+  }
+
+  public get scale() {
+    return this.container.scale.x;
+  }
+
   public set rotation(rotation: number) {
     this.container.rotation = rotation;
   }

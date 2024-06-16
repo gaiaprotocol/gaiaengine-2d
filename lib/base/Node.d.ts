@@ -18,6 +18,8 @@ export default class Node extends Entity {
     get scaleX(): number;
     set scaleY(scaleY: number);
     get scaleY(): number;
+    set scale(scale: number);
+    get scale(): number;
     set rotation(rotation: number);
     get rotation(): number;
     hide(): void;
