@@ -1,0 +1,1 @@
+{"version":3,"file":"Tilemap.d.ts","sourceRoot":"","sources":["../../src/tilemap/Tilemap.ts"],"names":[],"mappings":"AAAA,OAAO,IAAI,MAAM,iBAAiB,CAAC;AAEnC,MAAM,WAAW,WAAW;CAC3B;AAED,MAAM,CAAC,OAAO,OAAO,OAAQ,SAAQ,IAAI;gBAC3B,CAAC,EAAE,MAAM,EAAE,CAAC,EAAE,MAAM;CAGjC"}

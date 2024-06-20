@@ -12,7 +12,7 @@ export default class Screen extends DomNode {
     private beforeTime;
     ratio: number;
     constructor(width: number, height: number, ...nodes: (Node | undefined)[]);
-    protected resize(width: number, height: number, ratio: number): void;
+    resize(width: number, height: number, ratio?: number): void;
     private createRenderer;
     private _tick;
     private _animate;

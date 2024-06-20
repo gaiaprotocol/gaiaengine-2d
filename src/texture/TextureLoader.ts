@@ -43,8 +43,9 @@ class TextureLoader {
         }
         this.loadPromises.delete(src);
       };
-      image.onerror = (error) => {
-        reject(error);
+      image.onerror = (event) => {
+        console.error(`Failed to load texture: ${src}`);
+        reject(event);
         this.loadPromises.delete(src);
       };
     });

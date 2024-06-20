@@ -1,6 +1,6 @@
-export { default as Collider } from "./collision/Collider.js";
 export { default as Node } from "./base/Node.js";
 export { default as WindowEventNode } from "./base/WindowEventNode.js";
+export { default as Collider } from "./collision/Collider.js";
 export { default as ColliderType } from "./collision/ColliderType.js";
 export { default as CollisionChecker } from "./collision/CollisionChecker.js";
 export { default as Interval } from "./delay/Interval.js";
@@ -15,4 +15,5 @@ export { default as Fullscreen } from "./screen/Fullscreen.js";
 export { default as LetterboxedScreen } from "./screen/LetterboxedScreen.js";
 export { default as Screen } from "./screen/Screen.js";
 export { default as TextureLoader } from "./texture/TextureLoader.js";
+export { TilemapData } from "./tilemap/Tilemap.js";
 export { default as FpsDisplay } from "./util/FpsDisplay.js";

@@ -26,7 +26,7 @@ export default class Screen extends DomNode {
     this.resume();
   }
 
-  protected resize(width: number, height: number, ratio: number) {
+  public resize(width: number, height: number, ratio = 1) {
     this.width = width;
     this.height = height;
     this.ratio = ratio;
