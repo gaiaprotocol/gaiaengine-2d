@@ -5,7 +5,12 @@ import TextureLoader from "../texture/TextureLoader.js";
 export default class Image extends Node {
   private _src: string | undefined;
 
-  constructor(x: number, y: number, src: string) {
+  constructor(
+    x: number,
+    y: number,
+    src: string,
+    private onLoaded?: () => void,
+  ) {
     super(x, y);
     this.src = src;
   }
@@ -20,6 +25,8 @@ export default class Image extends Node {
         anchor: { x: 0.5, y: 0.5 },
       }),
     );
+
+    if (this.onLoaded) this.onLoaded();
   }
 
   public set src(src: string) {
@@ -31,6 +38,14 @@ export default class Image extends Node {
 
   public get src() {
     return this._src ?? "";
+  }
+
+  public get width() {
+    return this.container.width;
+  }
+
+  public get height() {
+    return this.container.height;
   }
 
   public delete(): void {

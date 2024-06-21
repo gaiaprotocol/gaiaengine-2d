@@ -27,33 +27,44 @@ export default class Dom extends Node {
 
   private beforeLeft = -9999999;
   private beforeTop = -9999999;
+  private beforeScaleX = 1;
+  private beforeScaleY = 1;
 
   protected clearBefore = () => {
     this.beforeLeft = -9999999;
     this.beforeTop = -9999999;
+    this.beforeScaleX = 1;
+    this.beforeScaleY = 1;
   };
 
   public update(deltaTime: number) {
     super.update(deltaTime);
 
     if (this.screen) {
-      const left = this.worldTransform.x * this.screen.ratio;
-      const top = this.worldTransform.y * this.screen.ratio;
+      const left = (this.worldTransform.x * this.worldTransform.scaleX +
+        this.screen.width / 2) *
+        this.screen.ratio;
+      const top = (this.worldTransform.y * this.worldTransform.scaleY +
+        this.screen.height / 2) *
+        this.screen.ratio;
+      const scaleX = this.worldTransform.scaleX * this.screen.ratio;
+      const scaleY = this.worldTransform.scaleY * this.screen.ratio;
 
-      if (this.beforeLeft !== left || this.beforeTop !== top) {
+      if (
+        this.beforeLeft !== left || this.beforeTop !== top ||
+        this.beforeScaleX !== scaleX || this.beforeScaleY !== scaleY
+      ) {
         this.beforeLeft = left;
         this.beforeTop = top;
+        this.beforeScaleX = scaleX;
+        this.beforeScaleY = scaleY;
 
-        this.domNode.style({
-          transform: `scale(${
-            this.worldTransform.scaleX * this.screen.ratio
-          }, ${this.worldTransform.scaleY * this.screen.ratio})`,
-        });
+        this.domNode.style({ transform: `scale(${scaleX}, ${scaleY})` });
 
         const rect = this.domNode.rect;
         this.domNode.style({
-          left: left - rect.width / 2 / this.screen.ratio,
-          top: top - rect.height / 2 / this.screen.ratio,
+          left: left - rect.width / 2 / scaleX,
+          top: top - rect.height / 2 / scaleY,
         });
       }
     }

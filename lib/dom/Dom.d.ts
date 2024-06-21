@@ -8,6 +8,8 @@ export default class Dom extends Node {
     get screen(): Screen | undefined;
     private beforeLeft;
     private beforeTop;
+    private beforeScaleX;
+    private beforeScaleY;
     protected clearBefore: () => void;
     update(deltaTime: number): void;
     delete(): void;

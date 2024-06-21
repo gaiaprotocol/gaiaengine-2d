@@ -13,6 +13,7 @@ export default class Screen extends DomNode {
   private beforeTime = 0;
 
   public ratio = 1;
+  private _backgroundColor: number | undefined;
 
   constructor(
     public width: number,
@@ -20,6 +21,7 @@ export default class Screen extends DomNode {
     ...nodes: (Node | undefined)[]
   ) {
     super();
+    this.style({ position: "relative" });
     this.root.screen = this;
     this.root.append(...nodes);
     this.createRenderer();
@@ -54,6 +56,9 @@ export default class Screen extends DomNode {
       width: this.width,
       height: this.height,
     });
+    if (this._backgroundColor) {
+      this.renderer.background.color = this._backgroundColor;
+    }
     this.resize(this.width, this.height, this.ratio);
     this.domElement.appendChild(this.renderer.canvas);
   }
@@ -77,5 +82,14 @@ export default class Screen extends DomNode {
       this.beforeTime = performance.now();
       this.animationInterval = requestAnimationFrame(this._animate);
     }
+  }
+
+  public set backgroundColor(color: number) {
+    this._backgroundColor = color;
+    if (this.renderer) this.renderer.background.color = color;
+  }
+
+  public get backgroundColor() {
+    return this._backgroundColor ?? 0x000000;
   }
 }

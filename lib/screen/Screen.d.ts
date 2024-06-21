@@ -11,6 +11,7 @@ export default class Screen extends DomNode {
     private animationInterval;
     private beforeTime;
     ratio: number;
+    private _backgroundColor;
     constructor(width: number, height: number, ...nodes: (Node | undefined)[]);
     resize(width: number, height: number, ratio?: number): void;
     updateRootPosition(): void;
@@ -18,5 +19,7 @@ export default class Screen extends DomNode {
     private _tick;
     private _animate;
     resume(): void;
+    set backgroundColor(color: number);
+    get backgroundColor(): number;
 }
 //# sourceMappingURL=Screen.d.ts.map
