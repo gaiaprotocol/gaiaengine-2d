@@ -41,12 +41,11 @@ export default class Dom extends Node {
     super.update(deltaTime);
 
     if (this.screen) {
-      const left = (this.worldTransform.x * this.worldTransform.scaleX +
-        this.screen.width / 2) *
-        this.screen.ratio;
-      const top = (this.worldTransform.y * this.worldTransform.scaleY +
-        this.screen.height / 2) *
-        this.screen.ratio;
+      const left =
+        (this.worldTransform.x * this.worldTransform.scaleX -
+          this.screen.camera.x + this.screen.width / 2) * this.screen.ratio;
+      const top = (this.worldTransform.y * this.worldTransform.scaleY -
+        this.screen.camera.y + this.screen.height / 2) * this.screen.ratio;
       const scaleX = this.worldTransform.scaleX * this.screen.ratio;
       const scaleY = this.worldTransform.scaleY * this.screen.ratio;
 
