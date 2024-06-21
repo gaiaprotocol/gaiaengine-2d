@@ -5,7 +5,7 @@ import Camera from "./Camera.js";
 
 export default class Screen extends DomNode {
   public root = new Node(0, 0);
-  public camera = new Camera(this.root);
+  public camera = new Camera(this);
 
   protected renderer: Renderer | undefined;
 
@@ -39,7 +39,14 @@ export default class Screen extends DomNode {
       this.renderer.canvas.style.height = `${this.height * this.ratio}px`;
     }
 
-    this.root.setPosition(this.width / 2, this.height / 2);
+    this.updateRootPosition();
+  }
+
+  public updateRootPosition() {
+    this.root.setPosition(
+      this.width / 2 - this.camera.x,
+      this.height / 2 - this.camera.y,
+    );
   }
 
   private async createRenderer() {

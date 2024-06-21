@@ -1,11 +1,14 @@
-import Node from "../base/Node.js";
+import Screen from "./Screen.js";
 
 export default class Camera {
   public x = 0;
   public y = 0;
-  public target: Node;
 
-  constructor(target: Node) {
-    this.target = target;
+  constructor(private screen: Screen) {}
+
+  public setPosition(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+    this.screen.updateRootPosition();
   }
 }

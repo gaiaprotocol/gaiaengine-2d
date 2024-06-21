@@ -1,8 +1,9 @@
-import Node from "../base/Node.js";
+import Screen from "./Screen.js";
 export default class Camera {
+    private screen;
     x: number;
     y: number;
-    target: Node;
-    constructor(target: Node);
+    constructor(screen: Screen);
+    setPosition(x: number, y: number): void;
 }
 //# sourceMappingURL=Camera.d.ts.map
