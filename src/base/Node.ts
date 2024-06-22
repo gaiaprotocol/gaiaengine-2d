@@ -17,9 +17,10 @@ export default class Node extends Entity {
     rotation: 0,
   };
 
-  constructor(x: number, y: number) {
+  constructor(x: number, y: number, ...children: Node[]) {
     super();
     this.container = new Container({ x, y });
+    this.append(...children);
   }
 
   public setPosition(x: number, y: number) {
@@ -72,6 +73,14 @@ export default class Node extends Entity {
 
   public get rotation() {
     return this.container.rotation;
+  }
+
+  public set alpha(alpha: number) {
+    this.container.alpha = alpha;
+  }
+
+  public get alpha() {
+    return this.container.alpha;
   }
 
   public hide(): void {

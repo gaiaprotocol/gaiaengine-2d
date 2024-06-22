@@ -8,7 +8,7 @@ export default class Node extends Entity {
     private _screen;
     container: Container;
     worldTransform: Transform;
-    constructor(x: number, y: number);
+    constructor(x: number, y: number, ...children: Node[]);
     setPosition(x: number, y: number): void;
     set x(x: number);
     get x(): number;
@@ -22,6 +22,8 @@ export default class Node extends Entity {
     get scale(): number;
     set rotation(rotation: number);
     get rotation(): number;
+    set alpha(alpha: number);
+    get alpha(): number;
     hide(): void;
     show(): void;
     set screen(screen: Screen | undefined);
