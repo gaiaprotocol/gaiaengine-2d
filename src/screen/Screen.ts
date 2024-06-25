@@ -92,4 +92,16 @@ export default class Screen extends DomNode {
   public get backgroundColor() {
     return this._backgroundColor ?? 0x000000;
   }
+
+  public delete(): void {
+    if (this.renderer) {
+      this.renderer.destroy();
+      this.renderer = undefined;
+    }
+    if (this.animationInterval) {
+      cancelAnimationFrame(this.animationInterval);
+      this.animationInterval = undefined;
+    }
+    super.delete();
+  }
 }
