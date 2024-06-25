@@ -1,3 +1,4 @@
+import { TreeNode } from "@common-module/app";
 import { Container } from "pixi.js";
 import Screen from "../screen/Screen.js";
 import Entity from "./Entity.js";
@@ -8,7 +9,7 @@ export default class Node extends Entity {
     private _screen;
     container: Container;
     worldTransform: Transform;
-    constructor(x: number, y: number, ...children: Node[]);
+    constructor(x: number, y: number, ...children: TreeNode[]);
     setPosition(x: number, y: number): void;
     set x(x: number);
     get x(): number;

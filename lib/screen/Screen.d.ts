@@ -21,5 +21,6 @@ export default class Screen extends DomNode {
     resume(): void;
     set backgroundColor(color: number);
     get backgroundColor(): number;
+    delete(): void;
 }
 //# sourceMappingURL=Screen.d.ts.map

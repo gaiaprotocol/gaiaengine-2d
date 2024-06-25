@@ -8,7 +8,7 @@ class CollisionUtil {
     return (start - point) * (end - point) <= 0;
   }
 
-  private checkPointInRect(
+  public checkPointInRect(
     px: number,
     py: number,
     rx: number,
@@ -53,10 +53,10 @@ class CollisionUtil {
     bc: RectCollider,
     bt: Transform,
   ) {
-    const ax = at.x + ac.x;
-    const ay = at.y + ac.y;
-    const bx = bt.x + bc.x;
-    const by = bt.y + bc.y;
+    const ax = at.x + ac.x * at.scaleX;
+    const ay = at.y + ac.y * at.scaleY;
+    const bx = bt.x + bc.x * bt.scaleX;
+    const by = bt.y + bc.y * bt.scaleY;
 
     const aw = ac.width * at.scaleX;
     const ah = ac.height * at.scaleY;
