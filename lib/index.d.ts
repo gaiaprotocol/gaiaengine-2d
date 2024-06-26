@@ -15,7 +15,7 @@ export { default as Fullscreen } from "./screen/Fullscreen.js";
 export { default as LetterboxedScreen } from "./screen/LetterboxedScreen.js";
 export { default as Screen } from "./screen/Screen.js";
 export { default as TextureLoader } from "./texture/TextureLoader.js";
-export { TilemapData } from "./tilemap/Tilemap.js";
+export { default as Tilemap, TilemapData } from "./tilemap/Tilemap.js";
 export { default as TouchChecker } from "./touch/TouchChecker.js";
 export { default as TouchEventType } from "./touch/TouchEventType.js";
 export { default as FpsDisplay } from "./util/FpsDisplay.js";

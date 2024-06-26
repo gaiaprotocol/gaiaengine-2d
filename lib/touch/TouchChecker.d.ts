@@ -9,7 +9,7 @@ export default class TouchChecker extends TreeNode {
     parent: Node | undefined;
     private _screen;
     private domEventNames;
-    constructor(eventType: TouchEventType, collider: Collider, eventHandler: (x: number, y: number) => void);
+    constructor(eventType: TouchEventType, collider: Collider, eventHandler: (rx: number, ry: number, cx: number, cy: number) => void);
     private domEventHandler;
     set screen(screen: Screen | undefined);
     get screen(): Screen | undefined;
