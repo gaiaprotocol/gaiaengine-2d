@@ -1,0 +1,1 @@
+{"version":3,"file":"SmoothVectorShape.d.ts","sourceRoot":"","sources":["../../src/vector/SmoothVectorShape.ts"],"names":[],"mappings":"AAAA,OAAO,IAAI,MAAM,iBAAiB,CAAC;AAEnC,MAAM,WAAW,qBAAqB;CACrC;AAED,MAAM,CAAC,OAAO,OAAO,iBAAkB,SAAQ,IAAI;gBACrC,CAAC,EAAE,MAAM,EAAE,CAAC,EAAE,MAAM,EAAE,IAAI,EAAE,qBAAqB;CAG9D"}

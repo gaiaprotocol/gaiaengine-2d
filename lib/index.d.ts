@@ -19,4 +19,5 @@ export { default as Tilemap, TilemapData } from "./tilemap/Tilemap.js";
 export { default as TouchChecker } from "./touch/TouchChecker.js";
 export { default as TouchEventType } from "./touch/TouchEventType.js";
 export { default as FpsDisplay } from "./util/FpsDisplay.js";
+export { default as SmoothVectorShape, SmoothVectorShapeData } from "./vector/SmoothVectorShape.js";
 //# sourceMappingURL=index.d.ts.map
