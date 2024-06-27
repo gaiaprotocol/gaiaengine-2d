@@ -1,19 +1,28 @@
 import { Rectangle, Sprite, Texture } from "pixi.js";
 import Node from "../base/Node.js";
 import TextureLoader from "../texture/TextureLoader.js";
+import AutotileDirection from "./AutotileDirection.js";
+
+interface TilesetPosition {
+  key: string;
+  row: number;
+  col: number;
+}
 
 interface TileData {
   row: number;
   col: number;
-  tileset: {
-    key: string;
-    row: number;
-    col: number;
-  };
+  tileset: TilesetPosition;
+}
+
+interface AutotileData {
+  direction: AutotileDirection;
+  tileset: TilesetPosition;
 }
 
 export interface TilemapData {
   tileSize: number;
+  autotiles: AutotileData[];
   tiles: TileData[];
 }
 
