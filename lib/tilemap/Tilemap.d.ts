@@ -1,29 +1,40 @@
 import { Texture } from "pixi.js";
 import Node from "../base/Node.js";
-interface TileData {
+interface TilesetTile {
+    tilesetId: string;
     row: number;
     col: number;
-    tileset: {
-        key: string;
-        row: number;
-        col: number;
-    };
 }
+interface AutotileTile {
+    autotileId: string;
+}
+type TileData = TilesetTile | AutotileTile;
 export interface TilemapData {
     tileSize: number;
-    tiles: TileData[];
+    autotiles: {
+        [id: string]: {
+            [direction: string]: TilesetTile[];
+        };
+    };
+    tiles: {
+        [position: string]: TileData;
+    };
 }
 export default class Tilemap extends Node {
     private tilesetImages;
     private data;
     private tileTextures;
+    private sprites;
     constructor(x: number, y: number, tilesetImages: {
-        [key: string]: string;
+        [tilesetId: string]: string;
     }, data: TilemapData);
     private loadTextures;
-    getTileTexture(tilesetKey: string, row: number, col: number): Texture | undefined;
-    private renderTile;
-    addTile(tile: TileData): void;
+    private renderTilesetTile;
+    private renderAutotileTile;
+    private renderSingleTile;
+    addTile(row: number, col: number, tile: TileData): void;
+    delete(): void;
+    getTileTexture(tilesetId: string, row: number, col: number): Texture | undefined;
 }
 export {};
 //# sourceMappingURL=Tilemap.d.ts.map
