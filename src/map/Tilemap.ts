@@ -2,7 +2,7 @@ import { IntegerUtil } from "@common-module/app";
 import { Rectangle, Sprite, Texture } from "pixi.js";
 import Node from "../base/Node.js";
 import TextureLoader from "../texture/TextureLoader.js";
-import AutotileDirection from "./AutotileDirection.js";
+import TerrainDirection from "./TerrainDirection.js";
 
 interface TilesetTile {
   tilesetId: string;
@@ -116,7 +116,7 @@ export default class Tilemap extends Node {
     row: number,
     col: number,
     autotileId: string,
-    direction: AutotileDirection,
+    direction: TerrainDirection,
   ) {
     const autotile = this.data.autotiles[autotileId];
     const frames = autotile?.[direction];
@@ -140,7 +140,7 @@ export default class Tilemap extends Node {
         row,
         col,
         tile.autotileId,
-        AutotileDirection.Center,
+        TerrainDirection.Center,
       );
     }
 
@@ -161,7 +161,7 @@ export default class Tilemap extends Node {
           row,
           col,
           autotileId,
-          AutotileDirection.BottomRight,
+          TerrainDirection.BottomRight,
         );
       }
     }
@@ -170,7 +170,7 @@ export default class Tilemap extends Node {
     if ("autotileId" in top) {
       const autotileId = top.autotileId;
       if (left.autotileId !== autotileId && right.autotileId !== autotileId) {
-        this.renderAutotileTile(row, col, autotileId, AutotileDirection.Bottom);
+        this.renderAutotileTile(row, col, autotileId, TerrainDirection.Bottom);
       }
     }
 
@@ -182,7 +182,7 @@ export default class Tilemap extends Node {
           row,
           col,
           autotileId,
-          AutotileDirection.BottomLeft,
+          TerrainDirection.BottomLeft,
         );
       }
     }
@@ -191,7 +191,7 @@ export default class Tilemap extends Node {
     if ("autotileId" in left) {
       const autotileId = left.autotileId;
       if (top.autotileId !== autotileId && bottom.autotileId !== autotileId) {
-        this.renderAutotileTile(row, col, autotileId, AutotileDirection.Right);
+        this.renderAutotileTile(row, col, autotileId, TerrainDirection.Right);
       }
     }
 
@@ -199,7 +199,7 @@ export default class Tilemap extends Node {
     if ("autotileId" in right) {
       const autotileId = right.autotileId;
       if (top.autotileId !== autotileId && bottom.autotileId !== autotileId) {
-        this.renderAutotileTile(row, col, autotileId, AutotileDirection.Left);
+        this.renderAutotileTile(row, col, autotileId, TerrainDirection.Left);
       }
     }
 
@@ -211,7 +211,7 @@ export default class Tilemap extends Node {
           row,
           col,
           autotileId,
-          AutotileDirection.TopRight,
+          TerrainDirection.TopRight,
         );
       }
     }
@@ -220,7 +220,7 @@ export default class Tilemap extends Node {
     if ("autotileId" in bottom) {
       const autotileId = bottom.autotileId;
       if (left.autotileId !== autotileId && right.autotileId !== autotileId) {
-        this.renderAutotileTile(row, col, autotileId, AutotileDirection.Top);
+        this.renderAutotileTile(row, col, autotileId, TerrainDirection.Top);
       }
     }
 
@@ -232,7 +232,7 @@ export default class Tilemap extends Node {
           row,
           col,
           autotileId,
-          AutotileDirection.TopLeft,
+          TerrainDirection.TopLeft,
         );
       }
     }

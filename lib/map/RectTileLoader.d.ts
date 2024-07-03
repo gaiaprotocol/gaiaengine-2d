@@ -13,15 +13,15 @@ interface RectTileMapOptions {
     }[]) => void;
 }
 export default class RectTileLoader extends Node {
-    private options;
+    private _o;
     private prevCameraX;
     private prevCameraY;
     private prevWorldScale;
-    private prevStartTileRow;
-    private prevEndTileRow;
-    private prevStartTileCol;
-    private prevEndTileCol;
-    constructor(options: RectTileMapOptions);
+    protected startTileRow: number | undefined;
+    protected endTileRow: number | undefined;
+    protected startTileCol: number | undefined;
+    protected endTileCol: number | undefined;
+    constructor(_o: RectTileMapOptions);
     private loadTilesInViewport;
     protected update(deltaTime: number): void;
 }

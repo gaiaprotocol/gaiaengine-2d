@@ -13,12 +13,12 @@ export default class RectTileLoader extends Node {
   private prevCameraY: number | undefined;
   private prevWorldScale: number | undefined;
 
-  private prevStartTileRow: number | undefined;
-  private prevEndTileRow: number | undefined;
-  private prevStartTileCol: number | undefined;
-  private prevEndTileCol: number | undefined;
+  protected startTileRow: number | undefined;
+  protected endTileRow: number | undefined;
+  protected startTileCol: number | undefined;
+  protected endTileCol: number | undefined;
 
-  constructor(private options: RectTileMapOptions) {
+  constructor(private _o: RectTileMapOptions) {
     super(0, 0);
   }
 
@@ -28,27 +28,27 @@ export default class RectTileLoader extends Node {
     boundTop: number,
     boundBottom: number,
   ) {
-    const startTileRow = Math.floor(boundTop / this.options.tileSize);
-    const endTileRow = Math.ceil(boundBottom / this.options.tileSize);
-    const startTileCol = Math.floor(boundLeft / this.options.tileSize);
-    const endTileCol = Math.ceil(boundRight / this.options.tileSize);
+    const startTileRow = Math.floor(boundTop / this._o.tileSize);
+    const endTileRow = Math.ceil(boundBottom / this._o.tileSize);
+    const startTileCol = Math.floor(boundLeft / this._o.tileSize);
+    const endTileCol = Math.ceil(boundRight / this._o.tileSize);
 
     if (
-      startTileRow !== this.prevStartTileRow ||
-      endTileRow !== this.prevEndTileRow ||
-      startTileCol !== this.prevStartTileCol ||
-      endTileCol !== this.prevEndTileCol
+      startTileRow !== this.startTileRow ||
+      endTileRow !== this.endTileRow ||
+      startTileCol !== this.startTileCol ||
+      endTileCol !== this.endTileCol
     ) {
       const toDeleteCords: { row: number; col: number }[] = [];
       if (
-        this.prevStartTileRow !== undefined &&
-        this.prevEndTileRow !== undefined &&
-        this.prevStartTileCol !== undefined &&
-        this.prevEndTileCol !== undefined
+        this.startTileRow !== undefined &&
+        this.endTileRow !== undefined &&
+        this.startTileCol !== undefined &&
+        this.endTileCol !== undefined
       ) {
-        for (let r = this.prevStartTileRow; r < this.prevEndTileRow; r++) {
-          for (let c = this.prevStartTileCol; c < this.prevEndTileCol; c++) {
-            toDeleteCords.push({ row: r, col: c });
+        for (let row = this.startTileRow; row < this.endTileRow; row++) {
+          for (let col = this.startTileCol; col < this.endTileCol; col++) {
+            toDeleteCords.push({ row, col });
           }
         }
       }
@@ -64,13 +64,13 @@ export default class RectTileLoader extends Node {
         }
       }
 
-      if (toLoadCords.length > 0) this.options.loadTiles(toLoadCords);
-      if (toDeleteCords.length > 0) this.options.deleteTiles(toDeleteCords);
+      if (toLoadCords.length > 0) this._o.loadTiles(toLoadCords);
+      if (toDeleteCords.length > 0) this._o.deleteTiles(toDeleteCords);
 
-      this.prevStartTileRow = startTileRow;
-      this.prevEndTileRow = endTileRow;
-      this.prevStartTileCol = startTileCol;
-      this.prevEndTileCol = endTileCol;
+      this.startTileRow = startTileRow;
+      this.endTileRow = endTileRow;
+      this.startTileCol = startTileCol;
+      this.endTileCol = endTileCol;
     }
   }
 
@@ -82,8 +82,8 @@ export default class RectTileLoader extends Node {
         this.screen.camera.y !== this.prevCameraY ||
         worldScale !== this.prevWorldScale
       ) {
-        const extraTileLoadWidth = this.options.extraTileLoadWidth ?? 0;
-        const extraTileLoadHeight = this.options.extraTileLoadHeight ?? 0;
+        const extraTileLoadWidth = this._o.extraTileLoadWidth ?? 0;
+        const extraTileLoadHeight = this._o.extraTileLoadHeight ?? 0;
         const halfScreenWidth = this.screen.width / 2 + extraTileLoadWidth;
         const halfScreenHeight = this.screen.height / 2 + extraTileLoadHeight;
         this.loadTilesInViewport(

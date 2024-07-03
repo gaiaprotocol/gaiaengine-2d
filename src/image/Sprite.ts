@@ -1,11 +1,6 @@
-import {
-  AnimatedSprite,
-  Dict,
-  Spritesheet,
-  SpritesheetFrameData,
-} from "pixi.js";
+import { AnimatedSprite, SpritesheetData } from "pixi.js";
 import Node from "../base/Node.js";
-import TextureLoader from "../texture/TextureLoader.js";
+import SpritesheetLoader from "../texture/SpritesheetLoader.js";
 
 export default class Sprite extends Node {
   private _src: string | undefined;
@@ -15,7 +10,8 @@ export default class Sprite extends Node {
     x: number,
     y: number,
     src: string,
-    private frameCount: number,
+    private atlas: SpritesheetData,
+    private animation: string,
     private fps: number,
   ) {
     super(x, y);
@@ -23,42 +19,13 @@ export default class Sprite extends Node {
   }
 
   private async load(src: string) {
-    const texture = await TextureLoader.load(src);
-    if (!texture || this.deleted) return;
-
-    const frameWidth = texture.width / this.frameCount;
-    const frames: Dict<SpritesheetFrameData> = {};
-    for (let i = 0; i < this.frameCount; i++) {
-      frames[`sprite-${i}.png`] = {
-        frame: {
-          x: i * frameWidth,
-          y: 0,
-          w: frameWidth,
-          h: texture.height,
-        },
-      };
-    }
-
-    const spritesheet = new Spritesheet(
-      texture,
-      {
-        frames,
-        meta: {
-          image: this.src,
-          scale: 1,
-        },
-        animations: {
-          sprite: Array.from(
-            { length: this.frameCount },
-            (_, i) => `sprite-${i}.png`,
-          ),
-        },
-      },
-    );
-    await spritesheet.parse();
+    const sheet = await SpritesheetLoader.load(src, this.atlas);
+    if (!sheet || this.deleted) return;
 
     this.container.addChild(
-      this.animatedSprite = new AnimatedSprite(spritesheet.animations.sprite),
+      this.animatedSprite = new AnimatedSprite(
+        sheet.animations[this.animation],
+      ),
     );
     this.animatedSprite.anchor.set(0.5, 0.5);
     this.animatedSprite.animationSpeed = this.fps / 60;
@@ -67,7 +34,7 @@ export default class Sprite extends Node {
 
   public set src(src: string) {
     if (this._src === src) return;
-    if (this._src) TextureLoader.release(this._src);
+    if (this._src) SpritesheetLoader.release(this._src);
     this._src = src;
     this.load(src);
   }
@@ -77,7 +44,7 @@ export default class Sprite extends Node {
   }
 
   public delete(): void {
-    if (this._src) TextureLoader.release(this._src);
+    if (this._src) SpritesheetLoader.release(this._src);
     super.delete();
   }
 }

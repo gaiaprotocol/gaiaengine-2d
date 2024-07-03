@@ -1,4 +1,4 @@
-enum AutotileDirection {
+enum TerrainDirection {
   TopLeft = "top-left",
   Top = "top",
   TopRight = "top-right",
@@ -14,4 +14,4 @@ enum AutotileDirection {
   FillBottomRight = "fill-bottom-right",
 }
 
-export default AutotileDirection;
+export default TerrainDirection;

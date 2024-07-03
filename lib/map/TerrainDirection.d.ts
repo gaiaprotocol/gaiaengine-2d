@@ -14,4 +14,4 @@ declare enum TerrainDirection {
     FillBottomRight = "fill-bottom-right"
 }
 export default TerrainDirection;
-//# sourceMappingURL=AutotileDirection.d.ts.map
+//# sourceMappingURL=TerrainDirection.d.ts.map
