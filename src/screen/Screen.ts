@@ -39,6 +39,10 @@ export default class Screen extends DomNode {
       this.renderer.canvas.height = this.height;
       this.renderer.canvas.style.width = `${this.width * this.ratio}px`;
       this.renderer.canvas.style.height = `${this.height * this.ratio}px`;
+      this.style({
+        width: this.width * this.ratio,
+        height: this.height * this.ratio,
+      });
     }
 
     this.updateRootPosition();
