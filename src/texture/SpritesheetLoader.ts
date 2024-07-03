@@ -15,7 +15,7 @@ class SpritesheetLoader {
     src: string,
     atlas: SpritesheetData,
   ): Promise<Spritesheet | undefined> {
-    const loadPromise = new Promise<Spritesheet | undefined>(async () => {
+    const loadPromise = (async () => {
       const texture = await TextureLoader.load(src);
       if (!texture) throw new Error(`Failed to load texture: ${src}`);
 
@@ -36,7 +36,7 @@ class SpritesheetLoader {
         TextureLoader.release(src);
         return undefined;
       }
-    });
+    })();
     this.loadPromises.set(src, loadPromise);
     return await loadPromise;
   }

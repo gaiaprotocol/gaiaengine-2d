@@ -6,11 +6,11 @@ export { default as CollisionChecker } from "./collision/CollisionChecker.js";
 export { default as Interval } from "./delay/Interval.js";
 export { default as Dom } from "./dom/Dom.js";
 export { default as Text } from "./dom/Text.js";
+export { default as AnimatedSprite } from "./image/AnimatedSprite.js";
 export { default as Background } from "./image/Background.js";
-export { default as Image } from "./image/Image.js";
 export { default as Sprite } from "./image/Sprite.js";
-export { default as TerrainDirection } from "./map/TerrainDirection.js";
 export { default as RectTileMap } from "./map/RectTileLoader.js";
+export { default as TerrainDirection } from "./map/TerrainDirection.js";
 export { default as Tilemap, TilemapData } from "./map/Tilemap.js";
 export { default as Movable } from "./object/Movable.js";
 export { default as StateSet } from "./object/StateSet.js";
@@ -23,6 +23,5 @@ export { default as TouchEventType } from "./touch/TouchEventType.js";
 export { default as FpsDisplay } from "./util/FpsDisplay.js";
 export {
   default as SmoothVectorShape,
-  SmoothVectorShapeData
+  SmoothVectorShapeData,
 } from "./vector/SmoothVectorShape.js";
-

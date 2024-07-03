@@ -1,4 +1,4 @@
-import Sprite from "../image/Sprite.js";
+import AnimatedSprite from "../image/AnimatedSprite.js";
 import RectTileLoader from "./RectTileLoader.js";
 
 interface RectTileData {
@@ -14,7 +14,7 @@ interface RectTerrainLoaderOptions {
 
 export default class RectTerrainLoader extends RectTileLoader {
   private loadingTiles: { row: number; col: number }[] = [];
-  private tiles: { [cord: string]: Sprite[] } = {};
+  private tiles: { [cord: string]: AnimatedSprite[] } = {};
 
   constructor(private options: RectTerrainLoaderOptions) {
     super({
