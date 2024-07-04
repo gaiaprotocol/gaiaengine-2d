@@ -8,6 +8,7 @@ export default class RectTerrainMap extends RectTileLoader {
     private spritesheets;
     private terrains;
     private terrainMap;
+    private objects;
     private tileNodes;
     private spritesheetLoaded;
     constructor(tileSize: number, spritesheets: {
@@ -28,11 +29,12 @@ export default class RectTerrainMap extends RectTileLoader {
     }, objects: {
         x: number;
         y: number;
+        zIndex: number;
         spritesheet: string;
         frame: string;
     }[], options?: RectTerrainMapOptions);
     private loadSpritesheets;
-    private renderTerrainTile;
+    private renderTerrain;
     private renderTile;
     private deleteTile;
     protected update(deltaTime: number): void;

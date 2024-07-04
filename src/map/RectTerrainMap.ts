@@ -30,9 +30,10 @@ export default class RectTerrainMap extends RectTileLoader {
       };
     },
     private terrainMap: { [cord: string]: string }, // { row, col } -> terrainId
-    objects: {
+    private objects: {
       x: number;
       y: number;
+      zIndex: number;
       spritesheet: string;
       frame: string;
     }[],
@@ -66,7 +67,7 @@ export default class RectTerrainMap extends RectTileLoader {
     this.spritesheetLoaded = true;
   }
 
-  private renderTerrainTile(
+  private renderTerrain(
     row: number,
     col: number,
     terrainId: string,
@@ -99,7 +100,7 @@ export default class RectTerrainMap extends RectTileLoader {
   private renderTile(row: number, col: number) {
     const center = this.terrainMap[`${row},${col}`];
     if (center) {
-      this.renderTerrainTile(row, col, center, TerrainDirection.Center);
+      this.renderTerrain(row, col, center, TerrainDirection.Center);
     }
 
     const topLeft = this.terrainMap[`${row - 1},${col - 1}`];
@@ -117,7 +118,7 @@ export default class RectTerrainMap extends RectTileLoader {
       bottomRight !== right &&
       bottomRight !== bottom
     ) {
-      this.renderTerrainTile(row, col, bottomRight, TerrainDirection.TopLeft);
+      this.renderTerrain(row, col, bottomRight, TerrainDirection.TopLeft);
     }
     if (
       bottom &&
@@ -125,7 +126,7 @@ export default class RectTerrainMap extends RectTileLoader {
       bottom !== left &&
       bottom !== right
     ) {
-      this.renderTerrainTile(row, col, bottom, TerrainDirection.Top);
+      this.renderTerrain(row, col, bottom, TerrainDirection.Top);
     }
     if (
       bottomLeft &&
@@ -133,7 +134,7 @@ export default class RectTerrainMap extends RectTileLoader {
       bottomLeft !== left &&
       bottomLeft !== bottom
     ) {
-      this.renderTerrainTile(row, col, bottomLeft, TerrainDirection.TopRight);
+      this.renderTerrain(row, col, bottomLeft, TerrainDirection.TopRight);
     }
     if (
       right &&
@@ -141,7 +142,7 @@ export default class RectTerrainMap extends RectTileLoader {
       right !== top &&
       right !== bottom
     ) {
-      this.renderTerrainTile(row, col, right, TerrainDirection.Left);
+      this.renderTerrain(row, col, right, TerrainDirection.Left);
     }
     if (
       left &&
@@ -149,7 +150,7 @@ export default class RectTerrainMap extends RectTileLoader {
       left !== top &&
       left !== bottom
     ) {
-      this.renderTerrainTile(row, col, left, TerrainDirection.Right);
+      this.renderTerrain(row, col, left, TerrainDirection.Right);
     }
     if (
       topRight &&
@@ -157,7 +158,7 @@ export default class RectTerrainMap extends RectTileLoader {
       topRight !== top &&
       topRight !== right
     ) {
-      this.renderTerrainTile(row, col, topRight, TerrainDirection.BottomLeft);
+      this.renderTerrain(row, col, topRight, TerrainDirection.BottomLeft);
     }
     if (
       top &&
@@ -165,7 +166,7 @@ export default class RectTerrainMap extends RectTileLoader {
       top !== left &&
       top !== right
     ) {
-      this.renderTerrainTile(row, col, top, TerrainDirection.Bottom);
+      this.renderTerrain(row, col, top, TerrainDirection.Bottom);
     }
     if (
       topLeft &&
@@ -173,16 +174,16 @@ export default class RectTerrainMap extends RectTileLoader {
       topLeft !== top &&
       topLeft !== left
     ) {
-      this.renderTerrainTile(row, col, topLeft, TerrainDirection.BottomRight);
+      this.renderTerrain(row, col, topLeft, TerrainDirection.BottomRight);
     }
 
-    if (top !== center) {
+    if (top && top !== center) {
       if (left === top) {
         if (right === top) {
           if (bottom === top) {
-            this.renderTerrainTile(row, col, top, TerrainDirection.FillFull);
+            this.renderTerrain(row, col, top, TerrainDirection.FillFull);
           } else {
-            this.renderTerrainTile(
+            this.renderTerrain(
               row,
               col,
               top,
@@ -190,64 +191,57 @@ export default class RectTerrainMap extends RectTileLoader {
             );
           }
         } else if (bottom === top) {
-          this.renderTerrainTile(
-            row,
-            col,
-            top,
-            TerrainDirection.FillTopLeftBottom,
-          );
+          this.renderTerrain(row, col, top, TerrainDirection.FillTopLeftBottom);
         } else {
-          this.renderTerrainTile(
-            row,
-            col,
-            top,
-            TerrainDirection.FillTopLeft,
-          );
+          this.renderTerrain(row, col, top, TerrainDirection.FillTopLeft);
         }
       } else if (right === top) {
         if (bottom === top) {
-          this.renderTerrainTile(
+          this.renderTerrain(
             row,
             col,
             top,
             TerrainDirection.FillTopRightBottom,
           );
         } else {
-          this.renderTerrainTile(
-            row,
-            col,
-            top,
-            TerrainDirection.FillTopRight,
-          );
+          this.renderTerrain(row, col, top, TerrainDirection.FillTopRight);
         }
       } else if (bottom === top) {
-        this.renderTerrainTile(row, col, top, TerrainDirection.FillTopBottom);
+        this.renderTerrain(row, col, top, TerrainDirection.FillTopBottom);
       }
     }
 
-    if (left !== center) {
+    if (left && left !== center) {
       if (right === left) {
         if (bottom === left) {
-          this.renderTerrainTile(
-            row,
-            col,
-            left,
-            TerrainDirection.FillLeftRight,
-          );
+          this.renderTerrain(row, col, left, TerrainDirection.FillLeftRight);
         }
       } else if (bottom === left) {
-        this.renderTerrainTile(row, col, left, TerrainDirection.FillBottomLeft);
+        this.renderTerrain(row, col, left, TerrainDirection.FillBottomLeft);
       }
     }
 
-    if (right !== center) {
+    if (right && right !== center) {
       if (bottom === right) {
-        this.renderTerrainTile(
-          row,
-          col,
-          right,
-          TerrainDirection.FillBottomRight,
+        this.renderTerrain(row, col, right, TerrainDirection.FillBottomRight);
+      }
+    }
+
+    for (const object of this.objects) {
+      const objectRow = Math.floor(object.y / this.tileSize);
+      const objectCol = Math.floor(object.x / this.tileSize);
+
+      if (objectRow === row && objectCol === col) {
+        const spritesheet = this.spritesheets[object.spritesheet];
+        const sprite = new Sprite(
+          object.x,
+          object.y,
+          spritesheet.src,
+          spritesheet.atlas,
+          object.frame,
         );
+        sprite.zIndex = object.zIndex;
+        this.append(sprite);
       }
     }
   }
