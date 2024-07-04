@@ -20,6 +20,7 @@ export default class RectTerrainMap extends RectTileLoader {
             [direction: string]: {
                 spritesheet: string;
                 frame: string;
+                zIndex: number;
             }[];
         };
     }, terrainMap: {

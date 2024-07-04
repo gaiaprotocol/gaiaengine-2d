@@ -10,7 +10,7 @@ interface RectTileMapOptions {
 export default class RectTileLoader extends Node {
   private prevCameraX: number | undefined;
   private prevCameraY: number | undefined;
-  private prevWorldScale: number | undefined;
+  private prevCameraScale: number | undefined;
 
   protected startTileRow: number | undefined;
   protected endTileRow: number | undefined;
@@ -75,25 +75,25 @@ export default class RectTileLoader extends Node {
 
   protected update(deltaTime: number): void {
     if (this.screen) {
-      const worldScale = this.screen.root.scale;
+      const cameraScale = this.screen.camera.scale;
       if (
         this.screen.camera.x !== this.prevCameraX ||
         this.screen.camera.y !== this.prevCameraY ||
-        worldScale !== this.prevWorldScale
+        cameraScale !== this.prevCameraScale
       ) {
         const extraTileLoadWidth = this.options.extraTileLoadWidth ?? 0;
         const extraTileLoadHeight = this.options.extraTileLoadHeight ?? 0;
         const halfScreenWidth = this.screen.width / 2 + extraTileLoadWidth;
         const halfScreenHeight = this.screen.height / 2 + extraTileLoadHeight;
         this.loadTilesInViewport(
-          (this.screen.camera.x - halfScreenWidth) / worldScale,
-          (this.screen.camera.x + halfScreenWidth) / worldScale,
-          (this.screen.camera.y - halfScreenHeight) / worldScale,
-          (this.screen.camera.y + halfScreenHeight) / worldScale,
+          this.screen.camera.x - halfScreenWidth / cameraScale,
+          this.screen.camera.x + halfScreenWidth / cameraScale,
+          this.screen.camera.y - halfScreenHeight / cameraScale,
+          this.screen.camera.y + halfScreenHeight / cameraScale,
         );
         this.prevCameraX = this.screen.camera.x;
         this.prevCameraY = this.screen.camera.y;
-        this.prevWorldScale = worldScale;
+        this.prevCameraScale = cameraScale;
       }
     }
     super.update(deltaTime);

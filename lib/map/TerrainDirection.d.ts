@@ -8,8 +8,14 @@ declare enum TerrainDirection {
     BottomLeft = "bottom-left",
     Bottom = "bottom",
     BottomRight = "bottom-right",
+    FillFull = "fill-full",
+    FillTopLeftRight = "fill-top-left-right",
+    FillTopLeftBottom = "fill-top-left-bottom",
     FillTopLeft = "fill-top-left",
+    FillTopRightBottom = "fill-top-right-bottom",
     FillTopRight = "fill-top-right",
+    FillTopBottom = "fill-top-bottom",
+    FillLeftRight = "fill-left-right",
     FillBottomLeft = "fill-bottom-left",
     FillBottomRight = "fill-bottom-right"
 }

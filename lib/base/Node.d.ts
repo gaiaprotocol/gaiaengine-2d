@@ -15,6 +15,8 @@ export default class Node extends Entity {
     get x(): number;
     set y(y: number);
     get y(): number;
+    set zIndex(zIndex: number);
+    get zIndex(): number;
     set scaleX(scaleX: number);
     get scaleX(): number;
     set scaleY(scaleY: number);

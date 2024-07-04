@@ -16,7 +16,7 @@ export default class RectTileLoader extends Node {
     private options;
     private prevCameraX;
     private prevCameraY;
-    private prevWorldScale;
+    private prevCameraScale;
     protected startTileRow: number | undefined;
     protected endTileRow: number | undefined;
     protected startTileCol: number | undefined;

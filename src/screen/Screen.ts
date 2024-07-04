@@ -49,9 +49,10 @@ export default class Screen extends DomNode {
   }
 
   public updateRootPosition() {
+    this.root.scale = this.camera.scale;
     this.root.setPosition(
-      this.width / 2 - this.camera.x,
-      this.height / 2 - this.camera.y,
+      this.width / 2 - this.camera.x * this.camera.scale,
+      this.height / 2 - this.camera.y * this.camera.scale,
     );
   }
 

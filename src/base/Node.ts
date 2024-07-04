@@ -44,6 +44,14 @@ export default class Node extends Entity {
     return this.container.y;
   }
 
+  public set zIndex(zIndex: number) {
+    this.container.zIndex = zIndex;
+  }
+
+  public get zIndex() {
+    return this.container.zIndex;
+  }
+
   public set scaleX(scaleX: number) {
     this.container.scale.x = scaleX;
   }
@@ -123,12 +131,6 @@ export default class Node extends Entity {
         this.parent.worldTransform.scaleY;
       this.worldTransform.rotation = this.rotation +
         this.parent.worldTransform.rotation;
-    } else {
-      this.worldTransform.x = 0;
-      this.worldTransform.y = 0;
-      this.worldTransform.scaleX = this.scaleX;
-      this.worldTransform.scaleY = this.scaleY;
-      this.worldTransform.rotation = this.rotation;
     }
   }
 
