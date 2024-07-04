@@ -2,7 +2,6 @@ import RectTileLoader from "./RectTileLoader.js";
 interface RectTileData {
 }
 interface RectTerrainLoaderOptions {
-    tileSize: number;
     extraTileLoadWidth?: number;
     extraTileLoadHeight?: number;
     loadTiles: (cords: {
@@ -18,7 +17,7 @@ export default class RectTerrainLoader extends RectTileLoader {
     private options;
     private loadingTiles;
     private tiles;
-    constructor(options: RectTerrainLoaderOptions);
+    constructor(tileSize: number, options: RectTerrainLoaderOptions);
     private renderTile;
     private renderTerrain;
     private loadTiles;

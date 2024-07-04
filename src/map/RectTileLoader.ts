@@ -1,7 +1,6 @@
 import Node from "../base/Node.js";
 
 interface RectTileMapOptions {
-  tileSize: number;
   extraTileLoadWidth?: number;
   extraTileLoadHeight?: number;
   loadTiles: (cords: { row: number; col: number }[]) => void;
@@ -18,7 +17,7 @@ export default class RectTileLoader extends Node {
   protected startTileCol: number | undefined;
   protected endTileCol: number | undefined;
 
-  constructor(private _o: RectTileMapOptions) {
+  constructor(protected tileSize: number, private options: RectTileMapOptions) {
     super(0, 0);
   }
 
@@ -28,10 +27,10 @@ export default class RectTileLoader extends Node {
     boundTop: number,
     boundBottom: number,
   ) {
-    const startTileRow = Math.floor(boundTop / this._o.tileSize);
-    const endTileRow = Math.ceil(boundBottom / this._o.tileSize);
-    const startTileCol = Math.floor(boundLeft / this._o.tileSize);
-    const endTileCol = Math.ceil(boundRight / this._o.tileSize);
+    const startTileRow = Math.floor(boundTop / this.tileSize);
+    const endTileRow = Math.ceil(boundBottom / this.tileSize);
+    const startTileCol = Math.floor(boundLeft / this.tileSize);
+    const endTileCol = Math.ceil(boundRight / this.tileSize);
 
     if (
       startTileRow !== this.startTileRow ||
@@ -64,8 +63,8 @@ export default class RectTileLoader extends Node {
         }
       }
 
-      if (toLoadCords.length > 0) this._o.loadTiles(toLoadCords);
-      if (toDeleteCords.length > 0) this._o.deleteTiles(toDeleteCords);
+      if (toLoadCords.length > 0) this.options.loadTiles(toLoadCords);
+      if (toDeleteCords.length > 0) this.options.deleteTiles(toDeleteCords);
 
       this.startTileRow = startTileRow;
       this.endTileRow = endTileRow;
@@ -82,8 +81,8 @@ export default class RectTileLoader extends Node {
         this.screen.camera.y !== this.prevCameraY ||
         worldScale !== this.prevWorldScale
       ) {
-        const extraTileLoadWidth = this._o.extraTileLoadWidth ?? 0;
-        const extraTileLoadHeight = this._o.extraTileLoadHeight ?? 0;
+        const extraTileLoadWidth = this.options.extraTileLoadWidth ?? 0;
+        const extraTileLoadHeight = this.options.extraTileLoadHeight ?? 0;
         const halfScreenWidth = this.screen.width / 2 + extraTileLoadWidth;
         const halfScreenHeight = this.screen.height / 2 + extraTileLoadHeight;
         this.loadTilesInViewport(

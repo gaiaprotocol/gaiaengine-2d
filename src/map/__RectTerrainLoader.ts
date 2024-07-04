@@ -1,31 +1,30 @@
-import AnimatedSprite from "../image/AnimatedSprite.js";
+import Node from "../base/Node.js";
 import RectTileLoader from "./RectTileLoader.js";
 
 interface RectTileData {
 }
 
 interface RectTerrainLoaderOptions {
-  tileSize: number;
   extraTileLoadWidth?: number;
   extraTileLoadHeight?: number;
   loadTiles: (cords: { row: number; col: number }[]) => Promise<RectTileData[]>;
   onDeletedTiles?: (cords: { row: number; col: number }[]) => void;
 }
 
-export default class RectTerrainLoader extends RectTileLoader {
+/*
+class RectTerrainLoader extends RectTileLoader {
   private loadingTiles: { row: number; col: number }[] = [];
-  private tiles: { [cord: string]: AnimatedSprite[] } = {};
+  private tiles: { [cord: string]: Node[] } = {};
 
-  constructor(private options: RectTerrainLoaderOptions) {
-    super({
-      tileSize: options.tileSize,
+  constructor(tileSize: number, private options: RectTerrainLoaderOptions) {
+    super(tileSize, {
       extraTileLoadWidth: options.extraTileLoadWidth === undefined ||
-          options.extraTileLoadWidth < options.tileSize
-        ? options.tileSize
+          options.extraTileLoadWidth < tileSize
+        ? tileSize
         : options.extraTileLoadWidth,
       extraTileLoadHeight: options.extraTileLoadHeight === undefined ||
-          options.extraTileLoadHeight < options.tileSize
-        ? options.tileSize
+          options.extraTileLoadHeight < tileSize
+        ? tileSize
         : options.extraTileLoadHeight,
       loadTiles: (cords) => this.loadTiles(cords),
       deleteTiles: (cords) => this.deleteTiles(cords),
@@ -62,3 +61,4 @@ export default class RectTerrainLoader extends RectTileLoader {
     if (this.options.onDeletedTiles) this.options.onDeletedTiles(cords);
   }
 }
+*/

@@ -16,13 +16,13 @@ interface AutotileTile {
 
 type TileData = TilesetTile | AutotileTile;
 
-export interface TilemapData {
+interface TilemapData {
   tileSize: number;
   autotiles: { [id: string]: { [direction: string]: TilesetTile[] } };
   tiles: { [position: string]: TileData };
 }
 
-export default class Tilemap extends Node {
+class Tilemap extends Node {
   private tileTextures: { [key: string]: Texture } = {};
   private sprites: { [position: string]: Sprite[] } = {};
 

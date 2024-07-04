@@ -1,19 +1,25 @@
+import { SpritesheetData } from "pixi.js";
 import RectTerrainLoader from "./RectTerrainLoader.js";
-export interface StaticRectTerrainMapData {
-    tileSize: number;
-    terreins: {
+export default class StaticRectTerrainMap extends RectTerrainLoader {
+    constructor(tileSize: number, spritesheets: {
+        [id: string]: {
+            src: string;
+            atlas: SpritesheetData;
+        };
+    }, terreins: {
         [id: string]: {
             [direction: string]: {
-                tilesetId: string;
-                row: number;
-                col: number;
+                spritesheet: string;
+                frame: string;
             }[];
         };
-    };
-    tiles: {
+    }, terrainMap: {
         [cord: string]: string;
-    };
-}
-export default class StaticRectTerrainMap extends RectTerrainLoader {
+    }, objects: {
+        x: number;
+        y: number;
+        spritesheet: string;
+        frame: string;
+    }[]);
 }
 //# sourceMappingURL=StaticRectTerrainMap.d.ts.map

@@ -1,6 +1,5 @@
 import Node from "../base/Node.js";
 interface RectTileMapOptions {
-    tileSize: number;
     extraTileLoadWidth?: number;
     extraTileLoadHeight?: number;
     loadTiles: (cords: {
@@ -13,7 +12,8 @@ interface RectTileMapOptions {
     }[]) => void;
 }
 export default class RectTileLoader extends Node {
-    private _o;
+    protected tileSize: number;
+    private options;
     private prevCameraX;
     private prevCameraY;
     private prevWorldScale;
@@ -21,7 +21,7 @@ export default class RectTileLoader extends Node {
     protected endTileRow: number | undefined;
     protected startTileCol: number | undefined;
     protected endTileCol: number | undefined;
-    constructor(_o: RectTileMapOptions);
+    constructor(tileSize: number, options: RectTileMapOptions);
     private loadTilesInViewport;
     protected update(deltaTime: number): void;
 }
