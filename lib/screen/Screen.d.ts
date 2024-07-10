@@ -2,6 +2,9 @@ import { DomNode } from "@common-module/app";
 import { Renderer } from "pixi.js";
 import Node from "../base/Node.js";
 import Camera from "./Camera.js";
+export interface ScreenOptions {
+    fps?: number;
+}
 export default class Screen extends DomNode {
     width: number;
     height: number;
@@ -10,9 +13,14 @@ export default class Screen extends DomNode {
     protected renderer: Renderer | undefined;
     private animationInterval;
     private beforeTime;
+    private timeElapsed;
+    private _fps;
+    private actualFps;
     ratio: number;
     private _backgroundColor;
-    constructor(width: number, height: number, ...nodes: (Node | undefined)[]);
+    constructor(width: number, height: number, ...nodes: (Node | ScreenOptions | undefined)[]);
+    set fps(fps: number | undefined);
+    get fps(): number | undefined;
     resize(width: number, height: number, ratio?: number): void;
     updateRootPosition(): void;
     private createRenderer;

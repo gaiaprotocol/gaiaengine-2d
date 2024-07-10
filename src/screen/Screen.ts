@@ -3,6 +3,10 @@ import { autoDetectRenderer, Renderer } from "pixi.js";
 import Node from "../base/Node.js";
 import Camera from "./Camera.js";
 
+export interface ScreenOptions {
+  fps?: number;
+}
+
 export default class Screen extends DomNode {
   public root = new Node(0, 0);
   public camera = new Camera(this);
@@ -11,6 +15,10 @@ export default class Screen extends DomNode {
 
   private animationInterval: number | undefined;
   private beforeTime = 0;
+  private timeElapsed = 0;
+
+  private _fps: number | undefined;
+  private actualFps: number | undefined;
 
   public ratio = 1;
   private _backgroundColor: number | undefined;
@@ -18,14 +26,34 @@ export default class Screen extends DomNode {
   constructor(
     public width: number,
     public height: number,
-    ...nodes: (Node | undefined)[]
+    ...nodes: (Node | ScreenOptions | undefined)[]
   ) {
     super();
     this.style({ position: "relative" });
     this.root.screen = this;
-    this.root.append(...nodes);
+    this.root.append(
+      ...nodes.filter((node): node is Node => node instanceof Node),
+    );
     this.createRenderer();
     this.resume();
+
+    for (const node of nodes) {
+      if (node && !(node instanceof Node)) {
+        if (node.fps) this.fps = node.fps;
+      }
+    }
+
+    this.onWindow("blur", () => this.actualFps = 6);
+    this.onWindow("focus", () => this.actualFps = this._fps);
+  }
+
+  public set fps(fps: number | undefined) {
+    this._fps = fps;
+    this.actualFps = fps;
+  }
+
+  public get fps() {
+    return this._fps;
   }
 
   public resize(width: number, height: number, ratio = 1) {
@@ -76,7 +104,16 @@ export default class Screen extends DomNode {
   private _animate = (now: number) => {
     const deltaTime = (now - this.beforeTime) / 1000;
     if (deltaTime > 0) {
-      this._tick(deltaTime);
+      if (this.actualFps !== undefined && this.actualFps > 0) {
+        this.timeElapsed += deltaTime;
+        const frameSecond = 1 / this.actualFps;
+        if (this.timeElapsed >= frameSecond) {
+          this._tick(frameSecond);
+          this.timeElapsed -= frameSecond;
+        }
+      } else {
+        this._tick(deltaTime);
+      }
       this.beforeTime = now;
     }
     this.animationInterval = requestAnimationFrame(this._animate);
