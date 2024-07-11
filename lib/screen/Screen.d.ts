@@ -3,6 +3,7 @@ import { Renderer } from "pixi.js";
 import Node from "../base/Node.js";
 import Camera from "./Camera.js";
 export interface ScreenOptions {
+    dev?: boolean;
     fps?: number;
 }
 export default class Screen extends DomNode {
@@ -18,6 +19,7 @@ export default class Screen extends DomNode {
     private actualFps;
     ratio: number;
     private _backgroundColor;
+    private devMode;
     constructor(width: number, height: number, ...nodes: (Node | ScreenOptions | undefined)[]);
     set fps(fps: number | undefined);
     get fps(): number | undefined;

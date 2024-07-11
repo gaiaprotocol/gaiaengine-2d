@@ -4,6 +4,7 @@ import Node from "../base/Node.js";
 import Camera from "./Camera.js";
 
 export interface ScreenOptions {
+  dev?: boolean;
   fps?: number;
 }
 
@@ -23,6 +24,8 @@ export default class Screen extends DomNode {
   public ratio = 1;
   private _backgroundColor: number | undefined;
 
+  private devMode = false;
+
   constructor(
     public width: number,
     public height: number,
@@ -40,11 +43,14 @@ export default class Screen extends DomNode {
     for (const node of nodes) {
       if (node && !(node instanceof Node)) {
         if (node.fps) this.fps = node.fps;
+        if (node.dev) this.devMode = node.dev;
       }
     }
 
-    this.onWindow("blur", () => this.actualFps = 6);
-    this.onWindow("focus", () => this.actualFps = this._fps);
+    if (this.devMode) {
+      this.onWindow("blur", () => this.actualFps = 6);
+      this.onWindow("focus", () => this.actualFps = this._fps);
+    }
   }
 
   public set fps(fps: number | undefined) {
