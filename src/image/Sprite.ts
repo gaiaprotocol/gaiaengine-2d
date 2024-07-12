@@ -12,6 +12,7 @@ export default class Sprite extends Node {
     src: string,
     private atlas?: SpritesheetData,
     private frame?: string,
+    private onLoaded?: () => void,
   ) {
     super(x, y);
     this.src = src;
@@ -39,7 +40,7 @@ export default class Sprite extends Node {
       );
     }
 
-    //if (this.onLoaded) this.onLoaded();
+    if (this.onLoaded) this.onLoaded();
   }
 
   public set src(src: string) {

@@ -7,8 +7,9 @@ interface RectTerrainMapOptions {
 export default class RectTerrainMap extends RectTileLoader {
     private spritesheets;
     private terrains;
-    private terrainMap;
     private objects;
+    private terrainMap;
+    private mapObjects;
     private tileNodes;
     private spritesheetLoaded;
     constructor(tileSize: number, spritesheets: {
@@ -24,14 +25,18 @@ export default class RectTerrainMap extends RectTileLoader {
                 zIndex: number;
             }[];
         };
+    }, objects: {
+        [id: string]: {
+            spritesheet: string;
+            frame: string;
+            zIndex: number;
+        };
     }, terrainMap: {
         [cord: string]: string;
-    }, objects: {
+    }, mapObjects: {
         x: number;
         y: number;
-        zIndex: number;
-        spritesheet: string;
-        frame: string;
+        object: string;
     }[], options?: RectTerrainMapOptions);
     private loadSpritesheets;
     private renderTerrain;

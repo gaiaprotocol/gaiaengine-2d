@@ -29,14 +29,15 @@ export default class RectTerrainMap extends RectTileLoader {
         }[];
       };
     },
-    private terrainMap: { [cord: string]: string }, // { row, col } -> terrainId
     private objects: {
-      x: number;
-      y: number;
-      zIndex: number;
-      spritesheet: string;
-      frame: string;
-    }[],
+      [id: string]: {
+        spritesheet: string;
+        frame: string;
+        zIndex: number;
+      };
+    },
+    private terrainMap: { [cord: string]: string }, // { row, col } -> terrainId
+    private mapObjects: { x: number; y: number; object: string }[],
     options: RectTerrainMapOptions = {},
   ) {
     super(tileSize, {
@@ -227,15 +228,16 @@ export default class RectTerrainMap extends RectTileLoader {
       }
     }
 
-    for (const object of this.objects) {
-      const objectRow = Math.floor(object.y / this.tileSize);
-      const objectCol = Math.floor(object.x / this.tileSize);
+    for (const mapObject of this.mapObjects) {
+      const object = this.objects[mapObject.object];
+      const objectRow = Math.floor(mapObject.y / this.tileSize);
+      const objectCol = Math.floor(mapObject.x / this.tileSize);
 
       if (objectRow === row && objectCol === col) {
         const spritesheet = this.spritesheets[object.spritesheet];
         const sprite = new Sprite(
-          object.x,
-          object.y,
+          mapObject.x,
+          mapObject.y,
           spritesheet.src,
           spritesheet.atlas,
           object.frame,
