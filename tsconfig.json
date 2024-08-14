@@ -70,6 +70,7 @@
     ".vscode",
     "test-src",
     "old",
-    "test"
+    "test",
+    "legacy-versions"
   ]
 }
