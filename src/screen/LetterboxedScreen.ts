@@ -1,5 +1,7 @@
 import GameScreen from "./GameScreen.js";
+
 export default class LetterboxedScreen extends GameScreen {
-    constructor(width: number, height: number);
+  constructor(width: number, height: number) {
+    super();
+  }
 }
-//# sourceMappingURL=LetterboxedScreen.d.ts.map

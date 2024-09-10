@@ -1,3 +1,3 @@
 export default interface Collidable {
+  //colliders: Collider[];
 }
-//# sourceMappingURL=Collidable.d.ts.map

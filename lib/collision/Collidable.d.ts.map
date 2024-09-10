@@ -1,1 +1,1 @@
-{"version":3,"file":"Collidable.d.ts","sourceRoot":"","sources":["../../src/collision/Collidable.ts"],"names":[],"mappings":"AAAA,OAAO,IAAI,MAAM,iBAAiB,CAAC;AACnC,OAAO,QAAQ,MAAM,eAAe,CAAC;AAErC,MAAM,CAAC,OAAO,OAAO,UAAW,SAAQ,IAAI;IACnC,SAAS,EAAE,QAAQ,EAAE,CAAM;IAElC,SAAS,CAAC,WAAW,CAAC,GAAG,QAAQ,EAAE,QAAQ,EAAE;CAG9C"}
+{"version":3,"file":"Collidable.d.ts","sourceRoot":"","sources":["../../src/collision/Collidable.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,OAAO,WAAW,UAAU;CAElC"}
