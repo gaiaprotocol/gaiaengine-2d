@@ -1,1 +1,1 @@
-{"version":3,"file":"GameObject.js","sourceRoot":"","sources":["../../src/core/GameObject.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,MAAM,eAAe,CAAC;AAErC,MAAM,CAAC,OAAO,OAAO,UAAW,SAAQ,QAAQ;CAC/C"}
+{"version":3,"file":"GameObject.js","sourceRoot":"","sources":["../../src/core/GameObject.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,MAAM,eAAe,CAAC;AAErC,MAAM,CAAC,OAAO,OAAO,UAAW,SAAQ,QAAQ;IAC9C,YAAY,CAAS,EAAE,CAAS;QAC9B,KAAK,EAAE,CAAC;IACV,CAAC;CACF"}
