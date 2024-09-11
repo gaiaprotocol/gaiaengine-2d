@@ -56,7 +56,7 @@ class TextureLoader extends ResourceLoader<Texture> {
   }
 
   protected cleanup(texture: Texture): void {
-    texture.destroy();
+    texture.destroy(true);
   }
 }
 
