@@ -1,21 +1,16 @@
 import { DomNode } from "@common-module/app";
 import { autoDetectRenderer, Renderer } from "pixi.js";
-import GameNode from "../core/GameNode.js";
 import GameObject from "../core/GameObject.js";
 
 export default class GameScreen extends DomNode {
   private renderer: Renderer | undefined;
+  private animationInterval: number | undefined;
 
   public root = new GameObject(0, 0);
 
-  constructor(
-    public width: number,
-    public height: number,
-    ...nodes: (GameNode | undefined)[]
-  ) {
+  constructor(public width: number, public height: number) {
     super();
     this.style({ position: "relative" });
-    this.root.append(...nodes);
     this.createRenderer();
   }
 
@@ -25,8 +20,11 @@ export default class GameScreen extends DomNode {
       height: this.height,
     });
     this.element.appendChild(this.renderer.canvas);
-
-    //TODO:
-    this.renderer.render((this.root as any).container);
+    this.animationInterval = requestAnimationFrame(this.animate);
   }
+
+  private animate = () => {
+    this.renderer?.render((this.root as any).container);
+    this.animationInterval = requestAnimationFrame(this.animate);
+  };
 }
