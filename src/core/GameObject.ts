@@ -9,10 +9,10 @@ export default class GameObject extends GameNode {
     this.container = new Container({ x, y });
   }
 
-  public append(...children: (GameNode | undefined)[]) {
+  public append(...children: (GameObject | undefined)[]) {
     for (const child of children) {
       if (child === undefined) continue;
-      else if (child instanceof GameObject) child.appendTo(this);
+      else child.appendTo(this);
     }
   }
 
@@ -20,5 +20,7 @@ export default class GameObject extends GameNode {
     index !== undefined
       ? parent.container.addChildAt(this.container, index)
       : parent.container.addChild(this.container);
+
+    super.appendTo(parent, index);
   }
 }

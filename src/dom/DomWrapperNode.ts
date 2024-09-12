@@ -13,6 +13,10 @@ export default class DomWrapperNode<
     ...children: DomChild<HE>[]
   ) {
     super();
-    this.domNode = new DomNode(elementOrSelector, ...children);
+    this.domNode = new DomNode(elementOrSelector, ...children).style({
+      position: "absolute",
+      left: "-9999999px",
+      top: "-9999999px",
+    });
   }
 }
