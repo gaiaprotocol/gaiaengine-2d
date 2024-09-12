@@ -1,2 +1,2 @@
-export default class GameNode {
+export default abstract class GameNode {
 }
