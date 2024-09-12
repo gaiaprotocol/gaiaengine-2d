@@ -1,1 +1,1 @@
-{"version":3,"file":"FPSDisplay.js","sourceRoot":"","sources":["../../src/debug/FPSDisplay.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,MAAM,oBAAoB,CAAC;AAE1C,MAAM,CAAC,OAAO,OAAO,UAAW,SAAQ,QAAQ;CAC/C"}
+{"version":3,"file":"FPSDisplay.js","sourceRoot":"","sources":["../../src/debug/FPSDisplay.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,MAAM,oBAAoB,CAAC;AAE1C,MAAM,CAAC,OAAO,OAAO,UAAW,SAAQ,QAAQ;IAC9C;QACE,KAAK,CAAC,CAAC,EAAE,CAAC,EAAE,QAAQ,CAAC,CAAC;IACxB,CAAC;CACF"}
