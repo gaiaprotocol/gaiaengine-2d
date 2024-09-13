@@ -27,7 +27,7 @@ export default abstract class GameNode extends TreeNode<GameNode> {
     return super.appendTo(parent, index);
   }
 
-  protected update(deltaTime: number) {
+  protected update(deltaTime: number): void {
     if (!this.removed) {
       for (const child of this.children) {
         child.update(deltaTime);

@@ -1,1 +1,1 @@
-{"version":3,"file":"Movable.js","sourceRoot":"","sources":["../../src/dynamic/Movable.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,MAAM,qBAAqB,CAAC;AAE3C,MAAM,CAAC,OAAO,OAAO,OAAQ,SAAQ,QAAQ;CAC5C"}
+{"version":3,"file":"Movable.js","sourceRoot":"","sources":["../../src/dynamic/Movable.ts"],"names":[],"mappings":"AAAA,OAAO,UAAU,MAAM,uBAAuB,CAAC;AAE/C,MAAM,CAAC,OAAO,OAAO,OAAQ,SAAQ,UAAU;IACtC,MAAM,GAAW,CAAC,CAAC;IAEhB,MAAM,CAAC,SAAiB;QAChC,IAAI,CAAC,CAAC,IAAI,IAAI,CAAC,MAAM,GAAG,SAAS,CAAC;QAClC,KAAK,CAAC,MAAM,CAAC,SAAS,CAAC,CAAC;IAC1B,CAAC;CACF"}

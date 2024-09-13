@@ -24,6 +24,12 @@ export default class GameScreen extends DomNode {
       width: this.width,
       height: this.height,
     });
+
+    this.root.setPosition(
+      this.width / 2 - this.camera.x * this.camera.scale,
+      this.height / 2 - this.camera.y * this.camera.scale,
+    );
+
     this.element.appendChild(this.renderer.canvas);
     this.animationInterval = requestAnimationFrame(this.animate);
   }

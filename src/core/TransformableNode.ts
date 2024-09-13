@@ -9,11 +9,19 @@ interface Transform {
 }
 
 export default abstract class TransformableNode extends GameNode {
-  protected x: number = 0;
-  protected y: number = 0;
-  private scaleX: number = 1;
-  private scaleY: number = 1;
-  private rotation: number = 0;
+  constructor(x: number, y: number) {
+    super();
+    this.transform.x = x;
+    this.transform.y = y;
+  }
+
+  protected transform: Transform = {
+    x: 0,
+    y: 0,
+    scaleX: 1,
+    scaleY: 1,
+    rotation: 0,
+  };
 
   protected absoluteTransform: Transform = {
     x: 0,
@@ -23,16 +31,18 @@ export default abstract class TransformableNode extends GameNode {
     rotation: 0,
   };
 
-  protected update(deltaTime: number) {
+  protected update(deltaTime: number): void {
     const parent = this.parent as TransformableNode | undefined;
     const parentTransform = parent?.absoluteTransform;
 
     if (parentTransform) {
-      this.absoluteTransform.x = this.x + parentTransform.x;
-      this.absoluteTransform.y = this.y + parentTransform.y;
-      this.absoluteTransform.scaleX = this.scaleX * parentTransform.scaleX;
-      this.absoluteTransform.scaleY = this.scaleY * parentTransform.scaleY;
-      this.absoluteTransform.rotation = this.rotation +
+      this.absoluteTransform.x = this.transform.x + parentTransform.x;
+      this.absoluteTransform.y = this.transform.y + parentTransform.y;
+      this.absoluteTransform.scaleX = this.transform.scaleX *
+        parentTransform.scaleX;
+      this.absoluteTransform.scaleY = this.transform.scaleY *
+        parentTransform.scaleY;
+      this.absoluteTransform.rotation = this.transform.rotation +
         parentTransform.rotation;
     }
 

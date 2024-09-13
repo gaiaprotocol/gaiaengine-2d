@@ -12,7 +12,7 @@ export default class DomWrapperNode<HE extends HTMLElement = HTMLElement>
     elementOrSelector?: HE | DomSelector,
     ...children: DomChild<HE>[]
   ) {
-    super();
+    super(x, y);
     this.domNode = new DomNode(elementOrSelector, ...children).style({
       position: "absolute",
       left: "-9999999px",

@@ -7,11 +7,8 @@ interface Transform {
     rotation: number;
 }
 export default abstract class TransformableNode extends GameNode {
-    protected x: number;
-    protected y: number;
-    private scaleX;
-    private scaleY;
-    private rotation;
+    constructor(x: number, y: number);
+    protected transform: Transform;
     protected absoluteTransform: Transform;
     protected update(deltaTime: number): void;
 }
