@@ -1,7 +1,13 @@
-import { DomChild, DomSelector } from "@common-module/app";
-import GameNode from "../core/GameNode.js";
-export default class DomWrapperNode<HE extends HTMLElement = HTMLElement> extends GameNode {
-    private domNode;
+import { DomChild, DomNode, DomSelector } from "@common-module/app";
+import TransformableNode from "../core/TransformableNode.js";
+import GameScreen from "../screen/GameScreen.js";
+export default class DomWrapperNode<HE extends HTMLElement = HTMLElement> extends TransformableNode {
+    protected domNode: DomNode;
     constructor(x: number, y: number, elementOrSelector?: HE | DomSelector, ...children: DomChild<HE>[]);
+    set screen(screen: GameScreen | undefined);
+    get screen(): GameScreen | undefined;
+    private previousTransform;
+    protected resetPreviousTransform(): void;
+    protected update(deltaTime: number): void;
 }
 //# sourceMappingURL=DomWrapperNode.d.ts.map

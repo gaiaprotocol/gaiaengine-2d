@@ -1,7 +1,7 @@
 import { Container } from "pixi.js";
-import GameNode from "./GameNode.js";
+import TransformableNode from "./TransformableNode.js";
 
-export default class GameObject extends GameNode {
+export default class GameObject extends TransformableNode {
   protected container: Container;
 
   constructor(x: number, y: number) {
@@ -9,18 +9,10 @@ export default class GameObject extends GameNode {
     this.container = new Container({ x, y });
   }
 
-  public append(...children: (GameObject | undefined)[]) {
-    for (const child of children) {
-      if (child === undefined) continue;
-      else child.appendTo(this);
-    }
-  }
-
-  public appendTo(parent: GameObject, index?: number) {
+  public appendTo(parent: GameObject, index?: number): this {
     index !== undefined
       ? parent.container.addChildAt(this.container, index)
       : parent.container.addChild(this.container);
-
-    super.appendTo(parent, index);
+    return super.appendTo(parent, index);
   }
 }

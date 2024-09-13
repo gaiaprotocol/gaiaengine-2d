@@ -1,9 +1,8 @@
 import { Container } from "pixi.js";
-import GameNode from "./GameNode.js";
-export default class GameObject extends GameNode {
+import TransformableNode from "./TransformableNode.js";
+export default class GameObject extends TransformableNode {
     protected container: Container;
     constructor(x: number, y: number);
-    append(...children: (GameObject | undefined)[]): void;
-    appendTo(parent: GameObject, index?: number): void;
+    appendTo(parent: GameObject, index?: number): this;
 }
 //# sourceMappingURL=GameObject.d.ts.map
