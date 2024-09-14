@@ -9,16 +9,16 @@ export default abstract class TransformableNode extends GameNode {
   }
 
   protected transform: Transform = {
-    x: 0,
-    y: 0,
+    x: Number.NEGATIVE_INFINITY,
+    y: Number.NEGATIVE_INFINITY,
     scaleX: 1,
     scaleY: 1,
     rotation: 0,
   };
 
   public absoluteTransform: Transform = {
-    x: 0,
-    y: 0,
+    x: Number.NEGATIVE_INFINITY,
+    y: Number.NEGATIVE_INFINITY,
     scaleX: 1,
     scaleY: 1,
     rotation: 0,

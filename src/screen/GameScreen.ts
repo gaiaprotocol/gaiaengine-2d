@@ -1,13 +1,13 @@
 import { DomNode } from "@common-module/app";
 import { autoDetectRenderer, Renderer } from "pixi.js";
-import GameObject from "../core/GameObject.js";
 import Camera from "./Camera.js";
+import RootNode from "./RootNode.js";
 
 export default class GameScreen extends DomNode {
   private renderer: Renderer | undefined;
   private animationInterval: number | undefined;
 
-  public root = new GameObject(0, 0);
+  public root = new RootNode();
   public camera = new Camera();
 
   public ratio = 1;
@@ -15,7 +15,7 @@ export default class GameScreen extends DomNode {
   constructor(public width: number, public height: number) {
     super();
     this.style({ position: "relative" });
-    (this.root as any).screen = this;
+    this.root.screen = this;
     this.createRenderer();
   }
 
@@ -35,8 +35,8 @@ export default class GameScreen extends DomNode {
   }
 
   private update(deltaTime: number) {
-    (this.root as any).update(deltaTime);
-    this.renderer?.render((this.root as any).container);
+    this.root.update(deltaTime);
+    this.renderer?.render(this.root.getContainer());
   }
 
   private previousTime = 0;

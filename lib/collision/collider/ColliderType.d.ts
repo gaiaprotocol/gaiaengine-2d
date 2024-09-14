@@ -1,6 +1,6 @@
 declare enum ColliderType {
     Rectangle = 0,
-    Circle = 1,
+    Ellipse = 1,
     Polygon = 2
 }
 export default ColliderType;
