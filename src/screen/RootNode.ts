@@ -8,8 +8,8 @@ export default class RootNode extends GameObject {
     this.absoluteTransform.y = 0;
   }
 
-  public set screen(screen: GameScreen | undefined) {
-    super.screen = screen;
+  public setScreen(screen: GameScreen | undefined) {
+    this.screen = screen;
   }
 
   public getContainer() {

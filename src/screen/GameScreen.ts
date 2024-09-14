@@ -14,8 +14,7 @@ export default class GameScreen extends DomNode {
 
   constructor(public width: number, public height: number) {
     super();
-    this.style({ position: "relative" });
-    this.root.screen = this;
+    this.root.setScreen(this);
     this.createRenderer();
   }
 
@@ -24,6 +23,7 @@ export default class GameScreen extends DomNode {
       width: this.width,
       height: this.height,
     });
+    this.renderer.canvas.style.display = "block";
 
     this.root.setPosition(
       this.width / 2 - this.camera.x * this.camera.scale,
