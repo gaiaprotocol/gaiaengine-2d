@@ -1,4 +1,6 @@
-export { default as CollisionChecker } from "./collision/CollisionChecker.js";
+export { default as Collidable } from "./collision/Collidable.js";
+export { default as Collider } from "./collision/collider/Collider.js";
+export { default as CollisionDetector } from "./collision/CollisionDetector.js";
 export { default as GameNode } from "./core/GameNode.js";
 export { default as GameObject } from "./core/GameObject.js";
 export { default as FPSDisplay } from "./debug/FPSDisplay.js";

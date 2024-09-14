@@ -1,12 +1,5 @@
 import GameNode from "./GameNode.js";
-
-interface Transform {
-  x: number;
-  y: number;
-  scaleX: number;
-  scaleY: number;
-  rotation: number;
-}
+import Transform from "./Transform.js";
 
 export default abstract class TransformableNode extends GameNode {
   constructor(x: number, y: number) {
@@ -23,7 +16,7 @@ export default abstract class TransformableNode extends GameNode {
     rotation: 0,
   };
 
-  protected absoluteTransform: Transform = {
+  public absoluteTransform: Transform = {
     x: 0,
     y: 0,
     scaleX: 1,
