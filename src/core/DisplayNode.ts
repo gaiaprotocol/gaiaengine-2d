@@ -37,4 +37,9 @@ export default class DisplayNode<CT extends Container = Container>
       : parent.container.addChild(this.container);
     return super.appendTo(parent, index);
   }
+
+  public remove(): void {
+    this.container.destroy();
+    super.remove();
+  }
 }

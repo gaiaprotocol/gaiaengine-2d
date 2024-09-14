@@ -84,4 +84,9 @@ export default class DomWrapperNode<HE extends HTMLElement = HTMLElement>
       }
     }
   }
+
+  public remove(): void {
+    this.domNode.remove();
+    super.remove();
+  }
 }

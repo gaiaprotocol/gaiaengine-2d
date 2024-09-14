@@ -9,5 +9,6 @@ export default class DomWrapperNode<HE extends HTMLElement = HTMLElement> extend
     private previousTransform;
     protected resetPreviousTransform(): void;
     protected update(deltaTime: number): void;
+    remove(): void;
 }
 //# sourceMappingURL=DomWrapperNode.d.ts.map

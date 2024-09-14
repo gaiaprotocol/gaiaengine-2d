@@ -9,5 +9,6 @@ export default class DisplayNode<CT extends Container = Container> extends Trans
     get y(): number;
     setPosition(x: number, y: number): this;
     appendTo(parent: DisplayNode, index?: number): this;
+    remove(): void;
 }
 //# sourceMappingURL=DisplayNode.d.ts.map
