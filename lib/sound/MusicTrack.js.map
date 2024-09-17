@@ -1,0 +1,1 @@
+{"version":3,"file":"MusicTrack.js","sourceRoot":"","sources":["../../src/sound/MusicTrack.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,MAAM,SAAS,CAAC;AAE5B,MAAM,CAAC,OAAO,OAAO,UAAW,SAAQ,KAAK;IAC3C,YAAY,GAAW;QACrB,KAAK,CAAC,GAAG,CAAC,CAAC;QACX,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACnB,CAAC;CACF"}
