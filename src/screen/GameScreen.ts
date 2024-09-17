@@ -7,6 +7,9 @@ export default class GameScreen extends DomNode {
   private renderer: Renderer | undefined;
   private animationInterval: number | undefined;
 
+  private targetFPS: number | undefined;
+  private actualFPS: number | undefined;
+
   public root = new RootNode();
   public camera = new Camera();
 

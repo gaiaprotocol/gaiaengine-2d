@@ -6,6 +6,8 @@ export default class GameScreen extends DomNode {
     height: number;
     private renderer;
     private animationInterval;
+    private targetFPS;
+    private actualFPS;
     root: RootNode;
     camera: Camera;
     ratio: number;
