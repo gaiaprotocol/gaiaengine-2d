@@ -1,4 +1,4 @@
-import Sound from "./Sound";
+import Sound from "./Sound.js";
 export default class BackgroundMusic extends Sound {
     constructor(urls: {
         ogg?: string;

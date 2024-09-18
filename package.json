@@ -2,7 +2,7 @@
   "name": "@gaiaengine/2d",
   "author": "Gaia Protocol",
   "homepage": "https://gaiaprotocol.com",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "type": "module",
   "types": "./lib/index.d.ts",
   "main": "./lib/index.js",
