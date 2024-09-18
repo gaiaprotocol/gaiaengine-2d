@@ -5,5 +5,6 @@ export default class Sprite extends GameObject {
     private load;
     set src(src: string);
     get src(): string;
+    remove(): void;
 }
 //# sourceMappingURL=Sprite.d.ts.map

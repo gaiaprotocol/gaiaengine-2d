@@ -12,6 +12,8 @@ export default class Sprite extends GameObject {
 
   private async load(src: string) {
     const texture = await TextureLoader.load(src);
+    if (!texture || this.removed) return;
+
     this.container.addChild(
       new PixiSprite({ texture, anchor: { x: 0.5, y: 0.5 } }),
     );
@@ -19,11 +21,17 @@ export default class Sprite extends GameObject {
 
   public set src(src: string) {
     if (this._src === src) return;
+    if (this._src) TextureLoader.release(this._src);
     this._src = src;
     this.load(src);
   }
 
   public get src() {
     return this._src ?? "";
+  }
+
+  public remove(): void {
+    if (this._src) TextureLoader.release(this._src);
+    super.remove();
   }
 }
