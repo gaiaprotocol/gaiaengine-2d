@@ -1,6 +1,9 @@
 import TextNode from "../dom/TextNode.js";
 import GameScreen from "../screen/GameScreen.js";
-export default class FPSDisplay extends TextNode {
+export default class FPSDisplay extends TextNode<{
+    fontSize: string;
+    color: string;
+}> {
     private deltaTime;
     constructor();
     private updatePosition;

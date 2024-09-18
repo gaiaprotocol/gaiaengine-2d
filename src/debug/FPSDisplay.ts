@@ -2,11 +2,17 @@ import Interval from "../delay/Interval.js";
 import TextNode from "../dom/TextNode.js";
 import GameScreen from "../screen/GameScreen.js";
 
-export default class FPSDisplay extends TextNode {
+export default class FPSDisplay extends TextNode<{
+  fontSize: string;
+  color: string;
+}> {
   private deltaTime = 0;
 
   constructor() {
-    super(0, 0, "FPS: 0");
+    super(0, 0, "FPS: 0", {
+      fontSize: "25px",
+      color: "#000",
+    });
 
     new Interval(
       0.1,

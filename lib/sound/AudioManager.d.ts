@@ -1,9 +1,9 @@
 declare class AudioManager {
     private bufferCache;
-    audioContext: AudioContext;
-    canPlayOgg: boolean;
-    private setupAutoResume;
+    readonly audioContext: AudioContext;
+    readonly canPlayOgg: boolean;
     constructor();
+    private setupAutoResume;
     loadAudio(url: string): Promise<AudioBuffer>;
 }
 declare const _default: AudioManager;

@@ -7,7 +7,11 @@ export { default as GameObject } from "./core/GameObject.js";
 export { default as WindowEventNode } from "./core/WindowEventNode.js";
 export { default as FPSDisplay } from "./debug/FPSDisplay.js";
 export { default as Interval } from "./delay/Interval.js";
+export { default as DomWrapperNode } from "./dom/DomWrapperNode.js";
+export { default as TextNode } from "./dom/TextNode.js";
 export { default as Movable } from "./dynamic/Movable.js";
+export { default as StateSet } from "./dynamic/StateSet.js";
+export { default as Background } from "./image/Background.js";
 export { default as Sprite } from "./image/Sprite.js";
 export { default as Scene } from "./scene/Scene.js";
 export { default as Fullscreen } from "./screen/Fullscreen.js";
@@ -15,3 +19,4 @@ export { default as LetterboxedScreen } from "./screen/LetterboxedScreen.js";
 export { default as EllipseNode } from "./shapes/EllipseNode.js";
 export { default as RectangleNode } from "./shapes/RectangleNode.js";
 export { default as BackgroundMusic } from "./sound/BackgroundMusic.js";
+

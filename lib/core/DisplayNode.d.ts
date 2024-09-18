@@ -1,4 +1,5 @@
 import { Container } from "pixi.js";
+import GameNode from "./GameNode.js";
 import TransformableNode from "./TransformableNode.js";
 export default class DisplayNode<CT extends Container = Container> extends TransformableNode {
     protected container: CT;
@@ -8,7 +9,9 @@ export default class DisplayNode<CT extends Container = Container> extends Trans
     set y(y: number);
     get y(): number;
     setPosition(x: number, y: number): this;
-    appendTo(parent: DisplayNode, index?: number): this;
+    appendTo(parent: GameNode, index?: number): this;
     remove(): void;
+    hide(): void;
+    show(): void;
 }
 //# sourceMappingURL=DisplayNode.d.ts.map

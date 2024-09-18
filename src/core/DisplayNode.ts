@@ -1,4 +1,5 @@
 import { Container } from "pixi.js";
+import GameNode from "./GameNode.js";
 import TransformableNode from "./TransformableNode.js";
 
 export default class DisplayNode<CT extends Container = Container>
@@ -31,15 +32,23 @@ export default class DisplayNode<CT extends Container = Container>
     return this;
   }
 
-  public appendTo(parent: DisplayNode, index?: number): this {
+  public appendTo(parent: GameNode, index?: number): this {
     index !== undefined
-      ? parent.container.addChildAt(this.container, index)
-      : parent.container.addChild(this.container);
+      ? (parent as DisplayNode).container.addChildAt(this.container, index)
+      : (parent as DisplayNode).container.addChild(this.container);
     return super.appendTo(parent, index);
   }
 
   public remove(): void {
     this.container.destroy();
     super.remove();
+  }
+
+  public hide(): void {
+    this.container.visible = false;
+  }
+
+  public show(): void {
+    this.container.visible = true;
   }
 }

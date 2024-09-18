@@ -1,8 +1,14 @@
 class AudioManager {
   private bufferCache: Map<string, AudioBuffer> = new Map();
 
-  public audioContext: AudioContext;
-  public canPlayOgg = new Audio().canPlayType("audio/ogg") !== "";
+  public readonly audioContext: AudioContext;
+  public readonly canPlayOgg = new Audio().canPlayType("audio/ogg") !== "";
+
+  constructor() {
+    this.audioContext =
+      new (window.AudioContext || (window as any).webkitAudioContext)();
+    this.setupAutoResume();
+  }
 
   private setupAutoResume() {
     ["mousedown", "touchend", "keydown"].forEach((eventType) => {
@@ -12,12 +18,6 @@ class AudioManager {
         }
       }, { once: true });
     });
-  }
-
-  constructor() {
-    this.audioContext =
-      new (window.AudioContext || (window as any).webkitAudioContext)();
-    this.setupAutoResume();
   }
 
   public async loadAudio(url: string): Promise<AudioBuffer> {

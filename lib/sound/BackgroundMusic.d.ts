@@ -1,6 +1,8 @@
 import Sound from "./Sound";
 export default class BackgroundMusic extends Sound {
-    constructor(url: string);
-    remove(): void;
+    constructor(urls: {
+        ogg?: string;
+        mp3: string;
+    });
 }
 //# sourceMappingURL=BackgroundMusic.d.ts.map

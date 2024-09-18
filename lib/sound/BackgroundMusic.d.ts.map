@@ -1,1 +1,1 @@
-{"version":3,"file":"BackgroundMusic.d.ts","sourceRoot":"","sources":["../../src/sound/BackgroundMusic.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,MAAM,SAAS,CAAC;AAE5B,MAAM,CAAC,OAAO,OAAO,eAAgB,SAAQ,KAAK;gBACpC,GAAG,EAAE,MAAM;IAKhB,MAAM,IAAI,IAAI;CAItB"}
+{"version":3,"file":"BackgroundMusic.d.ts","sourceRoot":"","sources":["../../src/sound/BackgroundMusic.ts"],"names":[],"mappings":"AACA,OAAO,KAAK,MAAM,SAAS,CAAC;AAE5B,MAAM,CAAC,OAAO,OAAO,eAAgB,SAAQ,KAAK;gBACpC,IAAI,EAAE;QAAE,GAAG,CAAC,EAAE,MAAM,CAAC;QAAC,GAAG,EAAE,MAAM,CAAA;KAAE;CAGhD"}

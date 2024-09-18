@@ -1,13 +1,8 @@
+import AudioManager from "./AudioManager.js";
 import Sound from "./Sound";
 
 export default class BackgroundMusic extends Sound {
-  constructor(url: string) {
-    super(url);
-    this.loop = true;
-  }
-
-  public remove(): void {
-    this.stop();
-    //TODO:
+  constructor(urls: { ogg?: string; mp3: string }) {
+    super(AudioManager.canPlayOgg && urls.ogg ? urls.ogg : urls.mp3);
   }
 }
