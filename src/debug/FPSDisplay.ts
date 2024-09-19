@@ -1,3 +1,4 @@
+import { StyleUtils } from "@common-module/app";
 import Interval from "../delay/Interval.js";
 import TextNode from "../dom/TextNode.js";
 import GameScreen from "../screen/GameScreen.js";
@@ -13,6 +14,7 @@ export default class FPSDisplay extends TextNode<{
       fontSize: "25px",
       color: "#000",
     });
+    StyleUtils.applyTextStroke(this.domNode, 2, "#fff");
 
     new Interval(
       0.1,
@@ -35,9 +37,10 @@ export default class FPSDisplay extends TextNode<{
   public get screen() {
     return super.screen;
   }
+
   public update(deltaTime: number): void {
-    super.update(deltaTime);
     this.deltaTime = deltaTime;
+    super.update(deltaTime);
     this.updatePosition();
   }
 }

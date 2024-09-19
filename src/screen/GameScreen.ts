@@ -12,7 +12,7 @@ export default class GameScreen extends DomNode {
   private actualFPS: number | undefined;
 
   public root = new RootNode();
-  public camera = new Camera();
+  public camera = new Camera(this);
 
   public ratio = 1;
 
@@ -29,6 +29,26 @@ export default class GameScreen extends DomNode {
     this.onWindow("focus", () => this.actualFPS = this.targetFPS);
   }
 
+  protected resize(width: number, height: number, ratio = 1) {
+    this.width = width;
+    this.height = height;
+    this.ratio = ratio;
+
+    if (this.renderer) {
+      this.renderer.resize(this.width, this.height);
+      this.renderer.canvas.width = this.width;
+      this.renderer.canvas.height = this.height;
+
+      const style = {
+        width: `${this.width * this.ratio}px`,
+        height: `${this.height * this.ratio}px`,
+      };
+
+      Object.assign(this.renderer.canvas.style, style);
+      this.style(style);
+    }
+  }
+
   private async createRenderer() {
     this.renderer = await autoDetectRenderer({
       width: this.width,
@@ -41,8 +61,19 @@ export default class GameScreen extends DomNode {
       this.height / 2 - this.camera.y * this.camera.scale,
     );
 
+    this.resize(this.width, this.height, this.ratio);
     this.htmlElement.appendChild(this.renderer.canvas);
     this.animationInterval = requestAnimationFrame(this.animate);
+
+    this.updateRootNodePosition();
+  }
+
+  public updateRootNodePosition() {
+    this.root.scale = this.camera.scale;
+    this.root.setPosition(
+      this.width / 2 - this.camera.x * this.camera.scale,
+      this.height / 2 - this.camera.y * this.camera.scale,
+    );
   }
 
   private update(deltaTime: number) {

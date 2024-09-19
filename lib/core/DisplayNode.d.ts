@@ -9,6 +9,8 @@ export default class DisplayNode<CT extends Container = Container> extends Trans
     set y(y: number);
     get y(): number;
     setPosition(x: number, y: number): this;
+    set scale(scale: number);
+    get scale(): number;
     appendTo(parent: GameNode, index?: number): this;
     remove(): void;
     hide(): void;

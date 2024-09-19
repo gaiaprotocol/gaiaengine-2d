@@ -32,6 +32,14 @@ export default class DisplayNode<CT extends Container = Container>
     return this;
   }
 
+  public set scale(scale: number) {
+    this.container.scale = scale;
+  }
+
+  public get scale() {
+    return this.container.scale.x;
+  }
+
   public appendTo(parent: GameNode, index?: number): this {
     index !== undefined
       ? (parent as DisplayNode).container.addChildAt(this.container, index)

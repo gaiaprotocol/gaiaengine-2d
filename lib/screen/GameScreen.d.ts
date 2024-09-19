@@ -13,7 +13,9 @@ export default class GameScreen extends DomNode {
     camera: Camera;
     ratio: number;
     constructor(width: number, height: number, ...gameNodes: (GameNode | undefined)[]);
+    protected resize(width: number, height: number, ratio?: number): void;
     private createRenderer;
+    updateRootNodePosition(): void;
     private update;
     private lastFrameTime;
     private accumulatedTime;

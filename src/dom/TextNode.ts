@@ -4,6 +4,7 @@ export default class TextNode<ST extends Partial<CSSStyleDeclaration>>
   extends DomWrapperNode {
   constructor(x: number, y: number, text: string, style: ST) {
     super(x, y, "", text);
+    if (style) this.domNode.style(style);
   }
 
   public set text(text: string) {
