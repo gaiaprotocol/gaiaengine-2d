@@ -10,6 +10,7 @@ export default class RootNode extends GameObject {
 
   public setScreen(screen: GameScreen | undefined) {
     this.screen = screen;
+    return this;
   }
 
   public getContainer() {

@@ -1,5 +1,6 @@
 import { DomNode } from "@common-module/app";
 import { autoDetectRenderer, Renderer } from "pixi.js";
+import GameNode from "../core/GameNode.js";
 import Camera from "./Camera.js";
 import RootNode from "./RootNode.js";
 
@@ -15,10 +16,17 @@ export default class GameScreen extends DomNode {
 
   public ratio = 1;
 
-  constructor(public width: number, public height: number) {
+  constructor(
+    public width: number,
+    public height: number,
+    ...gameNodes: (GameNode | undefined)[]
+  ) {
     super();
-    this.root.setScreen(this);
+    this.root.setScreen(this).append(...gameNodes);
     this.createRenderer();
+
+    this.onWindow("blur", () => this.actualFPS = 6);
+    this.onWindow("focus", () => this.actualFPS = this.targetFPS);
   }
 
   private async createRenderer() {
@@ -33,7 +41,7 @@ export default class GameScreen extends DomNode {
       this.height / 2 - this.camera.y * this.camera.scale,
     );
 
-    this.element.appendChild(this.renderer.canvas);
+    this.htmlElement.appendChild(this.renderer.canvas);
     this.animationInterval = requestAnimationFrame(this.animate);
   }
 
@@ -42,16 +50,41 @@ export default class GameScreen extends DomNode {
     this.renderer?.render(this.root.getContainer());
   }
 
-  private previousTime = 0;
+  private lastFrameTime = 0;
+  private accumulatedTime = 0;
 
-  private animate = (timestamp: number) => {
-    const deltaTime = (timestamp - this.previousTime) / 1000;
+  private animate = (currentTime: number) => {
+    const elapsedTime = (currentTime - this.lastFrameTime) / 1000;
 
-    if (deltaTime > 0) {
-      this.update(deltaTime);
-      this.previousTime = timestamp;
+    if (elapsedTime > 0) {
+      if (this.actualFPS !== undefined && this.actualFPS > 0) {
+        this.accumulatedTime += elapsedTime;
+
+        const frameDuration = 1 / this.actualFPS;
+        if (this.accumulatedTime >= frameDuration) {
+          this.update(frameDuration);
+          this.accumulatedTime -= frameDuration;
+        }
+      } else {
+        this.update(elapsedTime);
+      }
+      this.lastFrameTime = currentTime;
     }
 
     this.animationInterval = requestAnimationFrame(this.animate);
   };
+
+  public remove(): void {
+    if (this.renderer) {
+      this.renderer.destroy();
+      this.renderer = undefined;
+    }
+
+    if (this.animationInterval) {
+      cancelAnimationFrame(this.animationInterval);
+      this.animationInterval = undefined;
+    }
+
+    super.remove();
+  }
 }
