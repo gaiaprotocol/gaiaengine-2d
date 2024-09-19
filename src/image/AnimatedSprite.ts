@@ -13,7 +13,8 @@ export default class AnimatedSprite extends BaseSprite {
     private animation: string,
     private fps: number,
   ) {
-    super(x, y, src);
+    super(x, y);
+    this.src = src;
   }
 
   protected async loadTexture(src: string) {

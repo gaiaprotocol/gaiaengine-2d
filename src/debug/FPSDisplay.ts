@@ -6,6 +6,8 @@ import GameScreen from "../screen/GameScreen.js";
 export default class FPSDisplay extends TextNode<{
   fontSize: string;
   color: string;
+  textAlign: string;
+  width: string;
 }> {
   private deltaTime = 0;
 
@@ -13,6 +15,8 @@ export default class FPSDisplay extends TextNode<{
     super(0, 0, "FPS: 0", {
       fontSize: "25px",
       color: "#000",
+      textAlign: "center",
+      width: "120px",
     });
     StyleUtils.applyTextStroke(this.domNode, 2, "#fff");
 

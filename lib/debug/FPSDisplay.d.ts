@@ -3,6 +3,8 @@ import GameScreen from "../screen/GameScreen.js";
 export default class FPSDisplay extends TextNode<{
     fontSize: string;
     color: string;
+    textAlign: string;
+    width: string;
 }> {
     private deltaTime;
     constructor();

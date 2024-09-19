@@ -32,7 +32,27 @@ export default class DisplayNode<CT extends Container = Container>
     return this;
   }
 
+  public set scaleX(scaleX: number) {
+    this.transform.scaleX = scaleX;
+    this.container.scale.x = scaleX;
+  }
+
+  public get scaleX() {
+    return this.container.scale.x;
+  }
+
+  public set scaleY(scaleY: number) {
+    this.transform.scaleY = scaleY;
+    this.container.scale.y = scaleY;
+  }
+
+  public get scaleY() {
+    return this.container.scale.y;
+  }
+
   public set scale(scale: number) {
+    this.transform.scaleX = scale;
+    this.transform.scaleY = scale;
     this.container.scale = scale;
   }
 

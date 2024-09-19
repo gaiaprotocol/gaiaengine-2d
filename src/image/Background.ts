@@ -6,7 +6,8 @@ export default class Background extends BaseSprite {
   private tilingSprite: TilingSprite | undefined;
 
   constructor(src: string, private options?: { scrollSpeedX: number }) {
-    super(0, 0, src);
+    super(0, 0);
+    this.src = src;
   }
 
   protected async loadTexture(src: string) {
