@@ -1,9 +1,8 @@
 import { AnimatedSprite as PixiAnimatedSprite, SpritesheetData } from "pixi.js";
-import GameObject from "../core/GameObject.js";
 import SpritesheetLoader from "../loaders/SpritesheetLoader.js";
+import BaseSprite from "./BaseSprite.js";
 
-export default class AnimatedSprite extends GameObject {
-  private _src: string | undefined;
+export default class AnimatedSprite extends BaseSprite {
   private animatedSprite: PixiAnimatedSprite | undefined;
 
   constructor(
@@ -14,11 +13,10 @@ export default class AnimatedSprite extends GameObject {
     private animation: string,
     private fps: number,
   ) {
-    super(x, y);
-    this.src = src;
+    super(x, y, src);
   }
 
-  private async load(src: string) {
+  protected async loadTexture(src: string) {
     const sheet = await SpritesheetLoader.load(src, this.atlas);
     if (!sheet || this.removed) return;
 
@@ -33,19 +31,7 @@ export default class AnimatedSprite extends GameObject {
     this.animatedSprite.play();
   }
 
-  public set src(src: string) {
-    if (this._src === src) return;
-    if (this._src) SpritesheetLoader.release(this._src);
-    this._src = src;
-    this.load(src);
-  }
-
-  public get src() {
-    return this._src ?? "";
-  }
-
-  public remove(): void {
-    if (this._src) SpritesheetLoader.release(this._src);
-    super.remove();
+  protected releaseTexture(src: string): void {
+    SpritesheetLoader.release(src);
   }
 }

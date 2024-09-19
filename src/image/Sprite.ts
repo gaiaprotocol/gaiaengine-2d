@@ -1,16 +1,9 @@
 import { Sprite as PixiSprite } from "pixi.js";
-import GameObject from "../core/GameObject.js";
 import TextureLoader from "../loaders/TextureLoader.js";
+import BaseSprite from "./BaseSprite.js";
 
-export default class Sprite extends GameObject {
-  private _src: string | undefined;
-
-  constructor(x: number, y: number, src: string) {
-    super(x, y);
-    this.src = src;
-  }
-
-  private async load(src: string) {
+export default class Sprite extends BaseSprite {
+  protected async loadTexture(src: string) {
     const texture = await TextureLoader.load(src);
     if (!texture || this.removed) return;
 
@@ -19,19 +12,7 @@ export default class Sprite extends GameObject {
     );
   }
 
-  public set src(src: string) {
-    if (this._src === src) return;
-    if (this._src) TextureLoader.release(this._src);
-    this._src = src;
-    this.load(src);
-  }
-
-  public get src() {
-    return this._src ?? "";
-  }
-
-  public remove(): void {
-    if (this._src) TextureLoader.release(this._src);
-    super.remove();
+  protected releaseTexture(src: string): void {
+    TextureLoader.release(src);
   }
 }

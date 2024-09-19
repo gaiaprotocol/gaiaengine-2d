@@ -1,17 +1,15 @@
 import { TilingSprite } from "pixi.js";
-import GameObject from "../core/GameObject.js";
 import TextureLoader from "../loaders/TextureLoader.js";
+import BaseSprite from "./BaseSprite.js";
 
-export default class Background extends GameObject {
-  private _src: string | undefined;
+export default class Background extends BaseSprite {
   private tilingSprite: TilingSprite | undefined;
 
   constructor(src: string, private options?: { scrollSpeedX: number }) {
-    super(0, 0);
-    this.src = src;
+    super(0, 0, src);
   }
 
-  private async load(src: string) {
+  protected async loadTexture(src: string) {
     const texture = await TextureLoader.load(src);
     if (!texture || this.removed) return;
 
@@ -25,15 +23,8 @@ export default class Background extends GameObject {
     );
   }
 
-  public set src(src: string) {
-    if (this._src === src) return;
-    if (this._src) TextureLoader.release(this._src);
-    this._src = src;
-    this.load(src);
-  }
-
-  public get src() {
-    return this._src ?? "";
+  protected releaseTexture(src: string): void {
+    TextureLoader.release(src);
   }
 
   protected update(deltaTime: number): void {
@@ -41,10 +32,5 @@ export default class Background extends GameObject {
       this.tilingSprite.tilePosition.x += this.options.scrollSpeedX * deltaTime;
     }
     super.update(deltaTime);
-  }
-
-  public remove(): void {
-    if (this._src) TextureLoader.release(this._src);
-    super.remove();
   }
 }

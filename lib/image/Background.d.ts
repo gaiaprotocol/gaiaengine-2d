@@ -1,15 +1,12 @@
-import GameObject from "../core/GameObject.js";
-export default class Background extends GameObject {
+import BaseSprite from "./BaseSprite.js";
+export default class Background extends BaseSprite {
     private options?;
-    private _src;
     private tilingSprite;
     constructor(src: string, options?: {
         scrollSpeedX: number;
     } | undefined);
-    private load;
-    set src(src: string);
-    get src(): string;
+    protected loadTexture(src: string): Promise<void>;
+    protected releaseTexture(src: string): void;
     protected update(deltaTime: number): void;
-    remove(): void;
 }
 //# sourceMappingURL=Background.d.ts.map
