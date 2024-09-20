@@ -15,6 +15,16 @@ class CollisionUtils {
     colliderB: Collider,
     transformB: Transform,
   ): boolean {
+    //TODO: Check if the collider is infinite or NaN
+    if (
+      transformA.x === -Infinity || transformA.y === -Infinity ||
+      transformB.x === -Infinity || transformB.y === -Infinity ||
+      transformA.x === Infinity || transformA.y === Infinity ||
+      transformB.x === Infinity || transformB.y === Infinity
+    ) {
+      return false;
+    }
+
     if (colliderA.type === ColliderType.Rectangle) {
       if (colliderB.type === ColliderType.Rectangle) {
         return this.rectRectCollision(

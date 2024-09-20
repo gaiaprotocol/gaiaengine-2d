@@ -11,7 +11,7 @@ export default class RectangleNode extends ShapeNode {
     stroke?: StrokeInput,
   ) {
     super(x, y);
-    this.container.rect(0, 0, width, height);
+    this.container.rect(-width / 2, -height / 2, width, height);
     if (color) this.container.fill(color);
     this.container.stroke(stroke);
   }

@@ -9,4 +9,4 @@ declare class AudioBufferManager {
 }
 declare const _default: AudioBufferManager;
 export default _default;
-//# sourceMappingURL=AudioManager.d.ts.map
+//# sourceMappingURL=AudioBufferManager.d.ts.map
