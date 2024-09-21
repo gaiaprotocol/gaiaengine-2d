@@ -11,8 +11,10 @@ export default class Sound extends EventContainer<{
     private audioContext?;
     private gainNode?;
     private source?;
+    private startTime;
     private pauseTime;
     private offset;
+    protected isAudioInitialized: boolean;
     constructor(src: string, loop?: boolean, _volume?: number);
     private initializeAudio;
     play(): this;

@@ -12,7 +12,9 @@ export default class BackgroundMusic extends Sound {
   }
 
   private handleVisibilityChange = (): void => {
-    document.hidden ? this.pause() : this.play();
+    if (this.isAudioInitialized) {
+      document.hidden ? this.pause() : this.play();
+    }
   };
 
   public remove(): void {

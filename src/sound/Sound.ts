@@ -12,8 +12,11 @@ export default class Sound extends EventContainer<{
   private gainNode?: GainNode;
   private source?: AudioBufferSourceNode;
 
+  private startTime = 0; // Add this line
   private pauseTime = 0;
   private offset = 0;
+
+  protected isAudioInitialized = false;
 
   constructor(
     private readonly src: string,
@@ -21,7 +24,7 @@ export default class Sound extends EventContainer<{
     private _volume = 0.8,
   ) {
     super();
-    void AudioBufferManager.loadBuffer(this.src);
+    AudioBufferManager.loadBuffer(this.src);
   }
 
   private async initializeAudio(): Promise<void> {
@@ -46,6 +49,7 @@ export default class Sound extends EventContainer<{
     this.source.loop = this.loop;
     this.source.connect(this.gainNode);
     this.source.start(0, this.offset);
+    this.startTime = this.audioContext.currentTime; // Add this line
 
     this.source.onended = () => {
       if (!this.loop) {
@@ -53,14 +57,12 @@ export default class Sound extends EventContainer<{
       }
       this.emit("ended");
     };
+
+    this.isAudioInitialized = true;
   }
 
   public play(): this {
-    if (this.isPaused) {
-      this.offset += this.audioContext
-        ? this.audioContext.currentTime - this.pauseTime
-        : 0;
-    } else {
+    if (!this.isPaused) {
       this.offset = 0;
     }
     this.isPlaying = true;
@@ -79,11 +81,12 @@ export default class Sound extends EventContainer<{
 
   public pause(): this {
     if (this.isPlaying && !this.isPaused) {
-      this.isPaused = true;
-      this.isPlaying = false;
       if (this.audioContext) {
         this.pauseTime = this.audioContext.currentTime;
+        this.offset += this.pauseTime - this.startTime; // Update offset here
       }
+      this.isPaused = true;
+      this.isPlaying = false;
       this.stopSource();
     }
     return this;
