@@ -5,6 +5,7 @@ import PolygonCollider from "./collider/PolygonCollider.js";
 import RectCollider from "./collider/RectCollider.js";
 declare class CollisionUtils {
     checkCollision(colliderA: Collider, transformA: Transform, colliderB: Collider, transformB: Transform): boolean;
+    private isValidTransform;
     isPointInsideRect(pointX: number, pointY: number, rect: RectCollider, transform: Transform): boolean;
     isPointInsideEllipse(pointX: number, pointY: number, ellipse: EllipseCollider, transform: Transform): boolean;
     isPointInsidePolygon(pointX: number, pointY: number, polygon: PolygonCollider, transform: Transform): boolean;

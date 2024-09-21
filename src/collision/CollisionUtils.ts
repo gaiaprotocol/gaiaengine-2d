@@ -6,21 +6,15 @@ import PolygonCollider from "./collider/PolygonCollider.js";
 import RectCollider from "./collider/RectCollider.js";
 
 class CollisionUtils {
-  /**
-   * Checks whether two colliders are colliding
-   */
   public checkCollision(
     colliderA: Collider,
     transformA: Transform,
     colliderB: Collider,
     transformB: Transform,
   ): boolean {
-    //TODO: Check if the collider is infinite or NaN
     if (
-      transformA.x === -Infinity || transformA.y === -Infinity ||
-      transformB.x === -Infinity || transformB.y === -Infinity ||
-      transformA.x === Infinity || transformA.y === Infinity ||
-      transformB.x === Infinity || transformB.y === Infinity
+      !this.isValidTransform(transformA) ||
+      !this.isValidTransform(transformB)
     ) {
       return false;
     }
@@ -105,34 +99,48 @@ class CollisionUtils {
     }
   }
 
-  /**
-   * Checks if a point is inside a rectangle
-   */
+  private isValidTransform(transform: Transform): boolean {
+    return (
+      isFinite(transform.x) &&
+      isFinite(transform.y) &&
+      isFinite(transform.scaleX) &&
+      isFinite(transform.scaleY) &&
+      isFinite(transform.rotation)
+    );
+  }
+
   public isPointInsideRect(
     pointX: number,
     pointY: number,
     rect: RectCollider,
     transform: Transform,
   ): boolean {
-    // Calculate the center coordinates of the rectangle
+    if (
+      !isFinite(pointX) ||
+      !isFinite(pointY) ||
+      !this.isValidTransform(transform)
+    ) {
+      return false;
+    }
+
     const rectCenterX = transform.x + rect.x * transform.scaleX;
     const rectCenterY = transform.y + rect.y * transform.scaleY;
 
-    // Transform the point into the rectangle's local coordinate system
+    if (!isFinite(rectCenterX) || !isFinite(rectCenterY)) {
+      return false;
+    }
+
     const dx = pointX - rectCenterX;
     const dy = pointY - rectCenterY;
 
-    // Apply inverse rotation to transform the point to local space
     const cos = Math.cos(-transform.rotation);
     const sin = Math.sin(-transform.rotation);
     const localX = dx * cos - dy * sin;
     const localY = dx * sin + dy * cos;
 
-    // Calculate half width and half height of the rectangle
     const halfWidth = (rect.width * transform.scaleX) / 2;
     const halfHeight = (rect.height * transform.scaleY) / 2;
 
-    // Check if the point is inside the rectangle bounds
     return (
       localX >= -halfWidth &&
       localX <= halfWidth &&
@@ -141,52 +149,63 @@ class CollisionUtils {
     );
   }
 
-  /**
-   * Checks if a point is inside an ellipse
-   */
   public isPointInsideEllipse(
     pointX: number,
     pointY: number,
     ellipse: EllipseCollider,
     transform: Transform,
   ): boolean {
-    // Calculate the center coordinates of the ellipse
+    if (
+      !isFinite(pointX) ||
+      !isFinite(pointY) ||
+      !this.isValidTransform(transform)
+    ) {
+      return false;
+    }
+
     const ellipseCenterX = transform.x + ellipse.x * transform.scaleX;
     const ellipseCenterY = transform.y + ellipse.y * transform.scaleY;
 
-    // Transform the point into the ellipse's local coordinate system
+    if (!isFinite(ellipseCenterX) || !isFinite(ellipseCenterY)) {
+      return false;
+    }
+
     const dx = pointX - ellipseCenterX;
     const dy = pointY - ellipseCenterY;
 
-    // Apply inverse rotation to transform the point to local space
     const cos = Math.cos(-transform.rotation);
     const sin = Math.sin(-transform.rotation);
     const localX = dx * cos - dy * sin;
     const localY = dx * sin + dy * cos;
 
-    // Calculate the semi-major and semi-minor axes of the ellipse
     const a = (ellipse.width * transform.scaleX) / 2;
     const b = (ellipse.height * transform.scaleY) / 2;
 
-    // Use the ellipse equation to check if the point is inside
     const value = (localX * localX) / (a * a) + (localY * localY) / (b * b);
 
     return value <= 1;
   }
 
-  /**
-   * Checks if a point is inside a polygon
-   */
   public isPointInsidePolygon(
     pointX: number,
     pointY: number,
     polygon: PolygonCollider,
     transform: Transform,
   ): boolean {
-    // Transform the polygon's points
+    if (
+      !isFinite(pointX) ||
+      !isFinite(pointY) ||
+      !this.isValidTransform(transform)
+    ) {
+      return false;
+    }
+
     const transformedPoints = this.transformPolygonPoints(polygon, transform);
 
-    // Use the ray casting algorithm to check if the point is inside the polygon
+    if (transformedPoints.length === 0) {
+      return false;
+    }
+
     let inside = false;
     for (
       let i = 0, j = transformedPoints.length - 1;
@@ -199,7 +218,8 @@ class CollisionUtils {
       const yj = transformedPoints[j].y;
 
       const intersect = yi > pointY !== yj > pointY &&
-        pointX < ((xj - xi) * (pointY - yi)) / (yj - yi) + xi;
+        pointX <
+          ((xj - xi) * (pointY - yi)) / (yj - yi + Number.EPSILON) + xi;
 
       if (intersect) inside = !inside;
     }
@@ -207,9 +227,6 @@ class CollisionUtils {
     return inside;
   }
 
-  /**
-   * Checks if two line segments intersect
-   */
   public isLineIntersectingLine(
     x1: number,
     y1: number,
@@ -220,10 +237,23 @@ class CollisionUtils {
     x4: number,
     y4: number,
   ): boolean {
-    // Calculate the denominator for intersection point
+    if (
+      ![
+        x1,
+        y1,
+        x2,
+        y2,
+        x3,
+        y3,
+        x4,
+        y4,
+      ].every((val) => isFinite(val))
+    ) {
+      return false;
+    }
+
     const denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
     if (denom === 0) {
-      // Lines are parallel
       return false;
     }
 
@@ -233,34 +263,33 @@ class CollisionUtils {
     return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
   }
 
-  /**
-   * Checks if two rectangles are colliding
-   */
   public rectRectCollision(
     rectA: RectCollider,
     transformA: Transform,
     rectB: RectCollider,
     transformB: Transform,
   ): boolean {
-    // Calculate the vertices of each rectangle
     const verticesA = this.getRectVertices(rectA, transformA);
     const verticesB = this.getRectVertices(rectB, transformB);
 
-    // Use the Separating Axis Theorem to check for collision
+    if (verticesA.length === 0 || verticesB.length === 0) {
+      return false;
+    }
+
     return this.doPolygonsIntersect(verticesA, verticesB);
   }
 
-  /**
-   * Calculates the vertices of a rectangle
-   */
   private getRectVertices(
     rect: RectCollider,
     transform: Transform,
   ): { x: number; y: number }[] {
+    if (!this.isValidTransform(transform)) {
+      return [];
+    }
+
     const halfWidth = (rect.width * transform.scaleX) / 2;
     const halfHeight = (rect.height * transform.scaleY) / 2;
 
-    // Vertices in local coordinate system
     const localVertices = [
       { x: -halfWidth, y: -halfHeight },
       { x: halfWidth, y: -halfHeight },
@@ -268,33 +297,37 @@ class CollisionUtils {
       { x: -halfWidth, y: halfHeight },
     ];
 
-    // Apply rotation and translation
     const cos = Math.cos(transform.rotation);
     const sin = Math.sin(transform.rotation);
     const centerX = transform.x + rect.x * transform.scaleX;
     const centerY = transform.y + rect.y * transform.scaleY;
 
+    if (!isFinite(centerX) || !isFinite(centerY)) {
+      return [];
+    }
+
     return localVertices.map((vertex) => {
       const x = vertex.x * cos - vertex.y * sin + centerX;
       const y = vertex.x * sin + vertex.y * cos + centerY;
+
+      if (!isFinite(x) || !isFinite(y)) {
+        return { x: 0, y: 0 };
+      }
+
       return { x, y };
     });
   }
 
-  /**
-   * Checks if two ellipses are colliding
-   */
   public ellipseEllipseCollision(
     ellipseA: EllipseCollider,
     transformA: Transform,
     ellipseB: EllipseCollider,
     transformB: Transform,
   ): boolean {
-    // Approximate the ellipses as polygons for collision detection
     const polygonA = this.approximateEllipse(
       ellipseA,
       transformA,
-      16, // Number of sides for approximation
+      16,
     );
 
     const polygonB = this.approximateEllipse(
@@ -303,17 +336,22 @@ class CollisionUtils {
       16,
     );
 
+    if (polygonA.length === 0 || polygonB.length === 0) {
+      return false;
+    }
+
     return this.doPolygonsIntersect(polygonA, polygonB);
   }
 
-  /**
-   * Approximates an ellipse as a polygon
-   */
   private approximateEllipse(
     ellipse: EllipseCollider,
     transform: Transform,
     numSides: number,
   ): { x: number; y: number }[] {
+    if (!this.isValidTransform(transform)) {
+      return [];
+    }
+
     const centerX = transform.x + ellipse.x * transform.scaleX;
     const centerY = transform.y + ellipse.y * transform.scaleY;
     const a = (ellipse.width * transform.scaleX) / 2;
@@ -324,6 +362,10 @@ class CollisionUtils {
     const cosRotation = Math.cos(rotation);
     const sinRotation = Math.sin(rotation);
 
+    if (!isFinite(centerX) || !isFinite(centerY)) {
+      return [];
+    }
+
     const vertices = [];
 
     for (let i = 0; i < numSides; i++) {
@@ -331,9 +373,12 @@ class CollisionUtils {
       const x = a * Math.cos(angle);
       const y = b * Math.sin(angle);
 
-      // Apply rotation and translation
       const rotatedX = x * cosRotation - y * sinRotation + centerX;
       const rotatedY = x * sinRotation + y * cosRotation + centerY;
+
+      if (!isFinite(rotatedX) || !isFinite(rotatedY)) {
+        continue;
+      }
 
       vertices.push({ x: rotatedX, y: rotatedY });
     }
@@ -341,77 +386,71 @@ class CollisionUtils {
     return vertices;
   }
 
-  /**
-   * Checks if a rectangle and an ellipse are colliding
-   */
   public rectEllipseCollision(
     rect: RectCollider,
     rectTransform: Transform,
     ellipse: EllipseCollider,
     ellipseTransform: Transform,
   ): boolean {
-    // Approximate the ellipse as a polygon
     const ellipseVertices = this.approximateEllipse(
       ellipse,
       ellipseTransform,
       16,
     );
 
-    // Get the rectangle's vertices
     const rectVertices = this.getRectVertices(rect, rectTransform);
+
+    if (ellipseVertices.length === 0 || rectVertices.length === 0) {
+      return false;
+    }
 
     return this.doPolygonsIntersect(rectVertices, ellipseVertices);
   }
 
-  /**
-   * Checks if an ellipse and a polygon are colliding
-   */
   public ellipsePolygonCollision(
     ellipse: EllipseCollider,
     ellipseTransform: Transform,
     polygon: PolygonCollider,
     polygonTransform: Transform,
   ): boolean {
-    // Approximate the ellipse as a polygon
     const ellipseVertices = this.approximateEllipse(
       ellipse,
       ellipseTransform,
       16,
     );
 
-    // Transform the polygon's points
     const polygonVertices = this.transformPolygonPoints(
       polygon,
       polygonTransform,
     );
 
+    if (ellipseVertices.length === 0 || polygonVertices.length === 0) {
+      return false;
+    }
+
     return this.doPolygonsIntersect(ellipseVertices, polygonVertices);
   }
 
-  /**
-   * Checks if a rectangle and a polygon are colliding
-   */
   public rectPolygonCollision(
     rect: RectCollider,
     rectTransform: Transform,
     polygon: PolygonCollider,
     polygonTransform: Transform,
   ): boolean {
-    // Get the rectangle's vertices
     const rectVertices = this.getRectVertices(rect, rectTransform);
 
-    // Transform the polygon's points
     const polygonVertices = this.transformPolygonPoints(
       polygon,
       polygonTransform,
     );
 
+    if (rectVertices.length === 0 || polygonVertices.length === 0) {
+      return false;
+    }
+
     return this.doPolygonsIntersect(rectVertices, polygonVertices);
   }
 
-  /**
-   * Checks if two polygons are colliding
-   */
   public polygonPolygonCollision(
     polygonA: PolygonCollider,
     transformA: Transform,
@@ -421,40 +460,56 @@ class CollisionUtils {
     const verticesA = this.transformPolygonPoints(polygonA, transformA);
     const verticesB = this.transformPolygonPoints(polygonB, transformB);
 
+    if (verticesA.length === 0 || verticesB.length === 0) {
+      return false;
+    }
+
     return this.doPolygonsIntersect(verticesA, verticesB);
   }
 
-  /**
-   * Transforms the points of a polygon
-   */
   private transformPolygonPoints(
     polygon: PolygonCollider,
     transform: Transform,
   ): { x: number; y: number }[] {
+    if (!this.isValidTransform(transform)) {
+      return [];
+    }
+
     const cos = Math.cos(transform.rotation);
     const sin = Math.sin(transform.rotation);
 
     const centerX = transform.x + polygon.x * transform.scaleX;
     const centerY = transform.y + polygon.y * transform.scaleY;
 
-    return polygon.points.map((point) => {
-      const x = point.x * transform.scaleX;
-      const y = point.y * transform.scaleY;
+    if (!isFinite(centerX) || !isFinite(centerY)) {
+      return [];
+    }
 
-      const transformedX = x * cos - y * sin + centerX;
-      const transformedY = x * sin + y * cos + centerY;
+    return polygon.points
+      .map((point) => {
+        const x = point.x * transform.scaleX;
+        const y = point.y * transform.scaleY;
 
-      return { x: transformedX, y: transformedY };
-    });
+        const transformedX = x * cos - y * sin + centerX;
+        const transformedY = x * sin + y * cos + centerY;
+
+        if (!isFinite(transformedX) || !isFinite(transformedY)) {
+          return null;
+        }
+
+        return { x: transformedX, y: transformedY };
+      })
+      .filter((vertex) => vertex !== null) as { x: number; y: number }[];
   }
 
-  /**
-   * Uses the Separating Axis Theorem (SAT) to check if two polygons intersect
-   */
   private doPolygonsIntersect(
     verticesA: { x: number; y: number }[],
     verticesB: { x: number; y: number }[],
   ): boolean {
+    if (verticesA.length === 0 || verticesB.length === 0) {
+      return false;
+    }
+
     const polygons = [verticesA, verticesB];
 
     for (let i = 0; i < polygons.length; i++) {
@@ -463,16 +518,13 @@ class CollisionUtils {
       for (let j = 0; j < polygon.length; j++) {
         const k = (j + 1) % polygon.length;
 
-        // Calculate the edge vector
         const edge = {
           x: polygon[k].x - polygon[j].x,
           y: polygon[k].y - polygon[j].y,
         };
 
-        // Calculate the normal vector (perpendicular to the edge)
         const normal = { x: -edge.y, y: edge.x };
 
-        // Project both polygons onto the normal
         let minA = Infinity;
         let maxA = -Infinity;
         for (const vertex of verticesA) {
@@ -489,15 +541,12 @@ class CollisionUtils {
           maxB = Math.max(maxB, projection);
         }
 
-        // Check for overlap
         if (maxA < minB || maxB < minA) {
-          // Separating axis found, no collision
           return false;
         }
       }
     }
 
-    // No separating axis found, polygons intersect
     return true;
   }
 }
