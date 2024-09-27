@@ -272,7 +272,12 @@ export default class RectTerrainMap extends RectTileLoader {
             );
           }
         } else if (bottom === top) {
-          this.renderTerrain(row, col, top, TerrainDirection.FillTopLeftBottom);
+          this.renderTerrain(
+            row,
+            col,
+            top,
+            TerrainDirection.FillTopLeftBottom,
+          );
         } else {
           this.renderTerrain(row, col, top, TerrainDirection.FillTopLeft);
         }
@@ -288,13 +293,36 @@ export default class RectTerrainMap extends RectTileLoader {
           this.renderTerrain(row, col, top, TerrainDirection.FillTopRight);
         }
       } else if (bottom === top) {
-        this.renderTerrain(row, col, top, TerrainDirection.FillTopBottom);
+        if (left === top) {
+          this.renderTerrain(
+            row,
+            col,
+            top,
+            TerrainDirection.FillTopBottomLeft,
+          );
+        } else if (right === top) {
+          this.renderTerrain(
+            row,
+            col,
+            top,
+            TerrainDirection.FillTopBottomRight,
+          );
+        } else {
+          this.renderTerrain(row, col, top, TerrainDirection.FillTopBottom);
+        }
       }
     }
 
     if (left && left !== centerTerrainId) {
       if (right === left) {
         if (bottom === left) {
+          this.renderTerrain(
+            row,
+            col,
+            left,
+            TerrainDirection.FillBottomLeftRight,
+          );
+        } else {
           this.renderTerrain(row, col, left, TerrainDirection.FillLeftRight);
         }
       } else if (bottom === left) {
