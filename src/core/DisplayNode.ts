@@ -32,6 +32,14 @@ export default class DisplayNode<CT extends Container = Container>
     return this;
   }
 
+  public set zIndex(zIndex: number) {
+    this.container.zIndex = zIndex;
+  }
+
+  public get zIndex() {
+    return this.container.zIndex;
+  }
+
   public set scaleX(scaleX: number) {
     this.transform.scaleX = scaleX;
     this.container.scale.x = scaleX;

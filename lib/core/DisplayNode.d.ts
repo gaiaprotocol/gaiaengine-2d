@@ -9,6 +9,8 @@ export default class DisplayNode<CT extends Container = Container> extends Trans
     set y(y: number);
     get y(): number;
     setPosition(x: number, y: number): this;
+    set zIndex(zIndex: number);
+    get zIndex(): number;
     set scaleX(scaleX: number);
     get scaleX(): number;
     set scaleY(scaleY: number);
