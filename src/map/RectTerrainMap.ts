@@ -186,6 +186,7 @@ export default class RectTerrainMap extends RectTileLoader {
       bottomRight,
     } = neighbors;
 
+    // Render corner tiles
     if (
       bottomRight &&
       bottomRight !== centerTerrainId &&
@@ -258,73 +259,35 @@ export default class RectTerrainMap extends RectTileLoader {
       this.renderTerrain(row, col, topLeft, TerrainDirection.BottomRight);
     }
 
+    // Handle complex terrain combinations
     if (top && top !== centerTerrainId) {
-      if (left === top) {
-        if (right === top) {
-          if (bottom === top) {
-            this.renderTerrain(row, col, top, TerrainDirection.FillFull);
-          } else {
-            this.renderTerrain(
-              row,
-              col,
-              top,
-              TerrainDirection.FillTopLeftRight,
-            );
-          }
-        } else if (bottom === top) {
-          this.renderTerrain(
-            row,
-            col,
-            top,
-            TerrainDirection.FillTopLeftBottom,
-          );
-        } else {
-          this.renderTerrain(row, col, top, TerrainDirection.FillTopLeft);
-        }
+      if (left === top && right === top && bottom === top) {
+        this.renderTerrain(row, col, top, TerrainDirection.FillFull);
+      } else if (left === top && right === top) {
+        this.renderTerrain(row, col, top, TerrainDirection.FillTopLeftRight);
+      } else if (left === top && bottom === top) {
+        this.renderTerrain(row, col, top, TerrainDirection.FillTopLeftBottom);
+      } else if (right === top && bottom === top) {
+        this.renderTerrain(row, col, top, TerrainDirection.FillTopRightBottom);
+      } else if (left === top) {
+        this.renderTerrain(row, col, top, TerrainDirection.FillTopLeft);
       } else if (right === top) {
-        if (bottom === top) {
-          this.renderTerrain(
-            row,
-            col,
-            top,
-            TerrainDirection.FillTopRightBottom,
-          );
-        } else {
-          this.renderTerrain(row, col, top, TerrainDirection.FillTopRight);
-        }
+        this.renderTerrain(row, col, top, TerrainDirection.FillTopRight);
       } else if (bottom === top) {
-        if (left === top) {
-          this.renderTerrain(
-            row,
-            col,
-            top,
-            TerrainDirection.FillTopBottomLeft,
-          );
-        } else if (right === top) {
-          this.renderTerrain(
-            row,
-            col,
-            top,
-            TerrainDirection.FillTopBottomRight,
-          );
-        } else {
-          this.renderTerrain(row, col, top, TerrainDirection.FillTopBottom);
-        }
+        this.renderTerrain(row, col, top, TerrainDirection.FillTopBottom);
       }
     }
 
     if (left && left !== centerTerrainId) {
-      if (right === left) {
-        if (bottom === left) {
-          this.renderTerrain(
-            row,
-            col,
-            left,
-            TerrainDirection.FillBottomLeftRight,
-          );
-        } else {
-          this.renderTerrain(row, col, left, TerrainDirection.FillLeftRight);
-        }
+      if (right === left && bottom === left) {
+        this.renderTerrain(
+          row,
+          col,
+          left,
+          TerrainDirection.FillBottomLeftRight,
+        );
+      } else if (right === left) {
+        this.renderTerrain(row, col, left, TerrainDirection.FillLeftRight);
       } else if (bottom === left) {
         this.renderTerrain(row, col, left, TerrainDirection.FillBottomLeft);
       }
@@ -333,6 +296,21 @@ export default class RectTerrainMap extends RectTileLoader {
     if (right && right !== centerTerrainId) {
       if (bottom === right) {
         this.renderTerrain(row, col, right, TerrainDirection.FillBottomRight);
+      }
+    }
+
+    if (bottom && bottom !== centerTerrainId) {
+      if (left === bottom && right === bottom) {
+        this.renderTerrain(
+          row,
+          col,
+          bottom,
+          TerrainDirection.FillBottomLeftRight,
+        );
+      } else if (left === bottom) {
+        this.renderTerrain(row, col, bottom, TerrainDirection.FillBottomLeft);
+      } else if (right === bottom) {
+        this.renderTerrain(row, col, bottom, TerrainDirection.FillBottomRight);
       }
     }
   }
