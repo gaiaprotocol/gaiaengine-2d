@@ -1,5 +1,5 @@
 declare class GaiaEngineConfig {
-    isDevMovde: boolean;
+    isDevMode: boolean;
 }
 declare const _default: GaiaEngineConfig;
 export default _default;

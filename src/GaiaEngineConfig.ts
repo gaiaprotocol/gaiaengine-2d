@@ -1,5 +1,5 @@
 class GaiaEngineConfig {
-  public isDevMovde = false;
+  public isDevMode = false;
 }
 
 export default new GaiaEngineConfig();

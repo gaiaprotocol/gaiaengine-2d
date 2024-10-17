@@ -1,4 +1,5 @@
-import { DomChild, DomNode, DomSelector } from "@common-module/app";
+import { DomChild, DomNode } from "@common-module/app";
+import { DomSelector } from "@common-module/universal-page";
 import TransformableNode from "../core/TransformableNode.js";
 import GaiaEngineConfig from "../GaiaEngineConfig.js";
 import GameScreen from "../screen/GameScreen.js";
@@ -18,7 +19,7 @@ export default class DomWrapperNode<HE extends HTMLElement = HTMLElement>
       position: "absolute",
       left: "-9999999px",
       top: "-9999999px",
-      outline: GaiaEngineConfig.isDevMovde ? "1px solid red" : undefined,
+      outline: GaiaEngineConfig.isDevMode ? "1px solid red" : undefined,
     });
   }
 

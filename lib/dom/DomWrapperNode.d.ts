@@ -1,4 +1,5 @@
-import { DomChild, DomNode, DomSelector } from "@common-module/app";
+import { DomChild, DomNode } from "@common-module/app";
+import { DomSelector } from "@common-module/universal-page";
 import TransformableNode from "../core/TransformableNode.js";
 import GameScreen from "../screen/GameScreen.js";
 export default class DomWrapperNode<HE extends HTMLElement = HTMLElement> extends TransformableNode {

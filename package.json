@@ -2,12 +2,12 @@
   "name": "@gaiaengine/2d",
   "author": "Gaia Protocol",
   "homepage": "https://gaiaprotocol.com",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "type": "module",
   "types": "./lib/index.d.ts",
   "main": "./lib/index.js",
   "dependencies": {
-    "@common-module/app": "^0.0.4",
+    "@common-module/app": "^0.1.0",
     "pixi.js": "^8.2.0"
   },
   "devDependencies": {}

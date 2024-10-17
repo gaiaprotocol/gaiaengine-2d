@@ -1,1 +1,1 @@
-{"version":3,"file":"GaiaEngineConfig.js","sourceRoot":"","sources":["../src/GaiaEngineConfig.ts"],"names":[],"mappings":"AAAA,MAAM,gBAAgB;IACb,UAAU,GAAG,KAAK,CAAC;CAC3B;AAED,eAAe,IAAI,gBAAgB,EAAE,CAAC"}
+{"version":3,"file":"GaiaEngineConfig.js","sourceRoot":"","sources":["../src/GaiaEngineConfig.ts"],"names":[],"mappings":"AAAA,MAAM,gBAAgB;IACb,SAAS,GAAG,KAAK,CAAC;CAC1B;AAED,eAAe,IAAI,gBAAgB,EAAE,CAAC"}
