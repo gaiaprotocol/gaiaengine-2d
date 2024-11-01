@@ -15,6 +15,7 @@ export { default as GaiaEngineConfig } from "./GaiaEngineConfig.js";
 export { default as AnimatedSprite } from "./image/AnimatedSprite.js";
 export { default as Background } from "./image/Background.js";
 export { default as Sprite } from "./image/Sprite.js";
+export { default as TextureLoader } from "./loaders/TextureLoader.js";
 export { default as RectTerrainMap } from "./map/RectTerrainMap.js";
 export { default as Scene } from "./scene/Scene.js";
 export { default as Fullscreen } from "./screen/Fullscreen.js";
