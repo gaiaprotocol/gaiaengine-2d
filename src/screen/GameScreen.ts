@@ -21,7 +21,7 @@ export default class GameScreen extends DomNode {
     public height: number,
     ...gameNodes: (GameNode | undefined)[]
   ) {
-    super();
+    super(".game-screen");
     this.root.setScreen(this).append(...gameNodes);
     this.createRenderer();
 
@@ -29,7 +29,7 @@ export default class GameScreen extends DomNode {
     this.onWindow("focus", () => this.actualFPS = this.targetFPS);
   }
 
-  protected resize(width: number, height: number, ratio = 1) {
+  public resize(width: number, height: number, ratio = 1) {
     this.width = width;
     this.height = height;
     this.ratio = ratio;

@@ -19,9 +19,9 @@ export { default as TextureLoader } from "./loaders/TextureLoader.js";
 export { default as RectTerrainMap } from "./map/RectTerrainMap.js";
 export { default as Scene } from "./scene/Scene.js";
 export { default as Fullscreen } from "./screen/Fullscreen.js";
+export { default as GameScreen } from "./screen/GameScreen.js";
 export { default as LetterboxedScreen } from "./screen/LetterboxedScreen.js";
 export { default as EllipseNode } from "./shapes/EllipseNode.js";
 export { default as RectangleNode } from "./shapes/RectangleNode.js";
 export { default as BackgroundMusic } from "./sound/BackgroundMusic.js";
 export { default as SFXPlayer } from "./sound/SFXPlayer.js";
-
