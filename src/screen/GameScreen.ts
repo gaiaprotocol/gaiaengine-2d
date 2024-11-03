@@ -54,8 +54,8 @@ export default class GameScreen extends DomNode {
       width: this.width,
       height: this.height,
     });
-    this.renderer.events.autoPreventDefault = false;
     this.renderer.canvas.style.display = "block";
+    this.renderer.canvas.style.touchAction = "auto";
 
     this.root.setPosition(
       this.width / 2 - this.camera.x * this.camera.scale,
