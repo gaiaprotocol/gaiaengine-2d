@@ -3,6 +3,12 @@ import GameNode from "../core/GameNode.js";
 import GameScreen from "./GameScreen.js";
 import Letterbox from "./Letterbox.js";
 
+interface LetterboxedScreenOptions {
+  width: number;
+  height: number;
+  backgroundColor?: number;
+}
+
 export default class LetterboxedScreen extends GameScreen {
   private letterboxes = {
     top: new Letterbox({ left: "0", top: "0", width: "100%" }),
@@ -12,11 +18,10 @@ export default class LetterboxedScreen extends GameScreen {
   };
 
   constructor(
-    width: number,
-    height: number,
+    options: LetterboxedScreenOptions,
     ...gameNodes: (GameNode | undefined)[]
   ) {
-    super(width, height, ...gameNodes);
+    super(options, ...gameNodes);
     this
       .style({
         position: "fixed",

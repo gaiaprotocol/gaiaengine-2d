@@ -2,17 +2,23 @@ import { DomNode } from "@common-module/app";
 import GameNode from "../core/GameNode.js";
 import Camera from "./Camera.js";
 import RootNode from "./RootNode.js";
-export default class GameScreen extends DomNode {
+interface GameScreenOptions {
     width: number;
     height: number;
+    backgroundColor?: number;
+}
+export default class GameScreen extends DomNode {
     private renderer;
     private animationInterval;
     private targetFPS;
     private actualFPS;
     root: RootNode;
     camera: Camera;
+    width: number;
+    height: number;
     ratio: number;
-    constructor(width: number, height: number, ...gameNodes: (GameNode | undefined)[]);
+    private backgroundColor;
+    constructor(options: GameScreenOptions, ...gameNodes: (GameNode | undefined)[]);
     resize(width: number, height: number, ratio?: number): void;
     private createRenderer;
     updateRootNodePosition(): void;
@@ -22,4 +28,5 @@ export default class GameScreen extends DomNode {
     private animate;
     remove(): void;
 }
+export {};
 //# sourceMappingURL=GameScreen.d.ts.map

@@ -1,6 +1,10 @@
 import GameNode from "../core/GameNode.js";
 import GameScreen from "./GameScreen.js";
-export default class Fullscreen extends GameScreen {
-    constructor(...gameNodes: (GameNode | undefined)[]);
+interface FullscreenOptions {
+    backgroundColor?: number;
 }
+export default class Fullscreen extends GameScreen {
+    constructor(options: FullscreenOptions, ...gameNodes: (GameNode | undefined)[]);
+}
+export {};
 //# sourceMappingURL=Fullscreen.d.ts.map

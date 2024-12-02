@@ -4,6 +4,12 @@ import GameNode from "../core/GameNode.js";
 import Camera from "./Camera.js";
 import RootNode from "./RootNode.js";
 
+interface GameScreenOptions {
+  width: number;
+  height: number;
+  backgroundColor?: number;
+}
+
 export default class GameScreen extends DomNode {
   private renderer: Renderer | undefined;
   private animationInterval: number | undefined;
@@ -14,14 +20,21 @@ export default class GameScreen extends DomNode {
   public root = new RootNode();
   public camera = new Camera(this);
 
+  public width: number;
+  public height: number;
   public ratio = 1;
 
+  private backgroundColor: number;
+
   constructor(
-    public width: number,
-    public height: number,
+    options: GameScreenOptions,
     ...gameNodes: (GameNode | undefined)[]
   ) {
     super(".game-screen");
+    this.width = options.width;
+    this.height = options.height;
+    this.backgroundColor = options.backgroundColor ?? 0x000000;
+
     this.root.setScreen(this).append(...gameNodes);
     this.createRenderer();
 
@@ -53,6 +66,7 @@ export default class GameScreen extends DomNode {
     this.renderer = await autoDetectRenderer({
       width: this.width,
       height: this.height,
+      backgroundColor: this.backgroundColor,
     });
     this.renderer.canvas.style.display = "block";
     this.renderer.canvas.style.touchAction = "auto";
