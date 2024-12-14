@@ -1,8 +1,8 @@
 import GameObject from "../core/GameObject.js";
 
 interface Coordinate {
-  row: number;
-  col: number;
+  x: number;
+  y: number;
 }
 
 interface RectTileLoaderOptions {
@@ -17,10 +17,10 @@ export default class RectTileLoader extends GameObject {
   private prevCameraY?: number;
   private prevCameraScale?: number;
 
-  private startTileRow?: number;
-  private endTileRow?: number;
-  private startTileCol?: number;
-  private endTileCol?: number;
+  private startTileX?: number;
+  private endTileX?: number;
+  private startTileY?: number;
+  private endTileY?: number;
 
   constructor(
     protected tileSize: number,
@@ -35,41 +35,41 @@ export default class RectTileLoader extends GameObject {
     boundTop: number,
     boundBottom: number,
   ) {
-    const startTileRow = Math.floor(boundTop / this.tileSize);
-    const endTileRow = Math.ceil(boundBottom / this.tileSize);
-    const startTileCol = Math.floor(boundLeft / this.tileSize);
-    const endTileCol = Math.ceil(boundRight / this.tileSize);
+    const startTileX = Math.floor(boundLeft / this.tileSize);
+    const endTileX = Math.ceil(boundRight / this.tileSize);
+    const startTileY = Math.floor(boundTop / this.tileSize);
+    const endTileY = Math.ceil(boundBottom / this.tileSize);
 
     if (
-      startTileRow !== this.startTileRow ||
-      endTileRow !== this.endTileRow ||
-      startTileCol !== this.startTileCol ||
-      endTileCol !== this.endTileCol
+      startTileX !== this.startTileX ||
+      endTileX !== this.endTileX ||
+      startTileY !== this.startTileY ||
+      endTileY !== this.endTileY
     ) {
       const toDeleteCoordinates: Coordinate[] = [];
       if (
-        this.startTileRow !== undefined &&
-        this.endTileRow !== undefined &&
-        this.startTileCol !== undefined &&
-        this.endTileCol !== undefined
+        this.startTileX !== undefined &&
+        this.endTileX !== undefined &&
+        this.startTileY !== undefined &&
+        this.endTileY !== undefined
       ) {
-        for (let row = this.startTileRow; row < this.endTileRow; row++) {
-          for (let col = this.startTileCol; col < this.endTileCol; col++) {
-            toDeleteCoordinates.push({ row, col });
+        for (let x = this.startTileX; x < this.endTileX; x++) {
+          for (let y = this.startTileY; y < this.endTileY; y++) {
+            toDeleteCoordinates.push({ x, y });
           }
         }
       }
 
       const toLoadCoordinates: Coordinate[] = [];
-      for (let row = startTileRow; row < endTileRow; row++) {
-        for (let col = startTileCol; col < endTileCol; col++) {
+      for (let x = startTileX; x < endTileX; x++) {
+        for (let y = startTileY; y < endTileY; y++) {
           const index = toDeleteCoordinates.findIndex(
-            (coord) => coord.row === row && coord.col === col,
+            (coord) => coord.x === x && coord.y === y,
           );
           if (index !== -1) {
             toDeleteCoordinates.splice(index, 1);
           } else {
-            toLoadCoordinates.push({ row, col });
+            toLoadCoordinates.push({ x, y });
           }
         }
       }
@@ -81,10 +81,10 @@ export default class RectTileLoader extends GameObject {
         this.options.deleteTiles(toDeleteCoordinates);
       }
 
-      this.startTileRow = startTileRow;
-      this.endTileRow = endTileRow;
-      this.startTileCol = startTileCol;
-      this.endTileCol = endTileCol;
+      this.startTileX = startTileX;
+      this.endTileX = endTileX;
+      this.startTileY = startTileY;
+      this.endTileY = endTileY;
     }
   }
 

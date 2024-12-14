@@ -1,7 +1,7 @@
 import GameObject from "../core/GameObject.js";
 interface Coordinate {
-    row: number;
-    col: number;
+    x: number;
+    y: number;
 }
 interface RectTileLoaderOptions {
     extraTileLoadWidth?: number;
@@ -15,10 +15,10 @@ export default class RectTileLoader extends GameObject {
     private prevCameraX?;
     private prevCameraY?;
     private prevCameraScale?;
-    private startTileRow?;
-    private endTileRow?;
-    private startTileCol?;
-    private endTileCol?;
+    private startTileX?;
+    private endTileX?;
+    private startTileY?;
+    private endTileY?;
     constructor(tileSize: number, options: RectTileLoaderOptions);
     private loadTilesInViewport;
     protected update(deltaTime: number): void;
