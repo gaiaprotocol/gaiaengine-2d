@@ -1,11 +1,11 @@
 import { IntegerUtils } from "@common-module/ts";
 import { SpritesheetData } from "pixi.js";
+import Coordinate from "../core/Coordinate.js";
 import GameNode from "../core/GameNode.js";
 import Sprite from "../image/Sprite.js";
 import SpritesheetLoader from "../loaders/SpritesheetLoader.js";
 import RectTileLoader from "./RectTileLoader.js";
 import TerrainDirection from "./TerrainDirection.js";
-import TileRange from "./TileRange.js";
 
 interface SpritesheetInfo {
   src: string;
@@ -39,7 +39,8 @@ interface MapObject {
 export interface RectTerrainMapOptions {
   extraTileLoadWidth?: number;
   extraTileLoadHeight?: number;
-  onTileRangeChanged?: (range: TileRange) => void;
+  onLoadTiles?: (coordinates: Coordinate[]) => void;
+  onDeleteTiles?: (coordinates: Coordinate[]) => void;
 }
 
 export default class RectTerrainMap extends RectTileLoader {
@@ -58,11 +59,14 @@ export default class RectTerrainMap extends RectTileLoader {
     super(tileSize, {
       extraTileLoadWidth: options.extraTileLoadWidth ?? tileSize,
       extraTileLoadHeight: options.extraTileLoadHeight ?? tileSize,
-      onLoadTiles: (coordinates) =>
-        coordinates.forEach(({ x, y }) => this.renderTile(x, y)),
-      onDeleteTiles: (coordinates) =>
-        coordinates.forEach(({ x, y }) => this.deleteTile(x, y)),
-      onTileRangeChanged: (range) => options.onTileRangeChanged?.(range),
+      onLoadTiles: (coordinates) => {
+        coordinates.forEach(({ x, y }) => this.renderTile(x, y));
+        options.onLoadTiles?.(coordinates);
+      },
+      onDeleteTiles: (coordinates) => {
+        coordinates.forEach(({ x, y }) => this.deleteTile(x, y));
+        options.onDeleteTiles?.(coordinates);
+      },
     });
 
     this.loadSpritesheets();

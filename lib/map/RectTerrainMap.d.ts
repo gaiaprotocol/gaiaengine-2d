@@ -1,7 +1,7 @@
 import { SpritesheetData } from "pixi.js";
+import Coordinate from "../core/Coordinate.js";
 import RectTileLoader from "./RectTileLoader.js";
 import TerrainDirection from "./TerrainDirection.js";
-import TileRange from "./TileRange.js";
 interface SpritesheetInfo {
     src: string;
     atlas: SpritesheetData;
@@ -28,7 +28,8 @@ interface MapObject {
 export interface RectTerrainMapOptions {
     extraTileLoadWidth?: number;
     extraTileLoadHeight?: number;
-    onTileRangeChanged?: (range: TileRange) => void;
+    onLoadTiles?: (coordinates: Coordinate[]) => void;
+    onDeleteTiles?: (coordinates: Coordinate[]) => void;
 }
 export default class RectTerrainMap extends RectTileLoader {
     private spritesheets;
