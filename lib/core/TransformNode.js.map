@@ -1,1 +1,0 @@
-{"version":3,"file":"TransformNode.js","sourceRoot":"","sources":["../../src/core/TransformNode.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,MAAM,eAAe,CAAC;AAUrC,MAAM,CAAC,OAAO,OAAgB,iBAAkB,SAAQ,QAAQ;IACtD,iBAAiB,GAAc;QACrC,CAAC,EAAE,CAAC;QACJ,CAAC,EAAE,CAAC;QACJ,MAAM,EAAE,CAAC;QACT,MAAM,EAAE,CAAC;QACT,QAAQ,EAAE,CAAC;KACZ,CAAC;CACH"}

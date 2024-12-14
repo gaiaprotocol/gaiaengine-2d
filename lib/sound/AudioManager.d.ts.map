@@ -1,1 +1,0 @@
-{"version":3,"file":"AudioManager.d.ts","sourceRoot":"","sources":["../../src/sound/AudioManager.ts"],"names":[],"mappings":"AAMA,cAAM,kBAAkB;IACtB,OAAO,CAAC,QAAQ,CAAC,OAAO,CAAuC;IAC/D,OAAO,CAAC,QAAQ,CAAC,eAAe,CACpB;IAEZ,SAAgB,UAAU,EAAE,OAAO,CAAC;;IAMvB,eAAe,IAAI,OAAO,CAAC,YAAY,CAAC;IAOxC,UAAU,CAAC,GAAG,EAAE,MAAM,GAAG,OAAO,CAAC,WAAW,CAAC;YAqB5C,mBAAmB;CAMlC;;AAED,wBAAwC"}

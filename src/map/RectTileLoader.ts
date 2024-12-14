@@ -1,4 +1,5 @@
 import GameObject from "../core/GameObject.js";
+import TileRange from "./TileRange.js";
 
 interface Coordinate {
   x: number;
@@ -8,8 +9,9 @@ interface Coordinate {
 interface RectTileLoaderOptions {
   extraTileLoadWidth?: number;
   extraTileLoadHeight?: number;
-  loadTiles: (coordinates: Coordinate[]) => void;
-  deleteTiles: (coordinates: Coordinate[]) => void;
+  onLoadTiles: (coordinates: Coordinate[]) => void;
+  onDeleteTiles: (coordinates: Coordinate[]) => void;
+  onTileRangeChanged: (range: TileRange) => void;
 }
 
 export default class RectTileLoader extends GameObject {
@@ -75,10 +77,19 @@ export default class RectTileLoader extends GameObject {
       }
 
       if (toLoadCoordinates.length > 0) {
-        this.options.loadTiles(toLoadCoordinates);
+        this.options.onLoadTiles(toLoadCoordinates);
       }
       if (toDeleteCoordinates.length > 0) {
-        this.options.deleteTiles(toDeleteCoordinates);
+        this.options.onDeleteTiles(toDeleteCoordinates);
+      }
+
+      if (toLoadCoordinates.length > 0 || toDeleteCoordinates.length > 0) {
+        this.options.onTileRangeChanged({
+          startX: startTileX,
+          endX: endTileX,
+          startY: startTileY,
+          endY: endTileY,
+        });
       }
 
       this.startTileX = startTileX;
