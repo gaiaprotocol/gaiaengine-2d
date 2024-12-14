@@ -86,8 +86,8 @@ export default class RectTileLoader extends GameObject {
       if (toLoadCoordinates.length > 0 || toDeleteCoordinates.length > 0) {
         this.options.onTileRangeChanged({
           startX: startTileX,
-          endX: endTileX,
           startY: startTileY,
+          endX: endTileX,
           endY: endTileY,
         });
       }

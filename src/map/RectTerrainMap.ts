@@ -36,7 +36,7 @@ interface MapObject {
   objectId: string;
 }
 
-interface RectTerrainMapOptions {
+export interface RectTerrainMapOptions {
   extraTileLoadWidth?: number;
   extraTileLoadHeight?: number;
   onTileRangeChanged?: (range: TileRange) => void;
