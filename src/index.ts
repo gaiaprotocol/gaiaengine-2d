@@ -2,6 +2,7 @@ export { default as Collidable } from "./collision/Collidable.js";
 export { default as Collider } from "./collision/collider/Collider.js";
 export { default as ColliderType } from "./collision/collider/ColliderType.js";
 export { default as CollisionDetector } from "./collision/CollisionDetector.js";
+export { default as Coordinates } from "./core/Coordinates.js";
 export { default as GameNode } from "./core/GameNode.js";
 export { default as GameObject } from "./core/GameObject.js";
 export { default as WindowEventNode } from "./core/WindowEventNode.js";
@@ -18,7 +19,7 @@ export { default as Sprite } from "./image/Sprite.js";
 export { default as TextureLoader } from "./loaders/TextureLoader.js";
 export {
   default as RectTerrainMap,
-  RectTerrainMapOptions
+  RectTerrainMapOptions,
 } from "./map/RectTerrainMap.js";
 export { default as Scene } from "./scene/Scene.js";
 export { default as Fullscreen } from "./screen/Fullscreen.js";
@@ -28,4 +29,3 @@ export { default as EllipseNode } from "./shapes/EllipseNode.js";
 export { default as RectangleNode } from "./shapes/RectangleNode.js";
 export { default as BackgroundMusic } from "./sound/BackgroundMusic.js";
 export { default as SFXPlayer } from "./sound/SFXPlayer.js";
-

@@ -1,5 +1,5 @@
 import { SpritesheetData } from "pixi.js";
-import Coordinate from "../core/Coordinate.js";
+import Coordinates from "../core/Coordinates.js";
 import RectTileLoader from "./RectTileLoader.js";
 import TerrainDirection from "./TerrainDirection.js";
 interface SpritesheetInfo {
@@ -28,8 +28,8 @@ interface MapObject {
 export interface RectTerrainMapOptions {
     extraTileLoadWidth?: number;
     extraTileLoadHeight?: number;
-    onLoadTiles?: (coordinates: Coordinate[]) => void;
-    onDeleteTiles?: (coordinates: Coordinate[]) => void;
+    onLoadTiles?: (coordinates: Coordinates[]) => void;
+    onDeleteTiles?: (coordinates: Coordinates[]) => void;
 }
 export default class RectTerrainMap extends RectTileLoader {
     private spritesheets;

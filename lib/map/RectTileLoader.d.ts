@@ -1,10 +1,10 @@
-import Coordinate from "../core/Coordinate.js";
+import Coordinates from "../core/Coordinates.js";
 import GameObject from "../core/GameObject.js";
 interface RectTileLoaderOptions {
     extraTileLoadWidth?: number;
     extraTileLoadHeight?: number;
-    onLoadTiles: (coordinates: Coordinate[]) => void;
-    onDeleteTiles: (coordinates: Coordinate[]) => void;
+    onLoadTiles: (coordinates: Coordinates[]) => void;
+    onDeleteTiles: (coordinates: Coordinates[]) => void;
 }
 export default class RectTileLoader extends GameObject {
     protected tileSize: number;

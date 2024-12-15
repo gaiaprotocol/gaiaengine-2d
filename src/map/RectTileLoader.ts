@@ -1,11 +1,11 @@
-import Coordinate from "../core/Coordinate.js";
+import Coordinates from "../core/Coordinates.js";
 import GameObject from "../core/GameObject.js";
 
 interface RectTileLoaderOptions {
   extraTileLoadWidth?: number;
   extraTileLoadHeight?: number;
-  onLoadTiles: (coordinates: Coordinate[]) => void;
-  onDeleteTiles: (coordinates: Coordinate[]) => void;
+  onLoadTiles: (coordinates: Coordinates[]) => void;
+  onDeleteTiles: (coordinates: Coordinates[]) => void;
 }
 
 export default class RectTileLoader extends GameObject {
@@ -42,7 +42,7 @@ export default class RectTileLoader extends GameObject {
       startTileY !== this.startTileY ||
       endTileY !== this.endTileY
     ) {
-      const toDeleteCoordinates: Coordinate[] = [];
+      const toDeleteCoordinates: Coordinates[] = [];
       if (
         this.startTileX !== undefined &&
         this.endTileX !== undefined &&
@@ -56,7 +56,7 @@ export default class RectTileLoader extends GameObject {
         }
       }
 
-      const toLoadCoordinates: Coordinate[] = [];
+      const toLoadCoordinates: Coordinates[] = [];
       for (let x = startTileX; x < endTileX; x++) {
         for (let y = startTileY; y < endTileY; y++) {
           const index = toDeleteCoordinates.findIndex(

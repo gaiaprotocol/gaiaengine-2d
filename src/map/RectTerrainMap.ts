@@ -1,6 +1,6 @@
 import { IntegerUtils } from "@common-module/ts";
 import { SpritesheetData } from "pixi.js";
-import Coordinate from "../core/Coordinate.js";
+import Coordinates from "../core/Coordinates.js";
 import GameNode from "../core/GameNode.js";
 import Sprite from "../image/Sprite.js";
 import SpritesheetLoader from "../loaders/SpritesheetLoader.js";
@@ -39,8 +39,8 @@ interface MapObject {
 export interface RectTerrainMapOptions {
   extraTileLoadWidth?: number;
   extraTileLoadHeight?: number;
-  onLoadTiles?: (coordinates: Coordinate[]) => void;
-  onDeleteTiles?: (coordinates: Coordinate[]) => void;
+  onLoadTiles?: (coordinates: Coordinates[]) => void;
+  onDeleteTiles?: (coordinates: Coordinates[]) => void;
 }
 
 export default class RectTerrainMap extends RectTileLoader {
