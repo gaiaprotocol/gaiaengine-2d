@@ -1,9 +1,8 @@
 import { IntegerUtils } from "@common-module/ts";
 import { SpritesheetData } from "pixi.js";
 import Coordinates from "../core/Coordinates.js";
-import GameNode from "../core/GameNode.js";
-import Sprite from "../image/Sprite.js";
 import SpritesheetLoader from "../loaders/SpritesheetLoader.js";
+import RectTerrainMapTile from "./RectTerrainMapTile.js";
 import RectTileLoader from "./RectTileLoader.js";
 import TerrainDirection from "./TerrainDirection.js";
 
@@ -38,14 +37,14 @@ interface MapObject {
 
 export interface RectTerrainMapOptions {
   extraLoadSize?: number;
-  extraLoadHeight?: number;
   debounceDelay?: number;
+  tileFadeDuration?: number;
   onLoadTiles?: (coordinates: Coordinates[]) => void;
   onDeleteTiles?: (coordinates: Coordinates[]) => void;
 }
 
 export default class RectTerrainMap extends RectTileLoader {
-  private tileNodes = new Map<string, GameNode[]>();
+  private tiles = new Map<string, RectTerrainMapTile[]>();
   private spritesheetsLoaded = false;
 
   constructor(
@@ -55,18 +54,18 @@ export default class RectTerrainMap extends RectTileLoader {
     private objects: ObjectDefinitions,
     private terrainMap: { [coordinateKey: string]: string },
     private mapObjects: MapObject[],
-    options: RectTerrainMapOptions = {},
+    private _options: RectTerrainMapOptions = {},
   ) {
     super(tileSize, {
-      extraTileSize: options.extraLoadSize ?? tileSize,
-      debounceDelay: options.debounceDelay,
+      extraTileSize: _options.extraLoadSize ?? tileSize,
+      debounceDelay: _options.debounceDelay,
       onLoadTiles: (coordinates) => {
         coordinates.forEach(({ x, y }) => this.renderTile(x, y));
-        options.onLoadTiles?.(coordinates);
+        _options.onLoadTiles?.(coordinates);
       },
       onDeleteTiles: (coordinates) => {
         coordinates.forEach(({ x, y }) => this.deleteTile(x, y));
-        options.onDeleteTiles?.(coordinates);
+        _options.onDeleteTiles?.(coordinates);
       },
     });
 
@@ -125,21 +124,22 @@ export default class RectTerrainMap extends RectTileLoader {
     const frame = frames[frameIndex];
     const spritesheetInfo = this.spritesheets[frame.spritesheet];
 
-    const sprite = new Sprite(
+    const tile = new RectTerrainMapTile(
       x * this.tileSize,
       y * this.tileSize,
       spritesheetInfo.src,
       spritesheetInfo.atlas,
       frame.frame,
+      this._options.tileFadeDuration,
     );
-    sprite.zIndex = frame.zIndex;
-    this.append(sprite);
+    tile.zIndex = frame.zIndex;
+    this.append(tile);
 
     const coordinateKey = this.createCoordinateKey(x, y);
-    if (!this.tileNodes.has(coordinateKey)) {
-      this.tileNodes.set(coordinateKey, []);
+    if (!this.tiles.has(coordinateKey)) {
+      this.tiles.set(coordinateKey, []);
     }
-    this.tileNodes.get(coordinateKey)!.push(sprite);
+    this.tiles.get(coordinateKey)!.push(tile);
   }
 
   private renderTile(x: number, y: number) {
@@ -161,15 +161,16 @@ export default class RectTerrainMap extends RectTileLoader {
         const objectInfo = this.objects[mapObject.objectId];
         if (objectInfo) {
           const spritesheetInfo = this.spritesheets[objectInfo.spritesheet];
-          const sprite = new Sprite(
+          const tile = new RectTerrainMapTile(
             mapObject.x,
             mapObject.y,
             spritesheetInfo.src,
             spritesheetInfo.atlas,
             objectInfo.frame,
+            this._options.tileFadeDuration,
           );
-          sprite.zIndex = objectInfo.zIndex;
-          this.append(sprite);
+          tile.zIndex = objectInfo.zIndex;
+          this.append(tile);
         }
       }
     });
@@ -306,10 +307,10 @@ export default class RectTerrainMap extends RectTileLoader {
 
   private deleteTile(x: number, y: number) {
     const coordinateKey = this.createCoordinateKey(x, y);
-    const nodes = this.tileNodes.get(coordinateKey);
+    const nodes = this.tiles.get(coordinateKey);
     if (nodes) {
       nodes.forEach((node) => node.remove());
-      this.tileNodes.delete(coordinateKey);
+      this.tiles.delete(coordinateKey);
     }
   }
 

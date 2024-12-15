@@ -27,8 +27,8 @@ interface MapObject {
 }
 export interface RectTerrainMapOptions {
     extraLoadSize?: number;
+    extraLoadHeight?: number;
     debounceDelay?: number;
-    tileFadeDuration?: number;
     onLoadTiles?: (coordinates: Coordinates[]) => void;
     onDeleteTiles?: (coordinates: Coordinates[]) => void;
 }
@@ -38,14 +38,13 @@ export default class RectTerrainMap extends RectTileLoader {
     private objects;
     private terrainMap;
     private mapObjects;
-    private _options;
-    private tiles;
+    private tileNodes;
     private spritesheetsLoaded;
     constructor(tileSize: number, spritesheets: {
         [id: string]: SpritesheetInfo;
     }, terrains: TerrainDefinitions, objects: ObjectDefinitions, terrainMap: {
         [coordinateKey: string]: string;
-    }, mapObjects: MapObject[], _options?: RectTerrainMapOptions);
+    }, mapObjects: MapObject[], options?: RectTerrainMapOptions);
     private loadSpritesheets;
     private createCoordinateKey;
     private getTerrainAt;
@@ -58,4 +57,4 @@ export default class RectTerrainMap extends RectTileLoader {
     remove(): void;
 }
 export {};
-//# sourceMappingURL=RectTerrainMap.d.ts.map
+//# sourceMappingURL=RectTerrainMap%20copy.d.ts.map
