@@ -1,13 +1,12 @@
+import { Debouncer } from "@common-module/ts";
 import Coordinates from "../core/Coordinates.js";
 import GameObject from "../core/GameObject.js";
-import TileRange from "./TileRange.js";
 
 interface RectTileLoaderOptions {
-  extraTileLoadWidth?: number;
-  extraTileLoadHeight?: number;
+  extraTileSize?: number;
+  debounceDelay?: number;
   onLoadTiles: (coordinates: Coordinates[]) => void;
   onDeleteTiles: (coordinates: Coordinates[]) => void;
-  onTileRangeChanged: (range: TileRange) => void;
 }
 
 export default class RectTileLoader extends GameObject {
@@ -20,14 +19,23 @@ export default class RectTileLoader extends GameObject {
   private startTileY?: number;
   private endTileY?: number;
 
+  private loadTilesDebouncer?: Debouncer;
+
   constructor(
     protected tileSize: number,
     private options: RectTileLoaderOptions,
   ) {
     super(0, 0);
+    if (options.debounceDelay) {
+      this.loadTilesDebouncer = new Debouncer(
+        options.debounceDelay,
+        (boundLeft, boundRight, boundTop, boundBottom) =>
+          this.loadTiles(boundLeft, boundRight, boundTop, boundBottom),
+      );
+    }
   }
 
-  private loadTilesInViewport(
+  private loadTiles(
     boundLeft: number,
     boundRight: number,
     boundTop: number,
@@ -78,14 +86,6 @@ export default class RectTileLoader extends GameObject {
       if (toDeleteCoordinates.length > 0) {
         this.options.onDeleteTiles(toDeleteCoordinates);
       }
-      if (toLoadCoordinates.length > 0 || toDeleteCoordinates.length > 0) {
-        this.options.onTileRangeChanged({
-          startX: startTileX,
-          startY: startTileY,
-          endX: endTileX,
-          endY: endTileY,
-        });
-      }
 
       this.startTileX = startTileX;
       this.endTileX = endTileX;
@@ -102,18 +102,27 @@ export default class RectTileLoader extends GameObject {
         this.screen.camera.y !== this.prevCameraY ||
         cameraScale !== this.prevCameraScale
       ) {
-        const extraTileLoadWidth = this.options.extraTileLoadWidth ?? 0;
-        const extraTileLoadHeight = this.options.extraTileLoadHeight ?? 0;
-        const halfScreenWidth = this.screen.width / 2 + extraTileLoadWidth;
-        const halfScreenHeight = this.screen.height / 2 + extraTileLoadHeight;
+        const extraSize = this.options.extraTileSize ?? 0;
+        const halfScreenWidth = this.screen.width / 2 / cameraScale +
+          extraSize * cameraScale;
+        const halfScreenHeight = this.screen.height / 2 / cameraScale +
+          extraSize * cameraScale;
 
-        const boundLeft = this.screen.camera.x - halfScreenWidth / cameraScale;
-        const boundRight = this.screen.camera.x + halfScreenWidth / cameraScale;
-        const boundTop = this.screen.camera.y - halfScreenHeight / cameraScale;
-        const boundBottom = this.screen.camera.y +
-          halfScreenHeight / cameraScale;
+        const boundLeft = this.screen.camera.x - halfScreenWidth;
+        const boundRight = this.screen.camera.x + halfScreenWidth;
+        const boundTop = this.screen.camera.y - halfScreenHeight;
+        const boundBottom = this.screen.camera.y + halfScreenHeight;
 
-        this.loadTilesInViewport(boundLeft, boundRight, boundTop, boundBottom);
+        if (this.loadTilesDebouncer) {
+          this.loadTilesDebouncer.execute(
+            boundLeft,
+            boundRight,
+            boundTop,
+            boundBottom,
+          );
+        } else {
+          this.loadTiles(boundLeft, boundRight, boundTop, boundBottom);
+        }
 
         this.prevCameraX = this.screen.camera.x;
         this.prevCameraY = this.screen.camera.y;
