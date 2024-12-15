@@ -17,6 +17,8 @@ export default class DisplayNode<CT extends Container = Container> extends Trans
     get scaleY(): number;
     set scale(scale: number);
     get scale(): number;
+    set alpha(alpha: number);
+    get alpha(): number;
     appendTo(parent: GameNode, index?: number): this;
     remove(): void;
     hide(): void;

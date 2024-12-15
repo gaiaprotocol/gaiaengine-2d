@@ -14,6 +14,7 @@ export default abstract class TransformableNode extends GameNode {
     scaleX: 1,
     scaleY: 1,
     rotation: 0,
+    alpha: 1,
   };
 
   public absoluteTransform: Transform = {
@@ -22,6 +23,7 @@ export default abstract class TransformableNode extends GameNode {
     scaleX: 1,
     scaleY: 1,
     rotation: 0,
+    alpha: 1,
   };
 
   protected update(deltaTime: number): void {
@@ -37,6 +39,8 @@ export default abstract class TransformableNode extends GameNode {
         parentTransform.scaleY;
       this.absoluteTransform.rotation = this.transform.rotation +
         parentTransform.rotation;
+      this.absoluteTransform.alpha = this.transform.alpha *
+        parentTransform.alpha;
     }
 
     super.update(deltaTime);

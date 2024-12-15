@@ -4,4 +4,5 @@ export default interface Transform {
   scaleX: number;
   scaleY: number;
   rotation: number;
+  alpha: number;
 }

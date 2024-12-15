@@ -68,6 +68,15 @@ export default class DisplayNode<CT extends Container = Container>
     return this.container.scale.x;
   }
 
+  public set alpha(alpha: number) {
+    this.transform.alpha = alpha;
+    this.container.alpha = alpha;
+  }
+
+  public get alpha() {
+    return this.container.alpha;
+  }
+
   public appendTo(parent: GameNode, index?: number): this {
     index !== undefined
       ? (parent as DisplayNode).container.addChildAt(this.container, index)
