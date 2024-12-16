@@ -29,68 +29,77 @@ export default class RectTileLoader extends GameObject {
     if (options.debounceDelay) {
       this.loadTilesDebouncer = new Debouncer(
         options.debounceDelay,
-        (boundLeft, boundRight, boundTop, boundBottom) =>
-          this.loadTiles(boundLeft, boundRight, boundTop, boundBottom),
+        () => this.loadTiles(),
       );
     }
   }
 
-  private loadTiles(
-    boundLeft: number,
-    boundRight: number,
-    boundTop: number,
-    boundBottom: number,
-  ) {
-    const startTileX = Math.floor(boundLeft / this.tileSize);
-    const endTileX = Math.ceil(boundRight / this.tileSize);
-    const startTileY = Math.floor(boundTop / this.tileSize);
-    const endTileY = Math.ceil(boundBottom / this.tileSize);
+  private loadTiles() {
+    if (this.screen) {
+      const cameraScale = this.screen.camera.scale;
+      const extraSize = this.options.extraTileSize ?? 0;
 
-    if (
-      startTileX !== this.startTileX ||
-      endTileX !== this.endTileX ||
-      startTileY !== this.startTileY ||
-      endTileY !== this.endTileY
-    ) {
-      const toDeleteCoordinates: Coordinates[] = [];
+      const halfScreenWidth = this.screen.width / 2 / cameraScale +
+        extraSize * cameraScale;
+      const halfScreenHeight = this.screen.height / 2 / cameraScale +
+        extraSize * cameraScale;
+
+      const boundLeft = this.screen.camera.x - halfScreenWidth;
+      const boundRight = this.screen.camera.x + halfScreenWidth;
+      const boundTop = this.screen.camera.y - halfScreenHeight;
+      const boundBottom = this.screen.camera.y + halfScreenHeight;
+
+      const startTileX = Math.floor(boundLeft / this.tileSize);
+      const endTileX = Math.ceil(boundRight / this.tileSize);
+      const startTileY = Math.floor(boundTop / this.tileSize);
+      const endTileY = Math.ceil(boundBottom / this.tileSize);
+
       if (
-        this.startTileX !== undefined &&
-        this.endTileX !== undefined &&
-        this.startTileY !== undefined &&
-        this.endTileY !== undefined
+        startTileX !== this.startTileX ||
+        endTileX !== this.endTileX ||
+        startTileY !== this.startTileY ||
+        endTileY !== this.endTileY
       ) {
-        for (let x = this.startTileX; x < this.endTileX; x++) {
-          for (let y = this.startTileY; y < this.endTileY; y++) {
-            toDeleteCoordinates.push({ x, y });
+        const toDeleteCoordinates: Coordinates[] = [];
+        if (
+          this.startTileX !== undefined &&
+          this.endTileX !== undefined &&
+          this.startTileY !== undefined &&
+          this.endTileY !== undefined
+        ) {
+          for (let x = this.startTileX; x < this.endTileX; x++) {
+            for (let y = this.startTileY; y < this.endTileY; y++) {
+              toDeleteCoordinates.push({ x, y });
+            }
           }
         }
-      }
 
-      const toLoadCoordinates: Coordinates[] = [];
-      for (let x = startTileX; x < endTileX; x++) {
-        for (let y = startTileY; y < endTileY; y++) {
-          const index = toDeleteCoordinates.findIndex(
-            (coord) => coord.x === x && coord.y === y,
-          );
-          if (index !== -1) {
-            toDeleteCoordinates.splice(index, 1);
-          } else {
-            toLoadCoordinates.push({ x, y });
+        const toLoadCoordinates: Coordinates[] = [];
+        for (let x = startTileX; x < endTileX; x++) {
+          for (let y = startTileY; y < endTileY; y++) {
+            const index = toDeleteCoordinates.findIndex(
+              (coord) => coord.x === x && coord.y === y,
+            );
+            if (index !== -1) {
+              toDeleteCoordinates.splice(index, 1);
+            } else {
+              toLoadCoordinates.push({ x, y });
+            }
           }
         }
-      }
 
-      if (toLoadCoordinates.length > 0) {
-        this.options.onLoadTiles(toLoadCoordinates);
-      }
-      if (toDeleteCoordinates.length > 0) {
-        this.options.onDeleteTiles(toDeleteCoordinates);
-      }
+        if (toLoadCoordinates.length > 0) {
+          this.options.onLoadTiles(toLoadCoordinates);
+        }
+        if (toDeleteCoordinates.length > 0) {
+          this.options.onDeleteTiles(toDeleteCoordinates);
+        }
 
-      this.startTileX = startTileX;
-      this.endTileX = endTileX;
-      this.startTileY = startTileY;
-      this.endTileY = endTileY;
+        this.startTileX = startTileX;
+        this.endTileX = endTileX;
+        this.startTileY = startTileY;
+        this.endTileY = endTileY;
+      }
     }
   }
 
@@ -102,27 +111,9 @@ export default class RectTileLoader extends GameObject {
         this.screen.camera.y !== this.prevCameraY ||
         cameraScale !== this.prevCameraScale
       ) {
-        const extraSize = this.options.extraTileSize ?? 0;
-        const halfScreenWidth = this.screen.width / 2 / cameraScale +
-          extraSize * cameraScale;
-        const halfScreenHeight = this.screen.height / 2 / cameraScale +
-          extraSize * cameraScale;
-
-        const boundLeft = this.screen.camera.x - halfScreenWidth;
-        const boundRight = this.screen.camera.x + halfScreenWidth;
-        const boundTop = this.screen.camera.y - halfScreenHeight;
-        const boundBottom = this.screen.camera.y + halfScreenHeight;
-
-        if (this.loadTilesDebouncer) {
-          this.loadTilesDebouncer.execute(
-            boundLeft,
-            boundRight,
-            boundTop,
-            boundBottom,
-          );
-        } else {
-          this.loadTiles(boundLeft, boundRight, boundTop, boundBottom);
-        }
+        this.loadTilesDebouncer
+          ? this.loadTilesDebouncer.execute()
+          : this.loadTiles();
 
         this.prevCameraX = this.screen.camera.x;
         this.prevCameraY = this.screen.camera.y;
