@@ -36,7 +36,7 @@ interface MapObject {
 }
 
 export interface RectTerrainMapOptions {
-  extraLoadSize?: number;
+  extraLoadTileCount?: number;
   debounceDelay?: number;
   tileFadeDuration?: number;
   onLoadTiles?: (coordinates: Coordinates[]) => void;
@@ -57,7 +57,7 @@ export default class RectTerrainMap extends RectTileLoader {
     private _options: RectTerrainMapOptions = {},
   ) {
     super(tileSize, {
-      extraTileSize: _options.extraLoadSize ?? tileSize,
+      extraLoadTileCount: _options.extraLoadTileCount ?? tileSize,
       debounceDelay: _options.debounceDelay,
       onLoadTiles: (coordinates) => {
         coordinates.forEach(({ x, y }) => this.renderTile(x, y));

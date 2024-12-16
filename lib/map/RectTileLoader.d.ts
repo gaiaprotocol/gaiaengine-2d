@@ -1,7 +1,7 @@
 import Coordinates from "../core/Coordinates.js";
 import GameObject from "../core/GameObject.js";
 interface RectTileLoaderOptions {
-    extraTileSize?: number;
+    extraLoadTileCount?: number;
     debounceDelay?: number;
     onLoadTiles: (coordinates: Coordinates[]) => void;
     onDeleteTiles: (coordinates: Coordinates[]) => void;

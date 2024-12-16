@@ -26,7 +26,7 @@ interface MapObject {
     objectId: string;
 }
 export interface RectTerrainMapOptions {
-    extraLoadSize?: number;
+    extraLoadTileCount?: number;
     debounceDelay?: number;
     tileFadeDuration?: number;
     onLoadTiles?: (coordinates: Coordinates[]) => void;

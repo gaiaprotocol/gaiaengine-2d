@@ -5,8 +5,8 @@ export default class Camera {
     private _y;
     private _scale;
     constructor(screen: GameScreen);
-    get x(): number;
-    get y(): number;
+    getX(): number;
+    getY(): number;
     setPosition(x: number, y: number): void;
     set scale(value: number);
     get scale(): number;

@@ -3,7 +3,7 @@ import Coordinates from "../core/Coordinates.js";
 import GameObject from "../core/GameObject.js";
 
 interface RectTileLoaderOptions {
-  extraTileSize?: number;
+  extraLoadTileCount?: number;
   debounceDelay?: number;
   onLoadTiles: (coordinates: Coordinates[]) => void;
   onDeleteTiles: (coordinates: Coordinates[]) => void;
@@ -37,22 +37,28 @@ export default class RectTileLoader extends GameObject {
   private loadTiles() {
     if (this.screen) {
       const cameraScale = this.screen.camera.scale;
-      const extraSize = this.options.extraTileSize ?? 0;
+      const extraLoadTileCount = this.options.extraLoadTileCount ?? 0;
 
-      const halfScreenWidth = this.screen.width / 2 / cameraScale +
-        extraSize * cameraScale;
-      const halfScreenHeight = this.screen.height / 2 / cameraScale +
-        extraSize * cameraScale;
+      const halfScreenWidth = this.screen.width / cameraScale / 2;
+      const halfScreenHeight = this.screen.height / cameraScale / 2;
 
-      const boundLeft = this.screen.camera.x - halfScreenWidth;
-      const boundRight = this.screen.camera.x + halfScreenWidth;
-      const boundTop = this.screen.camera.y - halfScreenHeight;
-      const boundBottom = this.screen.camera.y + halfScreenHeight;
+      const boundLeft = this.screen.camera.getX() - halfScreenWidth;
+      const boundRight = this.screen.camera.getX() + halfScreenWidth;
+      const boundTop = this.screen.camera.getY() - halfScreenHeight;
+      const boundBottom = this.screen.camera.getY() + halfScreenHeight;
 
-      const startTileX = Math.floor(boundLeft / this.tileSize);
-      const endTileX = Math.ceil(boundRight / this.tileSize);
-      const startTileY = Math.floor(boundTop / this.tileSize);
-      const endTileY = Math.ceil(boundBottom / this.tileSize);
+      const startTileX = Math.floor(
+        (boundLeft + this.tileSize / 2) / this.tileSize,
+      ) - extraLoadTileCount;
+      const endTileX = Math.ceil(
+        (boundRight + this.tileSize / 2) / this.tileSize,
+      ) + extraLoadTileCount;
+      const startTileY = Math.floor(
+        (boundTop + this.tileSize / 2) / this.tileSize,
+      ) - extraLoadTileCount;
+      const endTileY = Math.ceil(
+        (boundBottom + this.tileSize / 2) / this.tileSize,
+      ) + extraLoadTileCount;
 
       if (
         startTileX !== this.startTileX ||
@@ -107,16 +113,16 @@ export default class RectTileLoader extends GameObject {
     if (this.screen) {
       const cameraScale = this.screen.camera.scale;
       if (
-        this.screen.camera.x !== this.prevCameraX ||
-        this.screen.camera.y !== this.prevCameraY ||
+        this.screen.camera.getX() !== this.prevCameraX ||
+        this.screen.camera.getY() !== this.prevCameraY ||
         cameraScale !== this.prevCameraScale
       ) {
         this.loadTilesDebouncer
           ? this.loadTilesDebouncer.execute()
           : this.loadTiles();
 
-        this.prevCameraX = this.screen.camera.x;
-        this.prevCameraY = this.screen.camera.y;
+        this.prevCameraX = this.screen.camera.getX();
+        this.prevCameraY = this.screen.camera.getY();
         this.prevCameraScale = cameraScale;
       }
     }

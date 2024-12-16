@@ -60,6 +60,8 @@ export default class GameScreen extends DomNode {
       Object.assign(this.renderer.canvas.style, style);
       this.style(style);
     }
+
+    this.updateRootNodePosition();
   }
 
   private async createRenderer() {
@@ -72,8 +74,8 @@ export default class GameScreen extends DomNode {
     this.renderer.canvas.style.touchAction = "auto";
 
     this.root.setPosition(
-      this.width / 2 - this.camera.x * this.camera.scale,
-      this.height / 2 - this.camera.y * this.camera.scale,
+      this.width / 2 - this.camera.getX() * this.camera.scale,
+      this.height / 2 - this.camera.getY() * this.camera.scale,
     );
 
     this.resize(this.width, this.height, this.ratio);
@@ -86,8 +88,8 @@ export default class GameScreen extends DomNode {
   public updateRootNodePosition() {
     this.root.scale = this.camera.scale;
     this.root.setPosition(
-      this.width / 2 - this.camera.x * this.camera.scale,
-      this.height / 2 - this.camera.y * this.camera.scale,
+      this.width / 2 - this.camera.getX() * this.camera.scale,
+      this.height / 2 - this.camera.getY() * this.camera.scale,
     );
   }
 

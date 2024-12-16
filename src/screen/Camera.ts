@@ -7,11 +7,11 @@ export default class Camera {
 
   constructor(private screen: GameScreen) {}
 
-  public get x() {
+  public getX() {
     return this._x;
   }
 
-  public get y() {
+  public getY() {
     return this._y;
   }
 
