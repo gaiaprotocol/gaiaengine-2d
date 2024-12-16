@@ -40,6 +40,11 @@ export default class DisplayNode<CT extends Container = Container>
     return this.container.zIndex;
   }
 
+  public setPivot(x: number, y: number): this {
+    this.container.pivot.set(x, y);
+    return this;
+  }
+
   public set scaleX(scaleX: number) {
     this.transform.scaleX = scaleX;
     this.container.scale.x = scaleX;

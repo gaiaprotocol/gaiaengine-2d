@@ -15,6 +15,8 @@ export default abstract class TransformableNode extends GameNode {
     scaleY: 1,
     rotation: 0,
     alpha: 1,
+
+    //TODO: pivot
   };
 
   public absoluteTransform: Transform = {
@@ -24,6 +26,8 @@ export default abstract class TransformableNode extends GameNode {
     scaleY: 1,
     rotation: 0,
     alpha: 1,
+
+    //TODO: pivot
   };
 
   protected update(deltaTime: number): void {

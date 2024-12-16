@@ -15,11 +15,12 @@ export default abstract class GameNode extends TreeNode<GameNode> {
     return this._screen;
   }
 
-  public append(...children: (GameNode | undefined)[]) {
+  public append(...children: (GameNode | undefined)[]): this {
     for (const child of children) {
       if (child === undefined) continue;
       else child.appendTo(this);
     }
+    return this;
   }
 
   public appendTo(parent: GameNode, index?: number): this {

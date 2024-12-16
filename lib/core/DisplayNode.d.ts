@@ -11,6 +11,7 @@ export default class DisplayNode<CT extends Container = Container> extends Trans
     setPosition(x: number, y: number): this;
     set zIndex(zIndex: number);
     get zIndex(): number;
+    setPivot(x: number, y: number): this;
     set scaleX(scaleX: number);
     get scaleX(): number;
     set scaleY(scaleY: number);
