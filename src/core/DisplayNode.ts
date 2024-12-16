@@ -41,6 +41,8 @@ export default class DisplayNode<CT extends Container = Container>
   }
 
   public setPivot(x: number, y: number): this {
+    this.transform.pivotX = x;
+    this.transform.pivotY = y;
     this.container.pivot.set(x, y);
     return this;
   }
@@ -80,6 +82,15 @@ export default class DisplayNode<CT extends Container = Container>
 
   public get alpha() {
     return this.container.alpha;
+  }
+
+  public set rotation(rotation: number) {
+    this.transform.rotation = rotation;
+    this.container.rotation = rotation;
+  }
+
+  public get rotation() {
+    return this.container.rotation;
   }
 
   public appendTo(parent: GameNode, index?: number): this {

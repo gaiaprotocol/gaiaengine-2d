@@ -20,6 +20,8 @@ export default class DisplayNode<CT extends Container = Container> extends Trans
     get scale(): number;
     set alpha(alpha: number);
     get alpha(): number;
+    set rotation(rotation: number);
+    get rotation(): number;
     appendTo(parent: GameNode, index?: number): this;
     remove(): void;
     hide(): void;

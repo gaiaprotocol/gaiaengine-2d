@@ -52,13 +52,11 @@ export default class DomWrapperNode<HE extends HTMLElement = HTMLElement>
     super.update(deltaTime);
 
     if (this.screen) {
-      const calculatedLeft =
-        (this.absoluteTransform.x * this.absoluteTransform.scaleX -
-          this.screen.camera.getX() + this.screen.width / 2) *
+      const calculatedLeft = (this.absoluteTransform.x -
+        this.screen.camera.getX() + this.screen.width / 2) *
         this.screen.ratio;
-      const calculatedTop =
-        (this.absoluteTransform.y * this.absoluteTransform.scaleY -
-          this.screen.camera.getY() + this.screen.height / 2) *
+      const calculatedTop = (this.absoluteTransform.y -
+        this.screen.camera.getY() + this.screen.height / 2) *
         this.screen.ratio;
       const calculatedScaleX = this.absoluteTransform.scaleX *
         this.screen.ratio;
@@ -78,7 +76,8 @@ export default class DomWrapperNode<HE extends HTMLElement = HTMLElement>
         this.previousTransform.scaleY = calculatedScaleY;
 
         this.domNode.style({
-          transform: `scale(${calculatedScaleX}, ${calculatedScaleY})`,
+          transform:
+            `scale(${calculatedScaleX}, ${calculatedScaleY}) rotate(${this.absoluteTransform.rotation}rad)`,
         });
 
         const rect = this.domNode.calculateRect();

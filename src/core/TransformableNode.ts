@@ -11,23 +11,23 @@ export default abstract class TransformableNode extends GameNode {
   protected transform: Transform = {
     x: Number.NEGATIVE_INFINITY,
     y: Number.NEGATIVE_INFINITY,
+    pivotX: 0,
+    pivotY: 0,
     scaleX: 1,
     scaleY: 1,
     rotation: 0,
     alpha: 1,
-
-    //TODO: pivot
   };
 
   public absoluteTransform: Transform = {
     x: Number.NEGATIVE_INFINITY,
     y: Number.NEGATIVE_INFINITY,
+    pivotX: 0,
+    pivotY: 0,
     scaleX: 1,
     scaleY: 1,
     rotation: 0,
     alpha: 1,
-
-    //TODO: pivot
   };
 
   protected update(deltaTime: number): void {
@@ -35,8 +35,18 @@ export default abstract class TransformableNode extends GameNode {
     const parentTransform = parent?.absoluteTransform;
 
     if (parentTransform) {
-      this.absoluteTransform.x = this.transform.x + parentTransform.x;
-      this.absoluteTransform.y = this.transform.y + parentTransform.y;
+      this.absoluteTransform.x = this.transform.x -
+        (this.transform.pivotX * this.transform.scaleX *
+            Math.cos(this.transform.rotation) -
+          this.transform.pivotY * this.transform.scaleY *
+            Math.sin(this.transform.rotation)) +
+        parentTransform.x;
+      this.absoluteTransform.y = this.transform.y -
+        (this.transform.pivotX * this.transform.scaleX *
+            Math.sin(this.transform.rotation) +
+          this.transform.pivotY * this.transform.scaleY *
+            Math.cos(this.transform.rotation)) +
+        parentTransform.y;
       this.absoluteTransform.scaleX = this.transform.scaleX *
         parentTransform.scaleX;
       this.absoluteTransform.scaleY = this.transform.scaleY *
