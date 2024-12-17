@@ -7,8 +7,10 @@ export default class FPSDisplay extends TextNode<{
     width: string;
     height: string;
 }> {
+    private additionalX;
+    private additionalY;
     private deltaTime;
-    constructor();
+    constructor(additionalX?: number, additionalY?: number);
     private updatePosition;
     set screen(screen: GameScreen | undefined);
     get screen(): GameScreen | undefined;

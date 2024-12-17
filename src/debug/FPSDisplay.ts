@@ -12,7 +12,7 @@ export default class FPSDisplay extends TextNode<{
 }> {
   private deltaTime = 0;
 
-  constructor() {
+  constructor(private additionalX = 0, private additionalY = 0) {
     super(0, 0, "FPS: 0", {
       fontSize: "25px",
       color: "#000",
@@ -20,7 +20,7 @@ export default class FPSDisplay extends TextNode<{
       width: "120px",
       height: "40px",
     });
-    this.setPivot(60, -30);
+    this.setPivot(60 - this.additionalX, -30 - this.additionalY);
     StyleUtils.applyTextStroke(this.domNode, 2, "#fff");
 
     new Interval(
