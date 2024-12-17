@@ -31,6 +31,8 @@ export default class GameScreen extends DomNode {
     ...gameNodes: (GameNode | undefined)[]
   ) {
     super(".game-screen");
+    this.style({ position: "relative" });
+
     this.width = options.width;
     this.height = options.height;
     this.backgroundColor = options.backgroundColor ?? 0x000000;
@@ -69,6 +71,7 @@ export default class GameScreen extends DomNode {
       width: this.width,
       height: this.height,
       backgroundColor: this.backgroundColor,
+      eventMode: "none",
     });
     this.renderer.canvas.style.display = "block";
     this.renderer.canvas.style.touchAction = "auto";

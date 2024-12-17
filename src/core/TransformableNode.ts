@@ -8,7 +8,7 @@ export default abstract class TransformableNode extends GameNode {
     this.transform.y = y;
   }
 
-  protected transform: Transform = {
+  protected transform: Transform & { pivotX: number; pivotY: number } = {
     x: Number.NEGATIVE_INFINITY,
     y: Number.NEGATIVE_INFINITY,
     pivotX: 0,
@@ -19,11 +19,9 @@ export default abstract class TransformableNode extends GameNode {
     alpha: 1,
   };
 
-  public absoluteTransform: Transform = {
+  public globalTransform: Transform = {
     x: Number.NEGATIVE_INFINITY,
     y: Number.NEGATIVE_INFINITY,
-    pivotX: 0,
-    pivotY: 0,
     scaleX: 1,
     scaleY: 1,
     rotation: 0,
@@ -32,29 +30,31 @@ export default abstract class TransformableNode extends GameNode {
 
   protected update(deltaTime: number): void {
     const parent = this.parent as TransformableNode | undefined;
-    const parentTransform = parent?.absoluteTransform;
+    const pt = parent?.globalTransform;
 
-    if (parentTransform) {
-      this.absoluteTransform.x = this.transform.x -
-        (this.transform.pivotX * this.transform.scaleX *
-            Math.cos(this.transform.rotation) -
-          this.transform.pivotY * this.transform.scaleY *
-            Math.sin(this.transform.rotation)) +
-        parentTransform.x;
-      this.absoluteTransform.y = this.transform.y -
-        (this.transform.pivotX * this.transform.scaleX *
-            Math.sin(this.transform.rotation) +
-          this.transform.pivotY * this.transform.scaleY *
-            Math.cos(this.transform.rotation)) +
-        parentTransform.y;
-      this.absoluteTransform.scaleX = this.transform.scaleX *
-        parentTransform.scaleX;
-      this.absoluteTransform.scaleY = this.transform.scaleY *
-        parentTransform.scaleY;
-      this.absoluteTransform.rotation = this.transform.rotation +
-        parentTransform.rotation;
-      this.absoluteTransform.alpha = this.transform.alpha *
-        parentTransform.alpha;
+    if (pt) {
+      const rx = this.transform.x * pt.scaleX;
+      const ry = this.transform.y * pt.scaleY;
+      const pCos = Math.cos(pt.rotation);
+      const pSin = Math.sin(pt.rotation);
+
+      this.globalTransform.scaleX = pt.scaleX * this.transform.scaleX;
+      this.globalTransform.scaleY = pt.scaleY * this.transform.scaleY;
+
+      const pivotX = this.transform.pivotX * this.globalTransform.scaleX;
+      const pivotY = this.transform.pivotY * this.globalTransform.scaleY;
+      const cos = Math.cos(this.transform.rotation);
+      const sin = Math.sin(this.transform.rotation);
+
+      this.globalTransform.x = pt.x +
+        (rx * pCos - ry * pSin) -
+        (pivotX * cos - pivotY * sin);
+      this.globalTransform.y = pt.y +
+        (rx * pSin + ry * pCos) -
+        (pivotX * sin + pivotY * cos);
+
+      this.globalTransform.rotation = pt.rotation + this.transform.rotation;
+      this.globalTransform.alpha = pt.alpha * this.transform.alpha;
     }
 
     super.update(deltaTime);

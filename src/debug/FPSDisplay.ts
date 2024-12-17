@@ -8,6 +8,7 @@ export default class FPSDisplay extends TextNode<{
   color: string;
   textAlign: string;
   width: string;
+  height: string;
 }> {
   private deltaTime = 0;
 
@@ -17,7 +18,9 @@ export default class FPSDisplay extends TextNode<{
       color: "#000",
       textAlign: "center",
       width: "120px",
+      height: "40px",
     });
+    this.setPivot(60, -30);
     StyleUtils.applyTextStroke(this.domNode, 2, "#fff");
 
     new Interval(
@@ -28,8 +31,13 @@ export default class FPSDisplay extends TextNode<{
 
   private updatePosition() {
     if (this.screen) {
-      this.transform.x = this.screen.width / 2 - 60;
-      this.transform.y = 30 - this.screen.height / 2;
+      this.scale = 1 / this.screen.camera.scale;
+      this.setPosition(
+        this.screen.camera.getX() +
+          this.screen.width / 2 / this.screen.camera.scale,
+        this.screen.camera.getY() -
+          this.screen.height / 2 / this.screen.camera.scale,
+      );
     }
   }
 

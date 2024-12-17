@@ -1,11 +1,11 @@
 import { DomChild, DomNode } from "@common-module/app";
 import { DomSelector } from "@common-module/universal-page";
-import TransformableNode from "../core/TransformableNode.js";
+import GameObject from "../core/GameObject.js";
 import GaiaEngineConfig from "../GaiaEngineConfig.js";
 import GameScreen from "../screen/GameScreen.js";
 
 export default class DomWrapperNode<HE extends HTMLElement = HTMLElement>
-  extends TransformableNode {
+  extends GameObject {
   protected domNode: DomNode;
 
   constructor(
@@ -32,61 +32,15 @@ export default class DomWrapperNode<HE extends HTMLElement = HTMLElement>
     return super.screen;
   }
 
-  private previousTransform = {
-    left: Number.NEGATIVE_INFINITY,
-    top: Number.NEGATIVE_INFINITY,
-    scaleX: 1,
-    scaleY: 1,
-  };
-
-  protected resetPreviousTransform() {
-    this.previousTransform = {
-      left: Number.NEGATIVE_INFINITY,
-      top: Number.NEGATIVE_INFINITY,
-      scaleX: 1,
-      scaleY: 1,
-    };
-  }
-
   protected update(deltaTime: number) {
     super.update(deltaTime);
 
-    if (this.screen) {
-      const calculatedLeft = (this.absoluteTransform.x -
-        this.screen.camera.getX() + this.screen.width / 2) *
-        this.screen.ratio;
-      const calculatedTop = (this.absoluteTransform.y -
-        this.screen.camera.getY() + this.screen.height / 2) *
-        this.screen.ratio;
-      const calculatedScaleX = this.absoluteTransform.scaleX *
-        this.screen.ratio;
-      const calculatedScaleY = this.absoluteTransform.scaleY *
-        this.screen.ratio;
-
-      const hasTransformChanged =
-        this.previousTransform.left !== calculatedLeft ||
-        this.previousTransform.top !== calculatedTop ||
-        this.previousTransform.scaleX !== calculatedScaleX ||
-        this.previousTransform.scaleY !== calculatedScaleY;
-
-      if (hasTransformChanged) {
-        this.previousTransform.left = calculatedLeft;
-        this.previousTransform.top = calculatedTop;
-        this.previousTransform.scaleX = calculatedScaleX;
-        this.previousTransform.scaleY = calculatedScaleY;
-
-        this.domNode.style({
-          transform:
-            `scale(${calculatedScaleX}, ${calculatedScaleY}) rotate(${this.absoluteTransform.rotation}rad)`,
-        });
-
-        const rect = this.domNode.calculateRect();
-        this.domNode.style({
-          left: `${calculatedLeft - rect.width / 2 / calculatedScaleX}px`,
-          top: `${calculatedTop - rect.height / 2 / calculatedScaleY}px`,
-        });
-      }
-    }
+    this.domNode.style({
+      left: `${this.globalTransform.x}px`,
+      top: `${this.globalTransform.y}px`,
+      transform:
+        `translate(-50%, -50%) scale(${this.globalTransform.scaleX}, ${this.globalTransform.scaleY}) rotate(${this.globalTransform.rotation}rad)`,
+    });
   }
 
   public remove(): void {

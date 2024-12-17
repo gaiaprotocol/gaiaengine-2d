@@ -16,7 +16,16 @@ export default class Fullscreen extends GameScreen {
       height: window.innerHeight,
       ...options,
     }, ...gameNodes);
-    this.appendTo(BodyNode);
+
+    this
+      .style({
+        position: "fixed",
+        left: "0",
+        top: "0",
+        width: "100%",
+        height: "100%",
+      })
+      .appendTo(BodyNode);
 
     this.onWindow(
       "resize",

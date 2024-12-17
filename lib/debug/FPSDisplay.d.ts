@@ -5,6 +5,7 @@ export default class FPSDisplay extends TextNode<{
     color: string;
     textAlign: string;
     width: string;
+    height: string;
 }> {
     private deltaTime;
     constructor();

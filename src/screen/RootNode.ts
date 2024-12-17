@@ -4,8 +4,7 @@ import GameScreen from "./GameScreen.js";
 export default class RootNode extends GameObject {
   constructor() {
     super(0, 0);
-    this.absoluteTransform.x = 0;
-    this.absoluteTransform.y = 0;
+    this.globalTransform = this.transform;
   }
 
   public setScreen(screen: GameScreen | undefined) {

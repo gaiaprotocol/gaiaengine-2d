@@ -9,7 +9,6 @@ export default class TextNode<ST extends Partial<CSSStyleDeclaration>>
 
   public set text(text: string) {
     this.domNode.text = text;
-    this.resetPreviousTransform();
   }
 
   public get text() {
