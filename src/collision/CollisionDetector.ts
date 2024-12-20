@@ -20,9 +20,9 @@ export default class CollisionDetector<
         if (
           CollisionUtils.checkCollision(
             subjectCollider,
-            subject.absoluteTransform,
+            subject.globalTransform,
             obstacleCollider,
-            obstacle.absoluteTransform,
+            obstacle.globalTransform,
           )
         ) {
           return true;

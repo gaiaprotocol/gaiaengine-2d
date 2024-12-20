@@ -40,6 +40,7 @@ export default class DomWrapperNode<HE extends HTMLElement = HTMLElement>
       top: `${this.globalTransform.y}px`,
       transform:
         `translate(-50%, -50%) scale(${this.globalTransform.scaleX}, ${this.globalTransform.scaleY}) rotate(${this.globalTransform.rotation}rad)`,
+      opacity: String(this.globalTransform.alpha),
     });
   }
 
