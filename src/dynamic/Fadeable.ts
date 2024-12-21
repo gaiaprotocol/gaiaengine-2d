@@ -9,11 +9,13 @@ export default class Fadeable extends GameObject {
   protected fadingAccel = 0;
 
   public fadeIn(duration: number): void {
-    this.fadingSpeed = (1 - this.alpha) / duration;
+    this.alpha = 0;
+    this.fadingSpeed = 1 / duration;
   }
 
   public fadeOut(duration: number): void {
-    this.fadingSpeed = (0 - this.alpha) / duration;
+    this.alpha = 1;
+    this.fadingSpeed = -1 / duration;
   }
 
   protected update(deltaTime: number): void {
