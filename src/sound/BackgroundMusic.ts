@@ -1,3 +1,4 @@
+import { BrowserInfo } from "@common-module/app";
 import AudioManager from "./AudioBufferManager.js";
 import Sound from "./Sound.js";
 
@@ -8,7 +9,13 @@ export default class BackgroundMusic extends Sound {
       true,
       volume,
     );
-    document.addEventListener("visibilitychange", this.handleVisibilityChange);
+
+    if (BrowserInfo.isMobileDevice()) {
+      document.addEventListener(
+        "visibilitychange",
+        this.handleVisibilityChange,
+      );
+    }
   }
 
   private handleVisibilityChange = (): void => {
@@ -18,10 +25,12 @@ export default class BackgroundMusic extends Sound {
   };
 
   public remove(): void {
-    document.removeEventListener(
-      "visibilitychange",
-      this.handleVisibilityChange,
-    );
+    if (BrowserInfo.isMobileDevice()) {
+      document.removeEventListener(
+        "visibilitychange",
+        this.handleVisibilityChange,
+      );
+    }
     super.remove();
   }
 }

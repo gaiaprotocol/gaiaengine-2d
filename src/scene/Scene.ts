@@ -16,7 +16,7 @@ export default abstract class Scene extends GameObject {
   }
 
   public remove(): void {
-    if (this.bgm) this.bgm.remove();
+    this.bgm?.remove();
     super.remove();
   }
 }
