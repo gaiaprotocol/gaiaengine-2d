@@ -59,7 +59,7 @@ export default class RectTerrainMap extends RectTileLoader {
     private _options: RectTerrainMapOptions = {},
   ) {
     super(tileSize, {
-      extraLoadTileCount: _options.extraLoadTileCount ?? tileSize,
+      extraLoadTileCount: _options.extraLoadTileCount,
       debounceDelay: _options.debounceDelay,
       onLoadTiles: (coordinates) => {
         coordinates.forEach(({ x, y }) => this.renderTile(x, y));

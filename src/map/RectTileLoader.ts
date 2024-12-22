@@ -52,13 +52,13 @@ export default class RectTileLoader extends GameObject {
       const startTileX = Math.floor(
         (boundLeft + this.tileSize / 2) / this.tileSize,
       ) - extraLoadTileCount;
-      const endTileX = Math.ceil(
+      const endTileX = Math.floor(
         (boundRight + this.tileSize / 2) / this.tileSize,
       ) + extraLoadTileCount;
       const startTileY = Math.floor(
         (boundTop + this.tileSize / 2) / this.tileSize,
       ) - extraLoadTileCount;
-      const endTileY = Math.ceil(
+      const endTileY = Math.floor(
         (boundBottom + this.tileSize / 2) / this.tileSize,
       ) + extraLoadTileCount;
 
@@ -75,16 +75,16 @@ export default class RectTileLoader extends GameObject {
           this.startTileY !== undefined &&
           this.endTileY !== undefined
         ) {
-          for (let x = this.startTileX; x < this.endTileX; x++) {
-            for (let y = this.startTileY; y < this.endTileY; y++) {
+          for (let x = this.startTileX; x <= this.endTileX; x++) {
+            for (let y = this.startTileY; y <= this.endTileY; y++) {
               toDeleteCoordinates.push({ x, y });
             }
           }
         }
 
         const toLoadCoordinates: Coordinates[] = [];
-        for (let x = startTileX; x < endTileX; x++) {
-          for (let y = startTileY; y < endTileY; y++) {
+        for (let x = startTileX; x <= endTileX; x++) {
+          for (let y = startTileY; y <= endTileY; y++) {
             const index = toDeleteCoordinates.findIndex(
               (coord) => coord.x === x && coord.y === y,
             );
