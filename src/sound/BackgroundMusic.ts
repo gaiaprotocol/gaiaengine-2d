@@ -1,14 +1,20 @@
 import { BrowserInfo } from "@common-module/app";
+import { IntegerUtils } from "@common-module/ts";
 import AudioManager from "./AudioBufferManager.js";
 import Sound from "./Sound.js";
 
-export default class BackgroundMusic extends Sound {
-  constructor(urls: { ogg?: string; mp3: string }, volume = 0.8) {
-    super(
-      AudioManager.canPlayOgg && urls.ogg ? urls.ogg : urls.mp3,
-      true,
-      volume,
-    );
+export default class BackgroundMusic {
+  private readonly sounds: Sound[] = [];
+  private currentSound?: Sound;
+  private currentIndex: number = -1;
+
+  constructor(sources: { ogg?: string; mp3: string }[], private _volume = 0.8) {
+    for (const src of sources) {
+      const url = AudioManager.canPlayOgg && src.ogg ? src.ogg : src.mp3;
+      const sound = new Sound(url, false, _volume);
+      sound.on("ended", this.handleSoundEnded);
+      this.sounds.push(sound);
+    }
 
     if (BrowserInfo.isMobileDevice()) {
       document.addEventListener(
@@ -18,19 +24,71 @@ export default class BackgroundMusic extends Sound {
     }
   }
 
-  private handleVisibilityChange = (): void => {
-    if (this.isAudioInitialized) {
-      document.hidden ? this.pause() : this.play();
+  private getRandomTrack(): Sound {
+    if (this.sounds.length <= 1) {
+      return this.sounds[0];
     }
+
+    let newIndex;
+    do {
+      newIndex = IntegerUtils.random(0, this.sounds.length - 1);
+    } while (newIndex === this.currentIndex);
+
+    this.currentIndex = newIndex;
+    return this.sounds[newIndex];
+  }
+
+  private handleSoundEnded = () => {
+    this.currentSound?.stop();
+    this.currentSound = this.getRandomTrack();
+    this.currentSound.play();
   };
 
+  private handleVisibilityChange = (): void => {
+    document.hidden ? this.pause() : this.play();
+  };
+
+  public play(): this {
+    if (!this.currentSound) {
+      this.currentSound = this.getRandomTrack();
+    }
+    this.currentSound?.play();
+    return this;
+  }
+
+  public pause(): this {
+    this.currentSound?.pause();
+    return this;
+  }
+
+  public stop(): this {
+    this.currentSound?.stop();
+    this.currentSound = undefined;
+    this.currentIndex = -1;
+    return this;
+  }
+
+  public set volume(volume: number) {
+    this._volume = volume;
+    for (const sound of this.sounds) {
+      sound.volume = volume;
+    }
+  }
+
+  public get volume(): number {
+    return this.currentSound ? this.currentSound.volume : this._volume;
+  }
+
   public remove(): void {
+    for (const sound of this.sounds) {
+      sound.remove();
+    }
+
     if (BrowserInfo.isMobileDevice()) {
       document.removeEventListener(
         "visibilitychange",
         this.handleVisibilityChange,
       );
     }
-    super.remove();
   }
 }

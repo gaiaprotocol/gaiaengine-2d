@@ -1,10 +1,20 @@
-import Sound from "./Sound.js";
-export default class BackgroundMusic extends Sound {
-    constructor(urls: {
+export default class BackgroundMusic {
+    private _volume;
+    private readonly sounds;
+    private currentSound?;
+    private currentIndex;
+    constructor(sources: {
         ogg?: string;
         mp3: string;
-    }, volume?: number);
+    }[], _volume?: number);
+    private getRandomTrack;
+    private handleSoundEnded;
     private handleVisibilityChange;
+    play(): this;
+    pause(): this;
+    stop(): this;
+    set volume(volume: number);
+    get volume(): number;
     remove(): void;
 }
 //# sourceMappingURL=BackgroundMusic.d.ts.map
