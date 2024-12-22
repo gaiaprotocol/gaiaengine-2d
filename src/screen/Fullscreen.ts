@@ -1,5 +1,4 @@
 import { BodyNode } from "@common-module/app";
-import GameNode from "../core/GameNode.js";
 import GameScreen from "./GameScreen.js";
 
 interface FullscreenOptions {
@@ -7,15 +6,12 @@ interface FullscreenOptions {
 }
 
 export default class Fullscreen extends GameScreen {
-  constructor(
-    options: FullscreenOptions,
-    ...gameNodes: (GameNode | undefined)[]
-  ) {
+  constructor(options: FullscreenOptions) {
     super({
       width: document.documentElement.clientWidth,
       height: window.innerHeight,
       ...options,
-    }, ...gameNodes);
+    });
 
     this
       .style({

@@ -1,4 +1,3 @@
-import GameNode from "../core/GameNode.js";
 import GameScreen from "./GameScreen.js";
 interface LetterboxedScreenOptions {
     width: number;
@@ -7,7 +6,7 @@ interface LetterboxedScreenOptions {
 }
 export default class LetterboxedScreen extends GameScreen {
     private letterboxes;
-    constructor(options: LetterboxedScreenOptions, ...gameNodes: (GameNode | undefined)[]);
+    constructor(options: LetterboxedScreenOptions);
     private updateLayout;
 }
 export {};

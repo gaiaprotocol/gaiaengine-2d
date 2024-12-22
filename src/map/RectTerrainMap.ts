@@ -5,6 +5,7 @@ import SpritesheetLoader from "../loaders/SpritesheetLoader.js";
 import RectTerrainMapTile from "./RectTerrainMapTile.js";
 import RectTileLoader from "./RectTileLoader.js";
 import TerrainDirection from "./TerrainDirection.js";
+import TileRange from "./TileRange.js";
 
 interface SpritesheetInfo {
   src: string;
@@ -41,6 +42,7 @@ export interface RectTerrainMapOptions {
   tileFadeDuration?: number;
   onLoadTiles?: (coordinates: Coordinates[]) => void;
   onDeleteTiles?: (coordinates: Coordinates[]) => void;
+  onTileRangeChanged?: (range: TileRange) => void;
 }
 
 export default class RectTerrainMap extends RectTileLoader {
@@ -67,6 +69,7 @@ export default class RectTerrainMap extends RectTileLoader {
         coordinates.forEach(({ x, y }) => this.deleteTile(x, y));
         _options.onDeleteTiles?.(coordinates);
       },
+      onTileRangeChanged: (range) => _options.onTileRangeChanged?.(range),
     });
 
     this.loadSpritesheets();

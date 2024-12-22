@@ -1,5 +1,4 @@
 import { DomNode } from "@common-module/app";
-import GameNode from "../core/GameNode.js";
 import Camera from "./Camera.js";
 import RootNode from "./RootNode.js";
 interface GameScreenOptions {
@@ -18,7 +17,7 @@ export default class GameScreen extends DomNode {
     height: number;
     ratio: number;
     private backgroundColor;
-    constructor(options: GameScreenOptions, ...gameNodes: (GameNode | undefined)[]);
+    constructor(options: GameScreenOptions);
     resize(width: number, height: number, ratio?: number): void;
     private createRenderer;
     updateRootNodePosition(): void;

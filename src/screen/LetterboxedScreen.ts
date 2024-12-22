@@ -1,5 +1,4 @@
 import { BodyNode } from "@common-module/app";
-import GameNode from "../core/GameNode.js";
 import GameScreen from "./GameScreen.js";
 import Letterbox from "./Letterbox.js";
 
@@ -17,11 +16,8 @@ export default class LetterboxedScreen extends GameScreen {
     right: new Letterbox({ right: "0", top: "0", height: "100%" }),
   };
 
-  constructor(
-    options: LetterboxedScreenOptions,
-    ...gameNodes: (GameNode | undefined)[]
-  ) {
-    super(options, ...gameNodes);
+  constructor(options: LetterboxedScreenOptions) {
+    super(options);
     this
       .style({
         position: "fixed",

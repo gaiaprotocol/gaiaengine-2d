@@ -1,6 +1,5 @@
 import { DomNode } from "@common-module/app";
 import { autoDetectRenderer, Renderer } from "pixi.js";
-import GameNode from "../core/GameNode.js";
 import Camera from "./Camera.js";
 import RootNode from "./RootNode.js";
 
@@ -26,10 +25,7 @@ export default class GameScreen extends DomNode {
 
   private backgroundColor: number;
 
-  constructor(
-    options: GameScreenOptions,
-    ...gameNodes: (GameNode | undefined)[]
-  ) {
+  constructor(options: GameScreenOptions) {
     super(".game-screen");
     this.style({ position: "relative" });
 
@@ -37,7 +33,7 @@ export default class GameScreen extends DomNode {
     this.height = options.height;
     this.backgroundColor = options.backgroundColor ?? 0x000000;
 
-    this.root.setScreen(this).append(...gameNodes);
+    this.root.setScreen(this);
     this.createRenderer();
 
     this.onWindow("blur", () => this.actualFPS = 6);
