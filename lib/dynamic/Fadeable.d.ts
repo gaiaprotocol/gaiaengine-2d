@@ -4,8 +4,10 @@ export default class Fadeable extends GameObject {
     protected minFadingSpeed: number;
     protected maxFadingSpeed: number;
     protected fadingAccel: number;
-    fadeIn(duration: number): void;
-    fadeOut(duration: number): void;
+    private fadeInCallback?;
+    private fadeOutCallback?;
+    fadeIn(duration: number, callback?: () => void): void;
+    fadeOut(duration: number, callback?: () => void): void;
     protected update(deltaTime: number): void;
 }
 //# sourceMappingURL=Fadeable.d.ts.map

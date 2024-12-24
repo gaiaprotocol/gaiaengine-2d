@@ -8,14 +8,19 @@ export default class Fadeable extends GameObject {
 
   protected fadingAccel = 0;
 
-  public fadeIn(duration: number): void {
+  private fadeInCallback?: () => void;
+  private fadeOutCallback?: () => void;
+
+  public fadeIn(duration: number, callback?: () => void): void {
     this.alpha = 0;
     this.fadingSpeed = 1 / duration;
+    this.fadeInCallback = callback;
   }
 
-  public fadeOut(duration: number): void {
+  public fadeOut(duration: number, callback?: () => void): void {
     this.alpha = 1;
     this.fadingSpeed = -1 / duration;
+    this.fadeOutCallback = callback;
   }
 
   protected update(deltaTime: number): void {
@@ -34,11 +39,13 @@ export default class Fadeable extends GameObject {
       if (this.alpha < 0) {
         this.alpha = 0;
         this.fadingSpeed = 0;
+        this.fadeOutCallback?.();
       }
 
       if (this.alpha > 1) {
         this.alpha = 1;
         this.fadingSpeed = 0;
+        this.fadeInCallback?.();
       }
     }
 
