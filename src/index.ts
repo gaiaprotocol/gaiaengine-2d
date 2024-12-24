@@ -2,7 +2,10 @@ export { default as Collidable } from "./collision/Collidable.js";
 export { default as Collider } from "./collision/collider/Collider.js";
 export { default as ColliderType } from "./collision/collider/ColliderType.js";
 export { default as CollisionDetector } from "./collision/CollisionDetector.js";
-export { default as Coordinates } from "./core/Coordinates.js";
+export {
+  compareCoordinates,
+  default as Coordinates
+} from "./core/Coordinates.js";
 export { default as GameNode } from "./core/GameNode.js";
 export { default as GameObject } from "./core/GameObject.js";
 export { default as WindowEventNode } from "./core/WindowEventNode.js";

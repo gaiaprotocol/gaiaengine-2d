@@ -1,1 +1,1 @@
-{"version":3,"file":"Coordinates.js","sourceRoot":"","sources":["../../src/core/Coordinates.ts"],"names":[],"mappings":""}
+{"version":3,"file":"Coordinates.js","sourceRoot":"","sources":["../../src/core/Coordinates.ts"],"names":[],"mappings":"AAKA,MAAM,UAAU,kBAAkB,CAChC,CAA0B,EAC1B,CAA0B;IAE1B,OAAO,CAAC,EAAE,CAAC,KAAK,CAAC,EAAE,CAAC,IAAI,CAAC,EAAE,CAAC,KAAK,CAAC,EAAE,CAAC,CAAC;AACxC,CAAC"}

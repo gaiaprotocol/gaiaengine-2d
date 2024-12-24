@@ -1,1 +1,1 @@
-{"version":3,"file":"Coordinates.d.ts","sourceRoot":"","sources":["../../src/core/Coordinates.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,OAAO,WAAW,WAAW;IAClC,CAAC,EAAE,MAAM,CAAC;IACV,CAAC,EAAE,MAAM,CAAC;CACX"}
+{"version":3,"file":"Coordinates.d.ts","sourceRoot":"","sources":["../../src/core/Coordinates.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,OAAO,WAAW,WAAW;IAClC,CAAC,EAAE,MAAM,CAAC;IACV,CAAC,EAAE,MAAM,CAAC;CACX;AAED,wBAAgB,kBAAkB,CAChC,CAAC,EAAE,WAAW,GAAG,SAAS,EAC1B,CAAC,EAAE,WAAW,GAAG,SAAS,WAG3B"}
