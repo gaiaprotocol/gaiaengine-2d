@@ -4,7 +4,7 @@ export { default as ColliderType } from "./collision/collider/ColliderType.js";
 export { default as CollisionDetector } from "./collision/CollisionDetector.js";
 export {
   compareCoordinates,
-  default as Coordinates
+  default as Coordinates,
 } from "./core/Coordinates.js";
 export { default as GameNode } from "./core/GameNode.js";
 export { default as GameObject } from "./core/GameObject.js";
@@ -24,7 +24,7 @@ export { default as ResourceLoader } from "./loaders/ResourceLoader.js";
 export { default as TextureLoader } from "./loaders/TextureLoader.js";
 export {
   default as RectTerrainMap,
-  RectTerrainMapOptions
+  RectTerrainMapOptions,
 } from "./map/RectTerrainMap.js";
 export { default as TileRange } from "./map/TileRange.js";
 export { default as Scene } from "./scene/Scene.js";
@@ -35,5 +35,5 @@ export { default as EllipseNode } from "./shapes/EllipseNode.js";
 export { default as RectangleNode } from "./shapes/RectangleNode.js";
 export { default as ShapeNode } from "./shapes/ShapeNode.js";
 export { default as BackgroundMusic } from "./sound/BackgroundMusic.js";
+export { default as RandomSoundLooper } from "./sound/RandomSoundLooper.js";
 export { default as SFXPlayer } from "./sound/SFXPlayer.js";
-
