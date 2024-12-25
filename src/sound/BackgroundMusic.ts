@@ -52,7 +52,7 @@ export default class BackgroundMusic {
     if (!this.currentSound) {
       this.currentSound = this.getRandomTrack();
     }
-    this.currentSound?.play();
+    this.currentSound.play();
     return this;
   }
 

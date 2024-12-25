@@ -46,7 +46,7 @@ export default class RandomSoundLooper {
     if (!this.currentSound) {
       this.currentSound = this.getRandomSound();
     }
-    this.currentSound?.play();
+    this.currentSound.play();
     return this;
   }
 
