@@ -31,10 +31,10 @@ export default class RandomSoundLooper {
   }
 
   private handleSoundEnded = () => {
-    if (this.isRemoved || !this.currentSound) {
+    if (this.isRemoved) {
       return;
     }
-    this.currentSound.stop();
+    this.currentSound?.stop();
     this.playNextTrack();
   };
 

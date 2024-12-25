@@ -138,4 +138,15 @@ export default class RectTileLoader extends GameObject {
     }
     super.update(deltaTime);
   }
+
+  public reloadTiles() {
+    this.startTileX = undefined;
+    this.endTileX = undefined;
+    this.startTileY = undefined;
+    this.endTileY = undefined;
+
+    this.loadTilesDebouncer
+      ? this.loadTilesDebouncer.execute()
+      : this.loadTiles();
+  }
 }

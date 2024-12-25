@@ -22,6 +22,7 @@ export default class RectTileLoader extends GameObject {
     constructor(tileSize: number, options: RectTileLoaderOptions);
     private loadTiles;
     protected update(deltaTime: number): void;
+    reloadTiles(): void;
 }
 export {};
 //# sourceMappingURL=RectTileLoader.d.ts.map
