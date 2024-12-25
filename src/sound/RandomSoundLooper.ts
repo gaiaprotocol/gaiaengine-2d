@@ -6,12 +6,8 @@ export default class RandomSoundLooper {
   private readonly sounds: Sound[] = [];
   private currentSound?: Sound;
   private currentIndex: number = -1;
-  private isRemoved: boolean = false;
 
-  constructor(
-    sources: string[],
-    private _volume = 0.8,
-  ) {
+  constructor(sources: string[], private _volume = 0.8) {
     for (const src of sources) {
       const sound = new Sound(src, false, _volume);
       sound.on("ended", this.handleSoundEnded);
@@ -26,34 +22,31 @@ export default class RandomSoundLooper {
     }
   }
 
-  private getRandomIndex(): number {
-    return IntegerUtils.random(0, this.sounds.length - 1);
+  private getRandomSound(): Sound {
+    if (this.sounds.length <= 1) {
+      return this.sounds[0];
+    }
+
+    const newIndex = IntegerUtils.random(0, this.sounds.length - 1);
+    this.currentIndex = newIndex;
+    return this.sounds[newIndex];
   }
 
   private handleSoundEnded = () => {
-    if (this.isRemoved || !this.currentSound) {
-      return;
-    }
-    this.currentSound.stop();
-    this.playNextTrack();
+    this.currentSound?.stop();
+    this.currentSound = this.getRandomSound();
+    this.currentSound.play();
   };
 
   private handleVisibilityChange = (): void => {
     document.hidden ? this.pause() : this.play();
   };
 
-  private playNextTrack(): void {
-    this.currentIndex = this.getRandomIndex();
-    this.currentSound = this.sounds[this.currentIndex];
-    this.currentSound.play();
-  }
-
   public play(): this {
     if (!this.currentSound) {
-      this.playNextTrack();
-    } else {
-      this.currentSound.play();
+      this.currentSound = this.getRandomSound();
     }
+    this.currentSound?.play();
     return this;
   }
 
@@ -81,13 +74,9 @@ export default class RandomSoundLooper {
   }
 
   public remove(): void {
-    this.isRemoved = true;
-    this.stop();
-
     for (const sound of this.sounds) {
       sound.remove();
     }
-    this.sounds.length = 0;
 
     if (BrowserInfo.isMobileDevice()) {
       document.removeEventListener(

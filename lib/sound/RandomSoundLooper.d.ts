@@ -3,12 +3,10 @@ export default class RandomSoundLooper {
     private readonly sounds;
     private currentSound?;
     private currentIndex;
-    private isRemoved;
     constructor(sources: string[], _volume?: number);
-    private getRandomIndex;
+    private getRandomSound;
     private handleSoundEnded;
     private handleVisibilityChange;
-    private playNextTrack;
     play(): this;
     pause(): this;
     stop(): this;
