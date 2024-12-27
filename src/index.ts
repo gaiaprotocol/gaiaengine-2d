@@ -1,6 +1,6 @@
 export { default as Collidable } from "./collision/Collidable.js";
-export { default as Collider } from "./collision/collider/Collider.js";
-export { default as ColliderType } from "./collision/collider/ColliderType.js";
+export { default as Collider } from "./collision/colliders/Collider.js";
+export { default as ColliderType } from "./collision/colliders/ColliderType.js";
 export { default as CollisionDetector } from "./collision/CollisionDetector.js";
 export {
   compareCoordinates,

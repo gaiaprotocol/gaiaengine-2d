@@ -1,8 +1,8 @@
 import Transform from "../core/Transform.js";
-import Collider from "./collider/Collider.js";
-import EllipseCollider from "./collider/EllipseCollider.js";
-import PolygonCollider from "./collider/PolygonCollider.js";
-import RectCollider from "./collider/RectCollider.js";
+import Collider from "./colliders/Collider.js";
+import EllipseCollider from "./colliders/EllipseCollider.js";
+import PolygonCollider from "./colliders/PolygonCollider.js";
+import RectCollider from "./colliders/RectCollider.js";
 declare class CollisionUtils {
     checkCollision(colliderA: Collider, transformA: Transform, colliderB: Collider, transformB: Transform): boolean;
     private isValidTransform;
