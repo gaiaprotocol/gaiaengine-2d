@@ -13,7 +13,7 @@ export default class Sound extends EventContainer<{
   private gainNode?: GainNode;
   private source?: AudioBufferSourceNode;
 
-  private startTime = 0; // Add this line
+  private startTime = 0;
   private pauseTime = 0;
   private offset = 0;
 
@@ -87,7 +87,7 @@ export default class Sound extends EventContainer<{
     if (this.isPlaying && !this.isPaused) {
       if (this.audioContext) {
         this.pauseTime = this.audioContext.currentTime;
-        this.offset += this.pauseTime - this.startTime; // Update offset here
+        this.offset += this.pauseTime - this.startTime;
       }
       this.isPaused = true;
       this.isPlaying = false;

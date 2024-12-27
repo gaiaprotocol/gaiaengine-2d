@@ -29,8 +29,6 @@ export default abstract class TransformableNode extends GameNode {
   };
 
   protected update(deltaTime: number): void {
-    super.update(deltaTime);
-
     const parent = this.parent as TransformableNode | undefined;
     const pt = parent?.globalTransform;
 
@@ -58,5 +56,7 @@ export default abstract class TransformableNode extends GameNode {
       this.globalTransform.rotation = pt.rotation + this.transform.rotation;
       this.globalTransform.alpha = pt.alpha * this.transform.alpha;
     }
+
+    super.update(deltaTime);
   }
 }
