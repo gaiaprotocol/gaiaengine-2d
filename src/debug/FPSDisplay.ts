@@ -52,7 +52,7 @@ export default class FPSDisplay extends TextNode<{
 
   public update(deltaTime: number): void {
     this.deltaTime = deltaTime;
-    super.update(deltaTime);
     this.updatePosition();
+    super.update(deltaTime);
   }
 }
