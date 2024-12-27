@@ -1,9 +1,8 @@
+import BaseCollider from "./BaseCollider.js";
 import ColliderType from "./ColliderType.js";
 
-export default interface RectCollider {
+export default interface RectCollider extends BaseCollider {
   type: ColliderType.Rectangle;
-  x: number;
-  y: number;
   width: number;
   height: number;
 }

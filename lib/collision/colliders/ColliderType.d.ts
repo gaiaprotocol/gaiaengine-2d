@@ -1,8 +1,7 @@
 declare enum ColliderType {
     Rectangle = 0,
-    Circle = 1,
-    Ellipse = 2,
-    Polygon = 3
+    Ellipse = 1,
+    Polygon = 2
 }
 export default ColliderType;
 //# sourceMappingURL=ColliderType.d.ts.map

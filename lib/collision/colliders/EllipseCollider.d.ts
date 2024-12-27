@@ -1,8 +1,7 @@
+import BaseCollider from "./BaseCollider.js";
 import ColliderType from "./ColliderType.js";
-export default interface EllipseCollider {
+export default interface EllipseCollider extends BaseCollider {
     type: ColliderType.Ellipse;
-    x: number;
-    y: number;
     width: number;
     height: number;
 }
