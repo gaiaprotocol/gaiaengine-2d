@@ -6,6 +6,7 @@ export { compareCoordinates, default as Coordinates, } from "./core/Coordinates.
 export { default as GameNode } from "./core/GameNode.js";
 export { default as GameObject } from "./core/GameObject.js";
 export { default as WindowEventNode } from "./core/WindowEventNode.js";
+export { default as Atlas } from "./data/Atlas.js";
 export { default as FPSDisplay } from "./debug/FPSDisplay.js";
 export { default as Interval } from "./delay/Interval.js";
 export { default as DomWrapperNode } from "./dom/DomWrapperNode.js";

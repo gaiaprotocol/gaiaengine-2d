@@ -1,11 +1,11 @@
-import { SpritesheetData } from "pixi.js";
 import Coordinates from "../core/Coordinates.js";
+import Atlas from "../data/Atlas.js";
 import RectTileLoader from "./RectTileLoader.js";
 import TerrainDirection from "./TerrainDirection.js";
 import TileRange from "./TileRange.js";
-interface SpritesheetInfo {
+interface AtlasInfo {
     src: string;
-    atlas: SpritesheetData;
+    atlas: Atlas;
 }
 interface SpriteInfo {
     spritesheet: string;
@@ -46,7 +46,7 @@ export default class RectTerrainMap extends RectTileLoader {
     private tiles;
     private spritesheetsLoaded;
     constructor(tileSize: number, spritesheets: {
-        [id: string]: SpritesheetInfo;
+        [id: string]: AtlasInfo;
     }, terrains: TerrainDefinitions, objects: ObjectDefinitions, terrainMap: {
         [coordinateKey: string]: string;
     }, mapObjects: MapObject[], _options?: RectTerrainMapOptions);

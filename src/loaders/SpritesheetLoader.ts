@@ -1,11 +1,12 @@
-import { Spritesheet, SpritesheetData } from "pixi.js";
+import { Spritesheet } from "pixi.js";
+import Atlas from "../data/Atlas.js";
 import ResourceLoader from "./ResourceLoader.js";
 import TextureLoader from "./TextureLoader.js";
 
 class SpritesheetLoader extends ResourceLoader<Spritesheet> {
   protected async loadFromPath(
     src: string,
-    atlas: SpritesheetData,
+    atlas: Atlas,
   ): Promise<Spritesheet | undefined> {
     const loadPromise = (async () => {
       const texture = await TextureLoader.load(src);

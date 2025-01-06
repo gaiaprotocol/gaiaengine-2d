@@ -1,4 +1,5 @@
-import { Sprite as PixiSprite, SpritesheetData } from "pixi.js";
+import { Sprite as PixiSprite } from "pixi.js";
+import Atlas from "../data/Atlas.js";
 import SpritesheetLoader from "../loaders/SpritesheetLoader.js";
 import TextureLoader from "../loaders/TextureLoader.js";
 import BaseSprite from "./BaseSprite.js";
@@ -8,7 +9,7 @@ export default class Sprite extends BaseSprite {
     x: number,
     y: number,
     src: string,
-    private atlas?: SpritesheetData,
+    private atlas?: Atlas,
     private frame?: string,
   ) {
     super(x, y);

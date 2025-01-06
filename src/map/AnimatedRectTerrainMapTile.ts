@@ -1,4 +1,4 @@
-import { SpritesheetData } from "pixi.js";
+import Atlas from "../data/Atlas.js";
 import AnimatedSprite from "../image/AnimatedSprite.js";
 
 export default class AnimatedRectTerrainMapTile extends AnimatedSprite {
@@ -8,7 +8,7 @@ export default class AnimatedRectTerrainMapTile extends AnimatedSprite {
     x: number,
     y: number,
     src: string,
-    atlas: SpritesheetData,
+    atlas: Atlas,
     animation: string,
     fps: number,
     fadeDuration?: number,

@@ -1,4 +1,5 @@
-import { AnimatedSprite as PixiAnimatedSprite, SpritesheetData } from "pixi.js";
+import { AnimatedSprite as PixiAnimatedSprite } from "pixi.js";
+import Atlas from "../data/Atlas.js";
 import SpritesheetLoader from "../loaders/SpritesheetLoader.js";
 import BaseSprite from "./BaseSprite.js";
 
@@ -9,7 +10,7 @@ export default class AnimatedSprite extends BaseSprite {
     x: number,
     y: number,
     src: string,
-    private atlas: SpritesheetData,
+    private atlas: Atlas,
     private animation: string,
     private fps: number,
   ) {

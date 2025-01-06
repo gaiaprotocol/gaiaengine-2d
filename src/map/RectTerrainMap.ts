@@ -1,6 +1,6 @@
 import { IntegerUtils } from "@common-module/ts";
-import { SpritesheetData } from "pixi.js";
 import Coordinates from "../core/Coordinates.js";
+import Atlas from "../data/Atlas.js";
 import SpritesheetLoader from "../loaders/SpritesheetLoader.js";
 import AnimatedRectTerrainMapTile from "./AnimatedRectTerrainMapTile.js";
 import RectTerrainMapTile from "./RectTerrainMapTile.js";
@@ -8,9 +8,9 @@ import RectTileLoader from "./RectTileLoader.js";
 import TerrainDirection from "./TerrainDirection.js";
 import TileRange from "./TileRange.js";
 
-interface SpritesheetInfo {
+interface AtlasInfo {
   src: string;
-  atlas: SpritesheetData;
+  atlas: Atlas;
 }
 
 interface SpriteInfo {
@@ -57,7 +57,7 @@ export default class RectTerrainMap extends RectTileLoader {
 
   constructor(
     tileSize: number,
-    private spritesheets: { [id: string]: SpritesheetInfo },
+    private spritesheets: { [id: string]: AtlasInfo },
     private terrains: TerrainDefinitions,
     private objects: ObjectDefinitions,
     private terrainMap: { [coordinateKey: string]: string },

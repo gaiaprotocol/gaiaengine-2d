@@ -1,4 +1,4 @@
-import { SpritesheetData } from "pixi.js";
+import Atlas from "../data/Atlas.js";
 import Sprite from "../image/Sprite.js";
 
 export default class RectTerrainMapTile extends Sprite {
@@ -8,7 +8,7 @@ export default class RectTerrainMapTile extends Sprite {
     x: number,
     y: number,
     src: string,
-    atlas?: SpritesheetData,
+    atlas?: Atlas,
     frame?: string,
     fadeDuration?: number,
   ) {
