@@ -7,19 +7,21 @@ interface SpritesheetInfo {
     src: string;
     atlas: SpritesheetData;
 }
-interface TerrainFrame {
+interface SpriteInfo {
     spritesheet: string;
-    frame: string;
+    frame?: string;
+    animation?: string;
+    fps?: number;
     zIndex: number;
 }
-type TerrainFramesByDirection = {
-    [direction in TerrainDirection]?: TerrainFrame[];
+type TerrainDefinition = {
+    [direction in TerrainDirection]?: SpriteInfo[];
 };
 interface TerrainDefinitions {
-    [terrainId: string]: TerrainFramesByDirection;
+    [terrainId: string]: TerrainDefinition;
 }
 interface ObjectDefinitions {
-    [objectId: string]: TerrainFrame;
+    [objectId: string]: SpriteInfo;
 }
 interface MapObject {
     x: number;

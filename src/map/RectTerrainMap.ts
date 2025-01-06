@@ -2,6 +2,7 @@ import { IntegerUtils } from "@common-module/ts";
 import { SpritesheetData } from "pixi.js";
 import Coordinates from "../core/Coordinates.js";
 import SpritesheetLoader from "../loaders/SpritesheetLoader.js";
+import AnimatedRectTerrainMapTile from "./AnimatedRectTerrainMapTile.js";
 import RectTerrainMapTile from "./RectTerrainMapTile.js";
 import RectTileLoader from "./RectTileLoader.js";
 import TerrainDirection from "./TerrainDirection.js";
@@ -12,22 +13,24 @@ interface SpritesheetInfo {
   atlas: SpritesheetData;
 }
 
-interface TerrainFrame {
+interface SpriteInfo {
   spritesheet: string;
-  frame: string;
+  frame?: string;
+  animation?: string;
+  fps?: number;
   zIndex: number;
 }
 
-type TerrainFramesByDirection = {
-  [direction in TerrainDirection]?: TerrainFrame[];
+type TerrainDefinition = {
+  [direction in TerrainDirection]?: SpriteInfo[];
 };
 
 interface TerrainDefinitions {
-  [terrainId: string]: TerrainFramesByDirection;
+  [terrainId: string]: TerrainDefinition;
 }
 
 interface ObjectDefinitions {
-  [objectId: string]: TerrainFrame;
+  [objectId: string]: SpriteInfo;
 }
 
 interface MapObject {
@@ -46,7 +49,10 @@ export interface RectTerrainMapOptions {
 }
 
 export default class RectTerrainMap extends RectTileLoader {
-  private tiles = new Map<string, RectTerrainMapTile[]>();
+  private tiles = new Map<
+    string,
+    (RectTerrainMapTile | AnimatedRectTerrainMapTile)[]
+  >();
   private spritesheetsLoaded = false;
 
   constructor(
@@ -127,14 +133,24 @@ export default class RectTerrainMap extends RectTileLoader {
     const frame = frames[frameIndex];
     const spritesheetInfo = this.spritesheets[frame.spritesheet];
 
-    const tile = new RectTerrainMapTile(
-      x * this.tileSize,
-      y * this.tileSize,
-      spritesheetInfo.src,
-      spritesheetInfo.atlas,
-      frame.frame,
-      this._options.tileFadeDuration,
-    );
+    const tile = frame.animation
+      ? new AnimatedRectTerrainMapTile(
+        x * this.tileSize,
+        y * this.tileSize,
+        spritesheetInfo.src,
+        spritesheetInfo.atlas,
+        frame.animation,
+        frame.fps!,
+        this._options.tileFadeDuration,
+      )
+      : new RectTerrainMapTile(
+        x * this.tileSize,
+        y * this.tileSize,
+        spritesheetInfo.src,
+        spritesheetInfo.atlas,
+        frame.frame,
+        this._options.tileFadeDuration,
+      );
     tile.zIndex = frame.zIndex;
     this.append(tile);
 
@@ -164,14 +180,24 @@ export default class RectTerrainMap extends RectTileLoader {
         const objectInfo = this.objects[mapObject.objectId];
         if (objectInfo) {
           const spritesheetInfo = this.spritesheets[objectInfo.spritesheet];
-          const tile = new RectTerrainMapTile(
-            mapObject.x,
-            mapObject.y,
-            spritesheetInfo.src,
-            spritesheetInfo.atlas,
-            objectInfo.frame,
-            this._options.tileFadeDuration,
-          );
+          const tile = objectInfo.animation
+            ? new AnimatedRectTerrainMapTile(
+              mapObject.x,
+              mapObject.y,
+              spritesheetInfo.src,
+              spritesheetInfo.atlas,
+              objectInfo.animation,
+              objectInfo.fps!,
+              this._options.tileFadeDuration,
+            )
+            : new RectTerrainMapTile(
+              mapObject.x,
+              mapObject.y,
+              spritesheetInfo.src,
+              spritesheetInfo.atlas,
+              objectInfo.frame,
+              this._options.tileFadeDuration,
+            );
           tile.zIndex = objectInfo.zIndex;
           this.append(tile);
         }
