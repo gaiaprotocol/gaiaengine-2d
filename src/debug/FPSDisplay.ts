@@ -14,14 +14,14 @@ export default class FPSDisplay extends TextNode<{
 
   constructor(private additionalX = 0, private additionalY = 0) {
     super(0, 0, "FPS: 0", {
-      fontSize: "25px",
+      fontSize: "16px",
       color: "#000",
-      textAlign: "center",
-      width: "120px",
-      height: "40px",
+      textAlign: "right",
+      width: "80px",
+      height: "30px",
     });
-    this.setPivot(60 - this.additionalX, -30 - this.additionalY);
-    StyleUtils.applyTextStroke(this.domNode, 2, "#fff");
+    this.setPivot(54 - this.additionalX, -24 - this.additionalY);
+    StyleUtils.applyTextStroke(this.domNode, 1, "#fff");
 
     new Interval(
       0.1,
