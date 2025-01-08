@@ -1,4 +1,6 @@
-interface Frame {
+import TerrainDirection from "./TerrainDirection.js";
+
+export interface Frame {
   x: number;
   y: number;
   width: number;
@@ -8,7 +10,7 @@ interface Frame {
 export default interface MapData {
   terrains: {
     [id: string]: {
-      [direction: string]: {
+      [direction in TerrainDirection]: {
         spritesheet: string;
         frames: Frame[];
         fps?: number;

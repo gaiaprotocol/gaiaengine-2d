@@ -8,7 +8,7 @@ class MapDataTransformer {
     for (const terrainId in mapData.terrains) {
       const terrain = mapData.terrains[terrainId];
       for (const direction in terrain) {
-        const terrainEntries = terrain[direction];
+        const terrainEntries = (terrain as any)[direction];
         for (const [entryIndex, entry] of terrainEntries.entries()) {
           const { spritesheet, frames } = entry;
 
