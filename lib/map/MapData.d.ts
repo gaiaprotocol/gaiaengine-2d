@@ -1,3 +1,4 @@
+import Collider from "../collision/colliders/Collider.js";
 import TerrainDirection from "./TerrainDirection.js";
 export interface Frame {
     x: number;
@@ -13,6 +14,7 @@ export default interface MapData {
                 frames: Frame[];
                 fps?: number;
                 drawingOrder: number;
+                colliders?: Collider[];
             }[];
         };
     };
@@ -23,6 +25,7 @@ export default interface MapData {
             fps?: number;
             drawingOrder?: number;
             useYForDrawingOrder?: boolean;
+            colliders?: Collider[];
         };
     };
     terrainMap: {
