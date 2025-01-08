@@ -3,41 +3,12 @@ import Coordinates from "../core/Coordinates.js";
 import Atlas from "../data/Atlas.js";
 import SpritesheetLoader from "../loaders/SpritesheetLoader.js";
 import AnimatedRectTerrainMapTile from "./AnimatedRectTerrainMapTile.js";
+import MapData from "./MapData.js";
+import MapDataTransformer from "./MapDataTransformer.js";
 import RectTerrainMapTile from "./RectTerrainMapTile.js";
 import RectTileLoader from "./RectTileLoader.js";
 import TerrainDirection from "./TerrainDirection.js";
 import TileRange from "./TileRange.js";
-
-interface AtlasInfo {
-  src: string;
-  atlas: Atlas;
-}
-
-interface SpriteInfo {
-  spritesheet: string;
-  frame?: string;
-  animation?: string;
-  fps?: number;
-  zIndex: number;
-}
-
-type TerrainDefinition = {
-  [direction in TerrainDirection]?: SpriteInfo[];
-};
-
-interface TerrainDefinitions {
-  [terrainId: string]: TerrainDefinition;
-}
-
-interface ObjectDefinitions {
-  [objectId: string]: SpriteInfo;
-}
-
-interface MapObject {
-  x: number;
-  y: number;
-  objectId: string;
-}
 
 export interface RectTerrainMapOptions {
   extraLoadTileCount?: number;
@@ -49,6 +20,7 @@ export interface RectTerrainMapOptions {
 }
 
 export default class RectTerrainMap extends RectTileLoader {
+  private altases: Record<string, Atlas> = {};
   private tiles = new Map<
     string,
     (RectTerrainMapTile | AnimatedRectTerrainMapTile)[]
@@ -57,11 +29,8 @@ export default class RectTerrainMap extends RectTileLoader {
 
   constructor(
     tileSize: number,
-    private spritesheets: { [id: string]: AtlasInfo },
-    private terrains: TerrainDefinitions,
-    private objects: ObjectDefinitions,
-    private terrainMap: { [coordinateKey: string]: string },
-    private mapObjects: MapObject[],
+    private spritesheets: { [id: string]: string },
+    private mapData: MapData,
     private _options: RectTerrainMapOptions = {},
   ) {
     super(tileSize, {
@@ -78,13 +47,14 @@ export default class RectTerrainMap extends RectTileLoader {
       onTileRangeChanged: (range) => _options.onTileRangeChanged?.(range),
     });
 
+    this.altases = MapDataTransformer.transformToAtlases(mapData);
     this.loadSpritesheets();
   }
 
   private async loadSpritesheets() {
     await Promise.all(
-      Object.values(this.spritesheets).map(({ src, atlas }) =>
-        SpritesheetLoader.load(src, atlas)
+      Object.entries(this.spritesheets).map(([src, id]) =>
+        SpritesheetLoader.load(src, this.altases[id])
       ),
     );
     this.spritesheetsLoaded = true;
@@ -95,7 +65,7 @@ export default class RectTerrainMap extends RectTileLoader {
   }
 
   private getTerrainAt(x: number, y: number): string | undefined {
-    return this.terrainMap[this.createCoordinateKey(x, y)];
+    return this.mapData.terrainMap[this.createCoordinateKey(x, y)];
   }
 
   private getNeighborTerrains(x: number, y: number) {
@@ -117,41 +87,46 @@ export default class RectTerrainMap extends RectTileLoader {
     terrainId: string,
     direction: TerrainDirection,
   ) {
-    const terrain = this.terrains[terrainId];
+    const terrain = this.mapData.terrains[terrainId];
     if (!terrain) {
       throw new Error(`Terrain ID ${terrainId} not found.`);
     }
 
-    const frames = terrain[direction];
-    if (!frames || frames.length === 0) {
+    const terrainEntries = terrain[direction];
+    if (!terrainEntries || terrainEntries.length === 0) {
       throw new Error(
-        `No frames found for direction ${direction} of terrain ${terrainId}.`,
+        `No terrain entries found for terrain ID ${terrainId} and direction ${direction}.`,
       );
     }
 
-    const frameIndex = IntegerUtils.random(0, frames.length - 1);
-    const frame = frames[frameIndex];
-    const spritesheetInfo = this.spritesheets[frame.spritesheet];
+    const entryIndex = IntegerUtils.random(0, terrainEntries.length - 1);
+    const entry = terrainEntries[entryIndex];
+    const spritesheetSrc = this.spritesheets[entry.spritesheet];
 
-    const tile = frame.animation
-      ? new AnimatedRectTerrainMapTile(
+    let tile;
+    if (entry.frames.length > 1) {
+      tile = new AnimatedRectTerrainMapTile(
         x * this.tileSize,
         y * this.tileSize,
-        spritesheetInfo.src,
-        spritesheetInfo.atlas,
-        frame.animation,
-        frame.fps!,
-        this._options.tileFadeDuration,
-      )
-      : new RectTerrainMapTile(
-        x * this.tileSize,
-        y * this.tileSize,
-        spritesheetInfo.src,
-        spritesheetInfo.atlas,
-        frame.frame,
+        spritesheetSrc,
+        this.altases[entry.spritesheet],
+        `terrain_${terrainId}_${direction}_${entryIndex}`,
+        entry.fps!,
         this._options.tileFadeDuration,
       );
-    tile.zIndex = frame.zIndex;
+    } else {
+      const frame = entry.frames[0];
+      tile = new RectTerrainMapTile(
+        x * this.tileSize,
+        y * this.tileSize,
+        spritesheetSrc,
+        this.altases[entry.spritesheet],
+        `frame_${frame.x}_${frame.y}_${frame.width}_${frame.height}`,
+        this._options.tileFadeDuration,
+      );
+    }
+
+    tile.drawingOrder = entry.drawingOrder;
     this.append(tile);
 
     const coordinateKey = this.createCoordinateKey(x, y);
@@ -173,36 +148,48 @@ export default class RectTerrainMap extends RectTileLoader {
     this.renderSurroundingTerrains(x, y, centerTerrainId, neighbors);
 
     // Render map objects located on this tile
-    this.mapObjects.forEach((mapObject) => {
+    for (const mapObject of this.mapData.mapObjects) {
       const objectX = Math.floor(mapObject.x / this.tileSize);
       const objectY = Math.floor(mapObject.y / this.tileSize);
       if (objectX === x && objectY === y) {
-        const objectInfo = this.objects[mapObject.objectId];
+        const objectInfo = this.mapData.objects[mapObject.object];
         if (objectInfo) {
-          const spritesheetInfo = this.spritesheets[objectInfo.spritesheet];
-          const tile = objectInfo.animation
-            ? new AnimatedRectTerrainMapTile(
+          const spritesheetSrc = this.spritesheets[objectInfo.spritesheet];
+
+          let tile;
+          if (objectInfo.frames.length > 1) {
+            tile = new AnimatedRectTerrainMapTile(
               mapObject.x,
               mapObject.y,
-              spritesheetInfo.src,
-              spritesheetInfo.atlas,
-              objectInfo.animation,
+              spritesheetSrc,
+              this.altases[objectInfo.spritesheet],
+              `object_${mapObject.object}`,
               objectInfo.fps!,
               this._options.tileFadeDuration,
-            )
-            : new RectTerrainMapTile(
+            );
+          } else {
+            const frame = objectInfo.frames[0];
+            tile = new RectTerrainMapTile(
               mapObject.x,
               mapObject.y,
-              spritesheetInfo.src,
-              spritesheetInfo.atlas,
-              objectInfo.frame,
+              spritesheetSrc,
+              this.altases[objectInfo.spritesheet],
+              `frame_${frame.x}_${frame.y}_${frame.width}_${frame.height}`,
               this._options.tileFadeDuration,
             );
-          tile.zIndex = objectInfo.zIndex;
+          }
+
+          if (objectInfo.drawingOrder) {
+            tile.drawingOrder = objectInfo.drawingOrder;
+          }
+          if (objectInfo.useYForDrawingOrder) {
+            tile.enableYBasedDrawingOrder();
+          }
+
           this.append(tile);
         }
       }
-    });
+    }
   }
 
   private renderSurroundingTerrains(
@@ -350,7 +337,7 @@ export default class RectTerrainMap extends RectTileLoader {
   }
 
   public remove(): void {
-    Object.values(this.spritesheets).forEach(({ src }) =>
+    Object.values(this.spritesheets).forEach((src) =>
       SpritesheetLoader.release(src)
     );
     super.remove();

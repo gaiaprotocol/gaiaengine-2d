@@ -4,6 +4,8 @@ import TransformableNode from "./TransformableNode.js";
 
 export default class DisplayNode<CT extends Container = Container>
   extends TransformableNode {
+  private _useYForDrawingOrder: boolean = false;
+
   constructor(protected container: CT) {
     super(container.x, container.y);
   }
@@ -20,6 +22,9 @@ export default class DisplayNode<CT extends Container = Container>
   public set y(y: number) {
     this.transform.y = y;
     this.container.y = y;
+    if (this._useYForDrawingOrder) {
+      this.updateDrawingOrder();
+    }
   }
 
   public get y() {
@@ -32,12 +37,25 @@ export default class DisplayNode<CT extends Container = Container>
     return this;
   }
 
-  public set zIndex(zIndex: number) {
-    this.container.zIndex = zIndex;
+  public set drawingOrder(drawingOrder: number) {
+    this.container.zIndex = drawingOrder;
   }
 
-  public get zIndex() {
+  public get drawingOrder() {
     return this.container.zIndex;
+  }
+
+  public enableYBasedDrawingOrder() {
+    this._useYForDrawingOrder = true;
+    this.updateDrawingOrder();
+  }
+
+  public disableYBasedDrawingOrder() {
+    this._useYForDrawingOrder = false;
+  }
+
+  private updateDrawingOrder() {
+    this.drawingOrder = this.y;
   }
 
   public setPivot(x: number, y: number): this {
