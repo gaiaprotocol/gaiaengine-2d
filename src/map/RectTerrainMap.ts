@@ -92,7 +92,7 @@ export default class RectTerrainMap extends RectTileLoader {
       throw new Error(`Terrain ID ${terrainId} not found.`);
     }
 
-    const terrainEntries = terrain[direction];
+    const terrainEntries = terrain.directions[direction];
     if (!terrainEntries || terrainEntries.length === 0) {
       throw new Error(
         `No terrain entries found for terrain ID ${terrainId} and direction ${direction}.`,
@@ -126,7 +126,7 @@ export default class RectTerrainMap extends RectTileLoader {
       );
     }
 
-    tile.drawingOrder = entry.drawingOrder;
+    tile.drawingOrder = terrain.drawingOrder;
     this.append(tile);
 
     const coordinateKey = this.createCoordinateKey(x, y);

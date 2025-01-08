@@ -9,13 +9,15 @@ export interface Frame {
 export default interface MapData {
     terrains: {
         [id: string]: {
-            [direction in TerrainDirection]: {
-                spritesheet: string;
-                frames: Frame[];
-                fps?: number;
-                drawingOrder: number;
-                colliders?: Collider[];
-            }[];
+            drawingOrder: number;
+            directions: {
+                [direction in TerrainDirection]: {
+                    spritesheet: string;
+                    frames: Frame[];
+                    fps?: number;
+                    colliders?: Collider[];
+                }[];
+            };
         };
     };
     objects: {
