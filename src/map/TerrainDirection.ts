@@ -4,7 +4,6 @@ enum TerrainDirection {
   Top = "top",
   TopRight = "top-right",
   Left = "left",
-  Center = "center",
   Right = "right",
   BottomLeft = "bottom-left",
   Bottom = "bottom",
@@ -23,8 +22,6 @@ enum TerrainDirection {
   FillTopLeftBottom = "fill-top-left-bottom",
   FillTopRightBottom = "fill-top-right-bottom",
   FillBottomLeftRight = "fill-bottom-left-right",
-  FillTopBottomLeft = "fill-top-bottom-left",
-  FillTopBottomRight = "fill-top-bottom-right",
 
   // All directions filled
   FillFull = "fill-full",

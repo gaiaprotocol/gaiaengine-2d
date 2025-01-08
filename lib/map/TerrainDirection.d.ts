@@ -3,7 +3,6 @@ declare enum TerrainDirection {
     Top = "top",
     TopRight = "top-right",
     Left = "left",
-    Center = "center",
     Right = "right",
     BottomLeft = "bottom-left",
     Bottom = "bottom",
@@ -18,8 +17,6 @@ declare enum TerrainDirection {
     FillTopLeftBottom = "fill-top-left-bottom",
     FillTopRightBottom = "fill-top-right-bottom",
     FillBottomLeftRight = "fill-bottom-left-right",
-    FillTopBottomLeft = "fill-top-bottom-left",
-    FillTopBottomRight = "fill-top-bottom-right",
     FillFull = "fill-full"
 }
 export default TerrainDirection;

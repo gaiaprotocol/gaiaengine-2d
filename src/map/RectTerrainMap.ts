@@ -139,7 +139,7 @@ export default class RectTerrainMap extends RectTileLoader {
   private renderTile(x: number, y: number) {
     const centerTerrainId = this.getTerrainAt(x, y);
     if (centerTerrainId) {
-      this.renderTerrain(x, y, centerTerrainId, TerrainDirection.Center);
+      this.renderTerrain(x, y, centerTerrainId, TerrainDirection.FillFull);
     }
 
     const neighbors = this.getNeighborTerrains(x, y);
