@@ -20,7 +20,7 @@ export { default as Background } from "./image/Background.js";
 export { default as Sprite } from "./image/Sprite.js";
 export { default as ResourceLoader } from "./loaders/ResourceLoader.js";
 export { default as TextureLoader } from "./loaders/TextureLoader.js";
-export { default as MapData, FrameData, ObjectData, TerrainData, } from "./map/MapData.js";
+export { default as MapData, FrameData, MapEntity, MapObjectData, TerrainData, } from "./map/MapData.js";
 export { default as RectTerrainMap, RectTerrainMapOptions, } from "./map/RectTerrainMap.js";
 export { default as TerrainDirection } from "./map/TerrainDirection.js";
 export { default as TileRange } from "./map/TileRange.js";

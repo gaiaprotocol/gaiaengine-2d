@@ -26,7 +26,8 @@ export { default as TextureLoader } from "./loaders/TextureLoader.js";
 export {
   default as MapData,
   FrameData,
-  ObjectData,
+  MapEntity,
+  MapObjectData,
   TerrainData,
 } from "./map/MapData.js";
 export {

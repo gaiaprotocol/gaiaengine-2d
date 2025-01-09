@@ -6,31 +6,28 @@ export interface FrameData {
     width: number;
     height: number;
 }
-export interface TerrainData {
-    drawingOrder: number;
-    directions: {
-        [direction in TerrainDirection]: {
-            spritesheet: string;
-            frames: FrameData[];
-            fps?: number;
-            colliders?: Collider[];
-        }[];
-    };
-}
-export interface ObjectData {
+export interface MapEntity {
     spritesheet: string;
     frames: FrameData[];
     fps?: number;
+    colliders?: Collider[];
+}
+export interface TerrainData {
+    drawingOrder: number;
+    directions: {
+        [direction in TerrainDirection]: MapEntity[];
+    };
+}
+export interface MapObjectData extends MapEntity {
     drawingOrder?: number;
     useYForDrawingOrder?: boolean;
-    colliders?: Collider[];
 }
 export default interface MapData {
     terrains: {
         [id: string]: TerrainData;
     };
     objects: {
-        [id: string]: ObjectData;
+        [id: string]: MapObjectData;
     };
     terrainMap: {
         [cord: string]: string;
