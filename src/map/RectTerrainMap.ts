@@ -93,11 +93,7 @@ export default class RectTerrainMap extends RectTileLoader {
     }
 
     const terrainEntries = terrain.directions[direction];
-    if (!terrainEntries || terrainEntries.length === 0) {
-      throw new Error(
-        `No terrain entries found for terrain ID ${terrainId} and direction ${direction}.`,
-      );
-    }
+    if (!terrainEntries || terrainEntries.length === 0) return;
 
     const entryIndex = IntegerUtils.random(0, terrainEntries.length - 1);
     const entry = terrainEntries[entryIndex];
@@ -114,7 +110,7 @@ export default class RectTerrainMap extends RectTileLoader {
         entry.fps!,
         this._options.tileFadeDuration,
       );
-    } else {
+    } else if (entry.frames.length === 1) {
       const frame = entry.frames[0];
       tile = new RectTerrainMapTile(
         x * this.tileSize,
@@ -126,14 +122,16 @@ export default class RectTerrainMap extends RectTileLoader {
       );
     }
 
-    tile.drawingOrder = terrain.drawingOrder;
-    this.append(tile);
+    if (tile) {
+      tile.drawingOrder = terrain.drawingOrder;
+      this.append(tile);
 
-    const coordinateKey = this.createCoordinateKey(x, y);
-    if (!this.tiles.has(coordinateKey)) {
-      this.tiles.set(coordinateKey, []);
+      const coordinateKey = this.createCoordinateKey(x, y);
+      if (!this.tiles.has(coordinateKey)) {
+        this.tiles.set(coordinateKey, []);
+      }
+      this.tiles.get(coordinateKey)!.push(tile);
     }
-    this.tiles.get(coordinateKey)!.push(tile);
   }
 
   private renderTile(x: number, y: number) {
