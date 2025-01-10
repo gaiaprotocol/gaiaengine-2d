@@ -7,8 +7,8 @@ class MapDataTransformer {
 
     for (const terrainId in mapData.terrains) {
       const terrain = mapData.terrains[terrainId];
-      for (const direction in terrain) {
-        const terrainEntries = (terrain as any)[direction];
+      for (const direction in terrain.directions) {
+        const terrainEntries = (terrain.directions as any)[direction];
         for (const [entryIndex, entry] of terrainEntries.entries()) {
           const { spritesheet, frames } = entry;
 
@@ -20,13 +20,13 @@ class MapDataTransformer {
             };
           }
 
-          const sheetData = result[spritesheet];
+          const atlas = result[spritesheet];
           const frameIds: string[] = [];
 
           for (const frame of frames) {
             const frameId =
               `frame_${frame.x}_${frame.y}_${frame.width}_${frame.height}`;
-            sheetData.frames[frameId] = {
+            atlas.frames[frameId] = {
               frame: {
                 x: frame.x,
                 y: frame.y,
@@ -37,10 +37,10 @@ class MapDataTransformer {
             frameIds.push(frameId);
           }
 
-          if (frames.length > 1 && sheetData.animations) {
+          if (frames.length > 1 && atlas.animations) {
             const animationId =
               `terrain_${terrainId}_${direction}_${entryIndex}`;
-            sheetData.animations[animationId] = frameIds;
+            atlas.animations[animationId] = frameIds;
           }
         }
       }

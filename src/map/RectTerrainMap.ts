@@ -53,7 +53,7 @@ export default class RectTerrainMap extends RectTileLoader {
 
   private async loadSpritesheets() {
     await Promise.all(
-      Object.entries(this.spritesheets).map(([src, id]) =>
+      Object.entries(this.spritesheets).map(([id, src]) =>
         SpritesheetLoader.load(src, this.altases[id])
       ),
     );

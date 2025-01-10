@@ -38,6 +38,7 @@ export default class GameScreen extends DomNode {
     this.createRenderer();
 
     if (GaiaEngineConfig.isDevMode || BrowserInfo.isMobileDevice()) {
+      if (!BrowserInfo.hasPageFocus()) this.actualFPS = 6;
       this.onWindow("blur", () => this.actualFPS = 6);
       this.onWindow("focus", () => this.actualFPS = this.targetFPS);
     }
