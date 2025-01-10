@@ -31,9 +31,9 @@ export {
   TerrainData,
 } from "./map/MapData.js";
 export {
-  default as RectTerrainMap,
-  RectTerrainMapOptions,
-} from "./map/RectTerrainMap.js";
+  default as RectMap,
+  RectMapOptions as RectMapOptions,
+} from "./map/RectMap.js";
 export { default as TerrainDirection } from "./map/TerrainDirection.js";
 export { default as TileRange } from "./map/TileRange.js";
 export { default as Scene } from "./scene/Scene.js";

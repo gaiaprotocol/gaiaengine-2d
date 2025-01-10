@@ -2,7 +2,7 @@ import Coordinates from "../core/Coordinates.js";
 import MapData from "./MapData.js";
 import RectTileLoader from "./RectTileLoader.js";
 import TileRange from "./TileRange.js";
-export interface RectTerrainMapOptions {
+export interface RectMapOptions {
     extraLoadTileCount?: number;
     debounceDelay?: number;
     tileFadeDuration?: number;
@@ -10,7 +10,7 @@ export interface RectTerrainMapOptions {
     onDeleteTiles?: (coordinates: Coordinates[]) => void;
     onTileRangeChanged?: (range: TileRange) => void;
 }
-export default class RectTerrainMap extends RectTileLoader {
+export default class RectMap extends RectTileLoader {
     private spritesheets;
     private mapData;
     private _options;
@@ -22,7 +22,7 @@ export default class RectTerrainMap extends RectTileLoader {
     private objects;
     constructor(tileSize: number, spritesheets: {
         [id: string]: string;
-    }, mapData: MapData, _options?: RectTerrainMapOptions);
+    }, mapData: MapData, _options?: RectMapOptions);
     private loadSpritesheets;
     private createCoordinateKey;
     private getTerrainAt;
@@ -34,4 +34,4 @@ export default class RectTerrainMap extends RectTileLoader {
     protected update(deltaTime: number): void;
     remove(): void;
 }
-//# sourceMappingURL=RectTerrainMap.d.ts.map
+//# sourceMappingURL=RectMap.d.ts.map

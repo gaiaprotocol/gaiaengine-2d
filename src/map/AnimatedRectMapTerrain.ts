@@ -1,18 +1,19 @@
 import Atlas from "../data/Atlas.js";
-import Sprite from "../image/Sprite.js";
+import AnimatedSprite from "../image/AnimatedSprite.js";
 
-export default class RectTerrainMapTile extends Sprite {
+export default class AnimatedRectMapTerrain extends AnimatedSprite {
   private fadingSpeed = 0;
 
   constructor(
     x: number,
     y: number,
     src: string,
-    atlas?: Atlas,
-    frame?: string,
+    atlas: Atlas,
+    animation: string,
+    fps: number,
     fadeDuration?: number,
   ) {
-    super(x, y, src, atlas, frame);
+    super(x, y, src, atlas, animation, fps);
 
     if (fadeDuration && fadeDuration > 0) {
       this.alpha = 0;

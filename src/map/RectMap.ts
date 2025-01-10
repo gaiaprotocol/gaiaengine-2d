@@ -1,16 +1,19 @@
 import { IntegerUtils } from "@common-module/ts";
 import Coordinates from "../core/Coordinates.js";
+import GameObject from "../core/GameObject.js";
 import Atlas from "../data/Atlas.js";
 import SpritesheetLoader from "../loaders/SpritesheetLoader.js";
-import AnimatedRectTerrainMapTile from "./AnimatedRectTerrainMapTile.js";
+import AnimatedRectMapObject from "./AnimatedRectMapObject.js";
+import AnimatedRectMapTerrain from "./AnimatedRectMapTerrain.js";
 import MapData from "./MapData.js";
 import MapDataTransformer from "./MapDataTransformer.js";
-import RectTerrainMapTile from "./RectTerrainMapTile.js";
+import RectMapObject from "./RectMapObject.js";
+import RectMapTerrain from "./RectMapTerrain.js";
 import RectTileLoader from "./RectTileLoader.js";
 import TerrainDirection from "./TerrainDirection.js";
 import TileRange from "./TileRange.js";
 
-export interface RectTerrainMapOptions {
+export interface RectMapOptions {
   extraLoadTileCount?: number;
   debounceDelay?: number;
   tileFadeDuration?: number;
@@ -19,19 +22,26 @@ export interface RectTerrainMapOptions {
   onTileRangeChanged?: (range: TileRange) => void;
 }
 
-export default class RectTerrainMap extends RectTileLoader {
+export default class RectMap extends RectTileLoader {
   private altases: Record<string, Atlas> = {};
+  private spritesheetsLoaded = false;
+
+  private terrainLayer: GameObject;
+  private objectLayer: GameObject;
   private tiles = new Map<
     string,
-    (RectTerrainMapTile | AnimatedRectTerrainMapTile)[]
+    (RectMapTerrain | AnimatedRectMapTerrain)[]
   >();
-  private spritesheetsLoaded = false;
+  private objects = new Map<
+    string,
+    (RectMapObject | AnimatedRectMapObject)[]
+  >();
 
   constructor(
     tileSize: number,
     private spritesheets: { [id: string]: string },
     private mapData: MapData,
-    private _options: RectTerrainMapOptions = {},
+    private _options: RectMapOptions = {},
   ) {
     super(tileSize, {
       extraLoadTileCount: _options.extraLoadTileCount,
@@ -46,6 +56,11 @@ export default class RectTerrainMap extends RectTileLoader {
       },
       onTileRangeChanged: (range) => _options.onTileRangeChanged?.(range),
     });
+
+    this.append(
+      this.terrainLayer = new GameObject(0, 0),
+      this.objectLayer = new GameObject(0, 0),
+    );
 
     this.altases = MapDataTransformer.transformToAtlases(mapData);
     this.loadSpritesheets();
@@ -101,7 +116,7 @@ export default class RectTerrainMap extends RectTileLoader {
 
     let tile;
     if (entry.frames.length > 1) {
-      tile = new AnimatedRectTerrainMapTile(
+      tile = new AnimatedRectMapTerrain(
         x * this.tileSize,
         y * this.tileSize,
         spritesheetSrc,
@@ -112,7 +127,7 @@ export default class RectTerrainMap extends RectTileLoader {
       );
     } else if (entry.frames.length === 1) {
       const frame = entry.frames[0];
-      tile = new RectTerrainMapTile(
+      tile = new RectMapTerrain(
         x * this.tileSize,
         y * this.tileSize,
         spritesheetSrc,
@@ -124,7 +139,8 @@ export default class RectTerrainMap extends RectTileLoader {
 
     if (tile) {
       tile.drawingOrder = terrain.drawingOrder;
-      this.append(tile);
+
+      this.terrainLayer.append(tile);
 
       const coordinateKey = this.createCoordinateKey(x, y);
       if (!this.tiles.has(coordinateKey)) {
@@ -154,9 +170,9 @@ export default class RectTerrainMap extends RectTileLoader {
         if (objectInfo) {
           const spritesheetSrc = this.spritesheets[objectInfo.spritesheet];
 
-          let tile;
+          let object;
           if (objectInfo.frames.length > 1) {
-            tile = new AnimatedRectTerrainMapTile(
+            object = new AnimatedRectMapObject(
               mapObject.x,
               mapObject.y,
               spritesheetSrc,
@@ -167,7 +183,7 @@ export default class RectTerrainMap extends RectTileLoader {
             );
           } else {
             const frame = objectInfo.frames[0];
-            tile = new RectTerrainMapTile(
+            object = new RectMapObject(
               mapObject.x,
               mapObject.y,
               spritesheetSrc,
@@ -178,13 +194,19 @@ export default class RectTerrainMap extends RectTileLoader {
           }
 
           if (objectInfo.drawingOrder) {
-            tile.drawingOrder = objectInfo.drawingOrder;
+            object.drawingOrder = objectInfo.drawingOrder;
           }
           if (objectInfo.useYForDrawingOrder) {
-            tile.enableYBasedDrawingOrder();
+            object.enableYBasedDrawingOrder();
           }
 
-          this.append(tile);
+          this.objectLayer.append(object);
+
+          const coordinateKey = this.createCoordinateKey(x, y);
+          if (!this.objects.has(coordinateKey)) {
+            this.objects.set(coordinateKey, []);
+          }
+          this.objects.get(coordinateKey)!.push(object);
         }
       }
     }
@@ -321,10 +343,15 @@ export default class RectTerrainMap extends RectTileLoader {
 
   private deleteTile(x: number, y: number) {
     const coordinateKey = this.createCoordinateKey(x, y);
-    const nodes = this.tiles.get(coordinateKey);
-    if (nodes) {
-      nodes.forEach((node) => node.remove());
+    const tiles = this.tiles.get(coordinateKey);
+    if (tiles) {
+      tiles.forEach((node) => node.remove());
       this.tiles.delete(coordinateKey);
+    }
+    const objects = this.objects.get(coordinateKey);
+    if (objects) {
+      objects.forEach((node) => node.remove());
+      this.objects.delete(coordinateKey);
     }
   }
 
