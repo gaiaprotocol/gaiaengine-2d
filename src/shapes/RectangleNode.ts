@@ -11,6 +11,7 @@ export default class RectangleNode extends ShapeNode {
     private _stroke?: StrokeInput,
   ) {
     super(x, y);
+    this.draw();
   }
 
   protected draw(): void {
