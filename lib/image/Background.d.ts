@@ -1,5 +1,5 @@
-import BaseSprite from "./BaseSprite.js";
-export default class Background extends BaseSprite {
+import BaseImageSprite from "./BaseImageSprite.js";
+export default class Background extends BaseImageSprite {
     private options?;
     private tilingSprite;
     constructor(src: string, options?: {

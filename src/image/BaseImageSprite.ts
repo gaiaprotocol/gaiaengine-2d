@@ -1,6 +1,6 @@
 import GameObject from "../core/GameObject.js";
 
-export default abstract class BaseSprite extends GameObject {
+export default abstract class BaseImageSprite extends GameObject {
   protected _src: string | undefined;
 
   protected abstract loadTexture(src: string): Promise<void>;

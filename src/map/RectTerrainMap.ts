@@ -54,7 +54,7 @@ export default class RectTerrainMap extends RectTileLoader {
   private async loadSpritesheets() {
     await Promise.all(
       Object.entries(this.spritesheets).map(([id, src]) =>
-        SpritesheetLoader.load(src, this.altases[id])
+        SpritesheetLoader.load(id, src, this.altases[id])
       ),
     );
     this.spritesheetsLoaded = true;
@@ -337,8 +337,8 @@ export default class RectTerrainMap extends RectTileLoader {
   }
 
   public remove(): void {
-    Object.values(this.spritesheets).forEach((src) =>
-      SpritesheetLoader.release(src)
+    Object.keys(this.spritesheets).forEach((id) =>
+      SpritesheetLoader.release(id)
     );
     super.remove();
   }

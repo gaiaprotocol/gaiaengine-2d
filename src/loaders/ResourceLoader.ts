@@ -4,41 +4,41 @@ export default abstract class ResourceLoader<T> {
 
   private refCount: Map<string, number> = new Map();
 
-  protected isResourceInUse(path: string): boolean {
-    return this.refCount.has(path) && this.refCount.get(path)! > 0;
+  protected isResourceInUse(id: string): boolean {
+    return this.refCount.has(id) && this.refCount.get(id)! > 0;
   }
 
-  protected abstract loadFromPath(
-    path: string,
+  protected abstract loadResource(
+    id: string,
     ...args: any[]
   ): Promise<T | undefined>;
 
-  private incrementRefCount(path: string): void {
-    this.refCount.set(path, (this.refCount.get(path) || 0) + 1);
+  protected abstract cleanup(resource: T, id: string): void;
+
+  private incrementRefCount(id: string): void {
+    this.refCount.set(id, (this.refCount.get(id) || 0) + 1);
   }
 
-  public async load(path: string, ...args: any[]): Promise<T | undefined> {
-    this.incrementRefCount(path);
-    if (this.resources.has(path)) return this.resources.get(path)!;
-    if (this.pendingLoads.has(path)) return await this.pendingLoads.get(path)!;
-    return await this.loadFromPath(path, ...args);
+  public async load(id: string, ...args: any[]): Promise<T | undefined> {
+    this.incrementRefCount(id);
+    if (this.resources.has(id)) return this.resources.get(id)!;
+    if (this.pendingLoads.has(id)) return await this.pendingLoads.get(id)!;
+    return await this.loadResource(id, ...args);
   }
 
-  public release(path: string): void {
-    const refCount = this.refCount.get(path);
-    if (refCount === undefined) throw new Error(`Resource not found: ${path}`);
+  public release(id: string): void {
+    const refCount = this.refCount.get(id);
+    if (refCount === undefined) throw new Error(`Resource not found: ${id}`);
 
     if (refCount === 1) {
-      this.refCount.delete(path);
-      const resource = this.resources.get(path);
+      this.refCount.delete(id);
+      const resource = this.resources.get(id);
       if (resource) {
-        this.cleanup(resource, path);
-        this.resources.delete(path);
+        this.cleanup(resource, id);
+        this.resources.delete(id);
       }
     } else {
-      this.refCount.set(path, refCount - 1);
+      this.refCount.set(id, refCount - 1);
     }
   }
-
-  protected abstract cleanup(resource: T, path: string): void;
 }

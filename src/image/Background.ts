@@ -1,8 +1,8 @@
 import { TilingSprite } from "pixi.js";
 import TextureLoader from "../loaders/TextureLoader.js";
-import BaseSprite from "./BaseSprite.js";
+import BaseImageSprite from "./BaseImageSprite.js";
 
-export default class Background extends BaseSprite {
+export default class Background extends BaseImageSprite {
   private tilingSprite: TilingSprite | undefined;
 
   constructor(src: string, private options?: { scrollSpeedX: number }) {

@@ -19,7 +19,7 @@ class TextureLoader extends ResourceLoader<Texture> {
     return new Texture({ source });
   }
 
-  protected async loadFromPath(src: string): Promise<Texture | undefined> {
+  protected async loadResource(src: string): Promise<Texture | undefined> {
     const loadPromise = new Promise<Texture | undefined>((resolve, reject) => {
       const image = new Image();
       image.src = src;

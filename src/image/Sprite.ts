@@ -2,9 +2,12 @@ import { Sprite as PixiSprite } from "pixi.js";
 import Atlas from "../data/Atlas.js";
 import SpritesheetLoader from "../loaders/SpritesheetLoader.js";
 import TextureLoader from "../loaders/TextureLoader.js";
-import BaseSprite from "./BaseSprite.js";
+import AtlasHasher from "./AtlasHasher.js";
+import BaseImageSprite from "./BaseImageSprite.js";
 
-export default class Sprite extends BaseSprite {
+export default class Sprite extends BaseImageSprite {
+  private id?: string;
+
   constructor(
     x: number,
     y: number,
@@ -20,7 +23,9 @@ export default class Sprite extends BaseSprite {
     if (this.atlas) {
       if (!this.frame) throw new Error("Frame not found");
 
-      const sheet = await SpritesheetLoader.load(src, this.atlas);
+      this.id = `${src}:${AtlasHasher.getAtlasHash(this.atlas)}`;
+
+      const sheet = await SpritesheetLoader.load(this.id, src, this.atlas);
       if (!sheet || this.removed) return;
 
       const texture = sheet.textures[this.frame];
@@ -40,6 +45,8 @@ export default class Sprite extends BaseSprite {
   }
 
   protected releaseTexture(src: string): void {
-    this.atlas ? SpritesheetLoader.release(src) : TextureLoader.release(src);
+    this.atlas
+      ? SpritesheetLoader.release(this.id!)
+      : TextureLoader.release(src);
   }
 }

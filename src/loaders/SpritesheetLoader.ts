@@ -4,10 +4,15 @@ import ResourceLoader from "./ResourceLoader.js";
 import TextureLoader from "./TextureLoader.js";
 
 class SpritesheetLoader extends ResourceLoader<Spritesheet> {
-  protected async loadFromPath(
+  private idToSrc: Map<string, string> = new Map();
+
+  protected async loadResource(
+    id: string,
     src: string,
     atlas: Atlas,
   ): Promise<Spritesheet | undefined> {
+    this.idToSrc.set(id, src);
+
     const loadPromise = (async () => {
       const texture = await TextureLoader.load(src);
       if (!texture) throw new Error(`Failed to load texture: ${src}`);
@@ -15,14 +20,14 @@ class SpritesheetLoader extends ResourceLoader<Spritesheet> {
       const spritesheet = new Spritesheet(texture, atlas);
       await spritesheet.parse();
 
-      this.pendingLoads.delete(src);
+      this.pendingLoads.delete(id);
 
-      if (this.isResourceInUse(src)) {
-        if (this.resources.has(src)) {
+      if (this.isResourceInUse(id)) {
+        if (this.resources.has(id)) {
           TextureLoader.release(src);
           throw new Error(`Spritesheet already exists: ${src}`);
         } else {
-          this.resources.set(src, spritesheet);
+          this.resources.set(id, spritesheet);
           return spritesheet;
         }
       } else {
@@ -31,13 +36,15 @@ class SpritesheetLoader extends ResourceLoader<Spritesheet> {
       }
     })();
 
-    this.pendingLoads.set(src, loadPromise);
+    this.pendingLoads.set(id, loadPromise);
     return await loadPromise;
   }
 
-  protected cleanup(spritesheet: Spritesheet, src: string): void {
+  protected cleanup(spritesheet: Spritesheet, id: string): void {
     spritesheet.destroy();
-    TextureLoader.release(src);
+
+    const src = this.idToSrc.get(id);
+    if (src) TextureLoader.release(src);
   }
 }
 

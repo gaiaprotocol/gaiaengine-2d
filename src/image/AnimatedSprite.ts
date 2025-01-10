@@ -2,33 +2,36 @@ import {
   AnimatedSprite as PixiAnimatedSprite,
   Sprite as PixiSprite,
 } from "pixi.js";
+import GameObject from "../core/GameObject.js";
 import Atlas from "../data/Atlas.js";
 import SpritesheetLoader from "../loaders/SpritesheetLoader.js";
-import BaseSprite from "./BaseSprite.js";
+import AtlasHasher from "./AtlasHasher.js";
 
-export default class AnimatedSprite extends BaseSprite {
+export default class AnimatedSprite extends GameObject {
+  private id: string;
   private animatedSprite: PixiAnimatedSprite | undefined;
 
   constructor(
     x: number,
     y: number,
-    src: string,
+    private src: string,
     private atlas: Atlas,
     private animation: string,
     private fps: number,
   ) {
     super(x, y);
-    this.src = src;
+    this.id = `${src}:${AtlasHasher.getAtlasHash(atlas)}`;
+    this.load();
   }
 
-  protected async loadTexture(src: string) {
-    const sheet = await SpritesheetLoader.load(src, this.atlas);
+  private async load() {
+    const sheet = await SpritesheetLoader.load(this.id, this.src, this.atlas);
     if (!sheet || this.removed) return;
 
     if (this.atlas.animations?.[this.animation].length === 1) {
       const frame = this.atlas.animations[this.animation][0];
       const texture = sheet.textures[frame];
-      if (!texture) throw new Error(`Failed to load texture: ${src}`);
+      if (!texture) throw new Error(`Failed to load texture: ${this.src}`);
 
       this.container.addChild(
         new PixiSprite({ texture, anchor: { x: 0.5, y: 0.5 } }),
@@ -46,7 +49,8 @@ export default class AnimatedSprite extends BaseSprite {
     }
   }
 
-  protected releaseTexture(src: string): void {
-    SpritesheetLoader.release(src);
+  public remove(): void {
+    SpritesheetLoader.release(this.id);
+    super.remove();
   }
 }

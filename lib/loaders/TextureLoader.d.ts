@@ -3,7 +3,7 @@ import ResourceLoader from "./ResourceLoader.js";
 declare class TextureLoader extends ResourceLoader<Texture> {
     private createCanvasFromImage;
     private createTextureFromCanvas;
-    protected loadFromPath(src: string): Promise<Texture | undefined>;
+    protected loadResource(src: string): Promise<Texture | undefined>;
     protected cleanup(texture: Texture): void;
 }
 declare const _default: TextureLoader;
