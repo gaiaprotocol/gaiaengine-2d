@@ -53,9 +53,11 @@ export default class Sound extends EventContainer<{
     this.startTime = this.audioContext.currentTime;
 
     this.source.onended = () => {
-      const isPlaying = this.isPlaying;
-      if (!this.loop) this.stop();
-      if (isPlaying) this.emit("ended");
+      if (!this.isPaused) {
+        const isPlaying = this.isPlaying;
+        if (!this.loop) this.stop();
+        if (isPlaying) this.emit("ended");
+      }
     };
 
     this.isAudioInitialized = true;
