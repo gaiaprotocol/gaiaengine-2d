@@ -1,9 +1,9 @@
 import { StyleUtils } from "@common-module/app";
 import Interval from "../delay/Interval.js";
-import TextNode from "../dom/TextNode.js";
+import DomTextNode from "../dom/DomTextNode.js";
 import GameScreen from "../screen/GameScreen.js";
 
-export default class FPSDisplay extends TextNode<{
+export default class FPSDisplay extends DomTextNode<{
   fontSize: string;
   color: string;
   textAlign: string;
