@@ -1,5 +1,5 @@
 declare class SFXPlayer {
-    play(url: string): void;
+    play(urls: string | string[]): void;
 }
 declare const _default: SFXPlayer;
 export default _default;
