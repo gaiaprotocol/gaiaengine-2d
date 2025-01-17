@@ -1,6 +1,7 @@
 import {
   AnimatedSprite as PixiAnimatedSprite,
   Sprite as PixiSprite,
+  Spritesheet,
 } from "pixi.js";
 import GameObject from "../core/GameObject.js";
 import Atlas from "../data/Atlas.js";
@@ -9,14 +10,15 @@ import AtlasHasher from "./AtlasHasher.js";
 
 export default class AnimatedSprite extends GameObject {
   private id: string;
-  private animatedSprite: PixiAnimatedSprite | undefined;
+  private sheet: Spritesheet | undefined;
+  private currentSprite: PixiSprite | PixiAnimatedSprite | undefined;
 
   constructor(
     x: number,
     y: number,
     private src: string,
     private atlas: Atlas,
-    private animation: string,
+    private _animation: string,
     private fps: number,
   ) {
     super(x, y);
@@ -24,29 +26,43 @@ export default class AnimatedSprite extends GameObject {
     this.load();
   }
 
-  private async load() {
-    const sheet = await SpritesheetLoader.load(this.id, this.src, this.atlas);
-    if (!sheet || this.removed) return;
-
+  private changeAnimation() {
+    if (!this.sheet) return;
+    this.currentSprite?.destroy();
     if (this.atlas.animations?.[this.animation].length === 1) {
       const frame = this.atlas.animations[this.animation][0];
-      const texture = sheet.textures[frame];
+      const texture = this.sheet.textures[frame];
       if (!texture) throw new Error(`Failed to load texture: ${this.src}`);
 
-      this.container.addChild(
-        new PixiSprite({ texture, anchor: { x: 0.5, y: 0.5 } }),
-      );
+      const sprite = new PixiSprite({ texture, anchor: { x: 0.5, y: 0.5 } });
+      this.container.addChild(sprite);
+      this.currentSprite = sprite;
     } else {
-      this.container.addChild(
-        this.animatedSprite = new PixiAnimatedSprite(
-          sheet.animations[this.animation],
-        ),
+      const sprite = new PixiAnimatedSprite(
+        this.sheet.animations[this.animation],
       );
-
-      this.animatedSprite.anchor.set(0.5, 0.5);
-      this.animatedSprite.animationSpeed = this.fps / 60;
-      this.animatedSprite.play();
+      sprite.anchor.set(0.5, 0.5);
+      sprite.animationSpeed = this.fps / 60;
+      sprite.play();
+      this.container.addChild(sprite);
+      this.currentSprite = sprite;
     }
+  }
+
+  private async load() {
+    this.sheet = await SpritesheetLoader.load(this.id, this.src, this.atlas);
+    if (!this.sheet || this.removed) return;
+    this.changeAnimation();
+  }
+
+  public set animation(animation: string) {
+    if (this._animation === animation) return;
+    this._animation = animation;
+    this.changeAnimation();
+  }
+
+  public get animation(): string {
+    return this._animation;
   }
 
   public remove(): void {

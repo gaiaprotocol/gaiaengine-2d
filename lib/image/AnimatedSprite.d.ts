@@ -3,12 +3,16 @@ import Atlas from "../data/Atlas.js";
 export default class AnimatedSprite extends GameObject {
     private src;
     private atlas;
-    private animation;
+    private _animation;
     private fps;
     private id;
-    private animatedSprite;
-    constructor(x: number, y: number, src: string, atlas: Atlas, animation: string, fps: number);
+    private sheet;
+    private currentSprite;
+    constructor(x: number, y: number, src: string, atlas: Atlas, _animation: string, fps: number);
+    private changeAnimation;
     private load;
+    set animation(animation: string);
+    get animation(): string;
     remove(): void;
 }
 //# sourceMappingURL=AnimatedSprite.d.ts.map
