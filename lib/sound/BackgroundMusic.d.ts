@@ -6,6 +6,9 @@ export default class BackgroundMusic {
     constructor(sources: {
         ogg?: string;
         mp3: string;
+    } | {
+        ogg?: string;
+        mp3: string;
     }[], _volume?: number);
     private getRandomTrack;
     private handleSoundEnded;

@@ -8,7 +8,11 @@ export default class BackgroundMusic {
   private currentSound?: Sound;
   private currentIndex: number = -1;
 
-  constructor(sources: { ogg?: string; mp3: string }[], private _volume = 0.5) {
+  constructor(
+    sources: { ogg?: string; mp3: string } | { ogg?: string; mp3: string }[],
+    private _volume = 0.5,
+  ) {
+    if (!Array.isArray(sources)) sources = [sources];
     for (const src of sources) {
       const url = AudioManager.canPlayOgg && src.ogg ? src.ogg : src.mp3;
       const sound = new Sound(url, false, _volume);
