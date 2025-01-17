@@ -34,13 +34,18 @@ export default class DomWrapperNode<HE extends HTMLElement = HTMLElement>
   protected update(deltaTime: number) {
     super.update(deltaTime);
 
-    this.domNode.style({
-      left: `${this.globalTransform.x}px`,
-      top: `${this.globalTransform.y}px`,
-      transform:
-        `translate(-50%, -50%) scale(${this.globalTransform.scaleX}, ${this.globalTransform.scaleY}) rotate(${this.globalTransform.rotation}rad)`,
-      opacity: String(this.globalTransform.alpha),
-    });
+    if (this.screen) {
+      this.domNode.style({
+        left: `${this.globalTransform.x * this.screen.ratio}px`,
+        top: `${this.globalTransform.y * this.screen.ratio}px`,
+        transform: `translate(-50%, -50%) scale(${
+          this.globalTransform.scaleX * this.screen.ratio
+        }, ${
+          this.globalTransform.scaleY * this.screen.ratio
+        }) rotate(${this.globalTransform.rotation}rad)`,
+        opacity: String(this.globalTransform.alpha),
+      });
+    }
   }
 
   public remove(): void {

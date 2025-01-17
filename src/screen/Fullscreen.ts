@@ -6,7 +6,7 @@ interface FullscreenOptions {
 }
 
 export default class Fullscreen extends GameScreen {
-  constructor(options: FullscreenOptions) {
+  constructor(options?: FullscreenOptions) {
     super({
       width: document.documentElement.clientWidth,
       height: window.innerHeight,
