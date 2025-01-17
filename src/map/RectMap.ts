@@ -119,11 +119,13 @@ export default class RectMap extends RectTileLoader {
       tile = new AnimatedRectMapTerrain(
         x * this.tileSize,
         y * this.tileSize,
-        spritesheetSrc,
-        this.altases[entry.spritesheet],
-        `terrain_${terrainId}_${direction}_${entryIndex}`,
-        entry.fps!,
-        this._options.tileFadeDuration,
+        {
+          src: spritesheetSrc,
+          atlas: this.altases[entry.spritesheet],
+          animation: `terrain_${terrainId}_${direction}_${entryIndex}`,
+          fps: entry.fps!,
+          fadeDuration: this._options.tileFadeDuration,
+        },
       );
     } else if (entry.frames.length === 1) {
       const frame = entry.frames[0];
@@ -175,11 +177,13 @@ export default class RectMap extends RectTileLoader {
             object = new AnimatedRectMapObject(
               mapObject.x,
               mapObject.y,
-              spritesheetSrc,
-              this.altases[objectInfo.spritesheet],
-              `object_${mapObject.object}`,
-              objectInfo.fps!,
-              this._options.tileFadeDuration,
+              {
+                src: spritesheetSrc,
+                atlas: this.altases[objectInfo.spritesheet],
+                animation: `object_${mapObject.object}`,
+                fps: objectInfo.fps!,
+                fadeDuration: this._options.tileFadeDuration,
+              },
             );
           } else {
             const frame = objectInfo.frames[0];

@@ -1,23 +1,23 @@
 import Atlas from "../data/Atlas.js";
 import AnimatedSprite from "../image/AnimatedSprite.js";
 
+interface AnimatedRectMapTerrainOptions {
+  src: string;
+  atlas: Atlas;
+  animation: string;
+  fps: number;
+  fadeDuration?: number;
+}
+
 export default class AnimatedRectMapTerrain extends AnimatedSprite {
   private fadingSpeed = 0;
 
-  constructor(
-    x: number,
-    y: number,
-    src: string,
-    atlas: Atlas,
-    animation: string,
-    fps: number,
-    fadeDuration?: number,
-  ) {
-    super(x, y, src, atlas, animation, fps);
+  constructor(x: number, y: number, options: AnimatedRectMapTerrainOptions) {
+    super(x, y, options);
 
-    if (fadeDuration && fadeDuration > 0) {
+    if (options.fadeDuration && options.fadeDuration > 0) {
       this.alpha = 0;
-      this.fadingSpeed = 1 / fadeDuration;
+      this.fadingSpeed = 1 / options.fadeDuration;
     }
   }
 
