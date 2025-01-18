@@ -8,7 +8,7 @@ export default class Movable extends GameObject {
     protected maxSpeedY: number;
     protected accelX: number;
     protected accelY: number;
-    move(angle: number, speed: number): void;
+    move(radian: number, speed: number): void;
     stop(): void;
     protected update(deltaTime: number): void;
 }

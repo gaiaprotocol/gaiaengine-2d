@@ -13,9 +13,9 @@ export default class Movable extends GameObject {
   protected accelX = 0;
   protected accelY = 0;
 
-  public move(angle: number, speed: number): void {
-    this.speedX = Math.cos(angle) * speed;
-    this.speedY = Math.sin(angle) * speed;
+  public move(radian: number, speed: number): void {
+    this.speedX = Math.cos(radian) * speed;
+    this.speedY = Math.sin(radian) * speed;
   }
 
   public stop(): void {
