@@ -10,14 +10,14 @@ export default class Movable extends GameObject {
   protected speedX = 0;
   protected speedY = 0;
 
+  protected accelX = 0;
+  protected accelY = 0;
+
   protected minSpeedX = -Infinity;
   protected maxSpeedX = Infinity;
 
   protected minSpeedY = -Infinity;
   protected maxSpeedY = Infinity;
-
-  protected accelX = 0;
-  protected accelY = 0;
 
   public move(radian: number, speed: number): void {
     this.speedX = Math.cos(radian) * speed;
