@@ -1,5 +1,9 @@
 import GameObject from "../core/GameObject.js";
 export default class Movable extends GameObject {
+    protected minX: number;
+    protected maxX: number;
+    protected minY: number;
+    protected maxY: number;
     protected speedX: number;
     protected speedY: number;
     protected minSpeedX: number;

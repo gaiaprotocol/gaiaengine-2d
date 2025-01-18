@@ -1,6 +1,12 @@
 import GameObject from "../core/GameObject.js";
 
 export default class Movable extends GameObject {
+  protected minX = -Infinity;
+  protected maxX = Infinity;
+
+  protected minY = -Infinity;
+  protected maxY = Infinity;
+
   protected speedX = 0;
   protected speedY = 0;
 
@@ -34,6 +40,11 @@ export default class Movable extends GameObject {
 
     this.x += this.speedX * deltaTime;
     this.y += this.speedY * deltaTime;
+
+    if (this.x < this.minX) this.x = this.minX;
+    if (this.x > this.maxX) this.x = this.maxX;
+    if (this.y < this.minY) this.y = this.minY;
+    if (this.y > this.maxY) this.y = this.maxY;
 
     super.update(deltaTime);
   }
