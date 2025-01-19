@@ -1,4 +1,4 @@
-import { BLEND_MODES, Container } from "pixi.js";
+import { BLEND_MODES, ColorSource, Container } from "pixi.js";
 import GameNode from "./GameNode.js";
 import TransformableNode from "./TransformableNode.js";
 export default class DisplayNode<CT extends Container = Container> extends TransformableNode {
@@ -28,6 +28,8 @@ export default class DisplayNode<CT extends Container = Container> extends Trans
     get rotation(): number;
     set blendMode(blendMode: BLEND_MODES);
     get blendMode(): BLEND_MODES;
+    set tint(tint: ColorSource);
+    get tint(): ColorSource;
     appendTo(parent: GameNode, index?: number): this;
     remove(): void;
     hide(): void;

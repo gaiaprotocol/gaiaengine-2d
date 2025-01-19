@@ -1,4 +1,4 @@
-import { BLEND_MODES, Container } from "pixi.js";
+import { BLEND_MODES, ColorSource, Container } from "pixi.js";
 import GameNode from "./GameNode.js";
 import TransformableNode from "./TransformableNode.js";
 
@@ -117,6 +117,14 @@ export default class DisplayNode<CT extends Container = Container>
 
   public get blendMode() {
     return this.container.blendMode;
+  }
+
+  public set tint(tint: ColorSource) {
+    this.container.tint = tint;
+  }
+
+  public get tint() {
+    return this.container.tint;
   }
 
   public appendTo(parent: GameNode, index?: number): this {
