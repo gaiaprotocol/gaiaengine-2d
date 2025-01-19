@@ -5,6 +5,7 @@ interface AnimatedSpriteOptions {
     atlas: Atlas;
     animation: string;
     fps: number;
+    loop?: boolean;
     onAnimationEnd?: (animation: string) => void;
 }
 export default class AnimatedSprite extends GameObject {
@@ -18,6 +19,8 @@ export default class AnimatedSprite extends GameObject {
     private load;
     set animation(animation: string);
     get animation(): string;
+    get loop(): boolean;
+    set loop(loop: boolean);
     remove(): void;
 }
 export {};

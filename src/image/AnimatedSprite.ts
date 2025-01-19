@@ -13,6 +13,7 @@ interface AnimatedSpriteOptions {
   atlas: Atlas;
   animation: string;
   fps: number;
+  loop?: boolean;
   onAnimationEnd?: (animation: string) => void;
 }
 
@@ -46,6 +47,7 @@ export default class AnimatedSprite extends GameObject {
       const sprite = new PixiAnimatedSprite(
         this.sheet.animations[this.animation],
       );
+      sprite.loop = this.options.loop ?? true;
       sprite.onLoop = () => this.options.onAnimationEnd?.(this.animation);
       sprite.anchor.set(0.5, 0.5);
       sprite.animationSpeed = this.options.fps / 60;
@@ -74,6 +76,18 @@ export default class AnimatedSprite extends GameObject {
 
   public get animation(): string {
     return this._animation;
+  }
+
+  public get loop(): boolean {
+    return this.currentSprite instanceof PixiAnimatedSprite
+      ? this.currentSprite.loop
+      : false;
+  }
+
+  public set loop(loop: boolean) {
+    if (this.currentSprite instanceof PixiAnimatedSprite) {
+      this.currentSprite.loop = loop;
+    }
   }
 
   public remove(): void {
