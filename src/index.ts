@@ -5,6 +5,7 @@ export { default as ColliderType } from "./collision/colliders/ColliderType.js";
 export { default as EllipseCollider } from "./collision/colliders/EllipseCollider.js";
 export { default as PolygonCollider } from "./collision/colliders/PolygonCollider.js";
 export { default as RectCollider } from "./collision/colliders/RectCollider.js";
+export { default as CollisionChecker } from "./collision/CollisionChecker.js";
 export { default as CollisionDetector } from "./collision/CollisionDetector.js";
 export {
   compareCoordinates,
@@ -15,6 +16,7 @@ export { default as GameObject } from "./core/GameObject.js";
 export { default as WindowEventNode } from "./core/WindowEventNode.js";
 export { default as Atlas } from "./data/Atlas.js";
 export { default as FPSDisplay } from "./debug/FPSDisplay.js";
+export { default as Delay } from "./delay/Delay.js";
 export { default as Interval } from "./delay/Interval.js";
 export { default as TextNode } from "./dom/DomTextNode.js";
 export { default as DomWrapperNode } from "./dom/DomWrapperNode.js";
