@@ -1,11 +1,12 @@
 import Transform from "../core/Transform.js";
+import CircleCollider from "./colliders/CircleCollider.js";
 import Collider from "./colliders/Collider.js";
 import ColliderType from "./colliders/ColliderType.js";
 import EllipseCollider from "./colliders/EllipseCollider.js";
 import PolygonCollider from "./colliders/PolygonCollider.js";
 import RectCollider from "./colliders/RectCollider.js";
 
-class CollisionUtils {
+class CollisionChecker {
   public checkCollision(
     colliderA: Collider,
     transformA: Transform,
@@ -27,6 +28,13 @@ class CollisionUtils {
           colliderB as RectCollider,
           transformB,
         );
+      } else if (colliderB.type === ColliderType.Circle) {
+        return this.rectCircleCollision(
+          colliderA as RectCollider,
+          transformA,
+          colliderB as CircleCollider,
+          transformB,
+        );
       } else if (colliderB.type === ColliderType.Ellipse) {
         return this.rectEllipseCollision(
           colliderA as RectCollider,
@@ -44,10 +52,49 @@ class CollisionUtils {
       } else {
         return false;
       }
+    } else if (colliderA.type === ColliderType.Circle) {
+      if (colliderB.type === ColliderType.Rectangle) {
+        return this.rectCircleCollision(
+          colliderB as RectCollider,
+          transformB,
+          colliderA as CircleCollider,
+          transformA,
+        );
+      } else if (colliderB.type === ColliderType.Circle) {
+        return this.circleCircleCollision(
+          colliderA as CircleCollider,
+          transformA,
+          colliderB as CircleCollider,
+          transformB,
+        );
+      } else if (colliderB.type === ColliderType.Ellipse) {
+        return this.circleEllipseCollision(
+          colliderA as CircleCollider,
+          transformA,
+          colliderB as EllipseCollider,
+          transformB,
+        );
+      } else if (colliderB.type === ColliderType.Polygon) {
+        return this.circlePolygonCollision(
+          colliderA as CircleCollider,
+          transformA,
+          colliderB as PolygonCollider,
+          transformB,
+        );
+      } else {
+        return false;
+      }
     } else if (colliderA.type === ColliderType.Ellipse) {
       if (colliderB.type === ColliderType.Rectangle) {
         return this.rectEllipseCollision(
           colliderB as RectCollider,
+          transformB,
+          colliderA as EllipseCollider,
+          transformA,
+        );
+      } else if (colliderB.type === ColliderType.Circle) {
+        return this.circleEllipseCollision(
+          colliderB as CircleCollider,
           transformB,
           colliderA as EllipseCollider,
           transformA,
@@ -73,6 +120,13 @@ class CollisionUtils {
       if (colliderB.type === ColliderType.Rectangle) {
         return this.rectPolygonCollision(
           colliderB as RectCollider,
+          transformB,
+          colliderA as PolygonCollider,
+          transformA,
+        );
+      } else if (colliderB.type === ColliderType.Circle) {
+        return this.circlePolygonCollision(
+          colliderB as CircleCollider,
           transformB,
           colliderA as PolygonCollider,
           transformA,
@@ -147,6 +201,36 @@ class CollisionUtils {
       localY >= -halfHeight &&
       localY <= halfHeight
     );
+  }
+
+  public isPointInsideCircle(
+    pointX: number,
+    pointY: number,
+    circle: CircleCollider,
+    transform: Transform,
+  ): boolean {
+    if (
+      !isFinite(pointX) ||
+      !isFinite(pointY) ||
+      !this.isValidTransform(transform)
+    ) {
+      return false;
+    }
+
+    const circleCenterX = transform.x + circle.x * transform.scaleX;
+    const circleCenterY = transform.y + circle.y * transform.scaleY;
+
+    if (!isFinite(circleCenterX) || !isFinite(circleCenterY)) {
+      return false;
+    }
+
+    const dx = pointX - circleCenterX;
+    const dy = pointY - circleCenterY;
+
+    const avgScale = (transform.scaleX + transform.scaleY) * 0.5;
+    const scaledRadius = circle.radius * avgScale;
+
+    return dx * dx + dy * dy <= scaledRadius * scaledRadius;
   }
 
   public isPointInsideEllipse(
@@ -237,18 +321,7 @@ class CollisionUtils {
     x4: number,
     y4: number,
   ): boolean {
-    if (
-      ![
-        x1,
-        y1,
-        x2,
-        y2,
-        x3,
-        y3,
-        x4,
-        y4,
-      ].every((val) => isFinite(val))
-    ) {
+    if (![x1, y1, x2, y2, x3, y3, x4, y4].every((val) => isFinite(val))) {
       return false;
     }
 
@@ -261,22 +334,6 @@ class CollisionUtils {
     const ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denom;
 
     return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
-  }
-
-  public rectRectCollision(
-    rectA: RectCollider,
-    transformA: Transform,
-    rectB: RectCollider,
-    transformB: Transform,
-  ): boolean {
-    const verticesA = this.getRectVertices(rectA, transformA);
-    const verticesB = this.getRectVertices(rectB, transformB);
-
-    if (verticesA.length === 0 || verticesB.length === 0) {
-      return false;
-    }
-
-    return this.doPolygonsIntersect(verticesA, verticesB);
   }
 
   private getRectVertices(
@@ -318,29 +375,43 @@ class CollisionUtils {
     });
   }
 
-  public ellipseEllipseCollision(
-    ellipseA: EllipseCollider,
-    transformA: Transform,
-    ellipseB: EllipseCollider,
-    transformB: Transform,
-  ): boolean {
-    const polygonA = this.approximateEllipse(
-      ellipseA,
-      transformA,
-      16,
-    );
-
-    const polygonB = this.approximateEllipse(
-      ellipseB,
-      transformB,
-      16,
-    );
-
-    if (polygonA.length === 0 || polygonB.length === 0) {
-      return false;
+  private approximateCircle(
+    circle: CircleCollider,
+    transform: Transform,
+    numSides: number,
+  ): { x: number; y: number }[] {
+    if (!this.isValidTransform(transform)) {
+      return [];
     }
 
-    return this.doPolygonsIntersect(polygonA, polygonB);
+    const centerX = transform.x + circle.x * transform.scaleX;
+    const centerY = transform.y + circle.y * transform.scaleY;
+    if (!isFinite(centerX) || !isFinite(centerY)) {
+      return [];
+    }
+
+    const avgScale = (transform.scaleX + transform.scaleY) * 0.5;
+    const radius = circle.radius * avgScale;
+    const radianStep = (Math.PI * 2) / numSides;
+
+    const vertices = [];
+    for (let i = 0; i < numSides; i++) {
+      const radian = i * radianStep;
+
+      const x = radius * Math.cos(radian);
+      const y = radius * Math.sin(radian);
+
+      const worldX = x + centerX;
+      const worldY = y + centerY;
+
+      if (!isFinite(worldX) || !isFinite(worldY)) {
+        continue;
+      }
+
+      vertices.push({ x: worldX, y: worldY });
+    }
+
+    return vertices;
   }
 
   private approximateEllipse(
@@ -384,87 +455,6 @@ class CollisionUtils {
     }
 
     return vertices;
-  }
-
-  public rectEllipseCollision(
-    rect: RectCollider,
-    rectTransform: Transform,
-    ellipse: EllipseCollider,
-    ellipseTransform: Transform,
-  ): boolean {
-    const ellipseVertices = this.approximateEllipse(
-      ellipse,
-      ellipseTransform,
-      16,
-    );
-
-    const rectVertices = this.getRectVertices(rect, rectTransform);
-
-    if (ellipseVertices.length === 0 || rectVertices.length === 0) {
-      return false;
-    }
-
-    return this.doPolygonsIntersect(rectVertices, ellipseVertices);
-  }
-
-  public ellipsePolygonCollision(
-    ellipse: EllipseCollider,
-    ellipseTransform: Transform,
-    polygon: PolygonCollider,
-    polygonTransform: Transform,
-  ): boolean {
-    const ellipseVertices = this.approximateEllipse(
-      ellipse,
-      ellipseTransform,
-      16,
-    );
-
-    const polygonVertices = this.transformPolygonPoints(
-      polygon,
-      polygonTransform,
-    );
-
-    if (ellipseVertices.length === 0 || polygonVertices.length === 0) {
-      return false;
-    }
-
-    return this.doPolygonsIntersect(ellipseVertices, polygonVertices);
-  }
-
-  public rectPolygonCollision(
-    rect: RectCollider,
-    rectTransform: Transform,
-    polygon: PolygonCollider,
-    polygonTransform: Transform,
-  ): boolean {
-    const rectVertices = this.getRectVertices(rect, rectTransform);
-
-    const polygonVertices = this.transformPolygonPoints(
-      polygon,
-      polygonTransform,
-    );
-
-    if (rectVertices.length === 0 || polygonVertices.length === 0) {
-      return false;
-    }
-
-    return this.doPolygonsIntersect(rectVertices, polygonVertices);
-  }
-
-  public polygonPolygonCollision(
-    polygonA: PolygonCollider,
-    transformA: Transform,
-    polygonB: PolygonCollider,
-    transformB: Transform,
-  ): boolean {
-    const verticesA = this.transformPolygonPoints(polygonA, transformA);
-    const verticesB = this.transformPolygonPoints(polygonB, transformB);
-
-    if (verticesA.length === 0 || verticesB.length === 0) {
-      return false;
-    }
-
-    return this.doPolygonsIntersect(verticesA, verticesB);
   }
 
   private transformPolygonPoints(
@@ -549,6 +539,213 @@ class CollisionUtils {
 
     return true;
   }
+
+  public rectRectCollision(
+    rectA: RectCollider,
+    transformA: Transform,
+    rectB: RectCollider,
+    transformB: Transform,
+  ): boolean {
+    const verticesA = this.getRectVertices(rectA, transformA);
+    const verticesB = this.getRectVertices(rectB, transformB);
+
+    if (verticesA.length === 0 || verticesB.length === 0) {
+      return false;
+    }
+
+    return this.doPolygonsIntersect(verticesA, verticesB);
+  }
+
+  public rectCircleCollision(
+    rect: RectCollider,
+    rectTransform: Transform,
+    circle: CircleCollider,
+    circleTransform: Transform,
+  ): boolean {
+    const rectVertices = this.getRectVertices(rect, rectTransform);
+    const circleVertices = this.approximateCircle(circle, circleTransform, 16);
+
+    if (rectVertices.length === 0 || circleVertices.length === 0) {
+      return false;
+    }
+
+    return this.doPolygonsIntersect(rectVertices, circleVertices);
+  }
+
+  public rectEllipseCollision(
+    rect: RectCollider,
+    rectTransform: Transform,
+    ellipse: EllipseCollider,
+    ellipseTransform: Transform,
+  ): boolean {
+    const ellipseVertices = this.approximateEllipse(
+      ellipse,
+      ellipseTransform,
+      16,
+    );
+
+    const rectVertices = this.getRectVertices(rect, rectTransform);
+
+    if (ellipseVertices.length === 0 || rectVertices.length === 0) {
+      return false;
+    }
+
+    return this.doPolygonsIntersect(rectVertices, ellipseVertices);
+  }
+
+  public rectPolygonCollision(
+    rect: RectCollider,
+    rectTransform: Transform,
+    polygon: PolygonCollider,
+    polygonTransform: Transform,
+  ): boolean {
+    const rectVertices = this.getRectVertices(rect, rectTransform);
+
+    const polygonVertices = this.transformPolygonPoints(
+      polygon,
+      polygonTransform,
+    );
+
+    if (rectVertices.length === 0 || polygonVertices.length === 0) {
+      return false;
+    }
+
+    return this.doPolygonsIntersect(rectVertices, polygonVertices);
+  }
+
+  public circleCircleCollision(
+    circleA: CircleCollider,
+    transformA: Transform,
+    circleB: CircleCollider,
+    transformB: Transform,
+  ): boolean {
+    if (
+      !this.isValidTransform(transformA) ||
+      !this.isValidTransform(transformB)
+    ) {
+      return false;
+    }
+
+    const centerAx = transformA.x + circleA.x * transformA.scaleX;
+    const centerAy = transformA.y + circleA.y * transformA.scaleY;
+    const centerBx = transformB.x + circleB.x * transformB.scaleX;
+    const centerBy = transformB.y + circleB.y * transformB.scaleY;
+
+    if (
+      !isFinite(centerAx) || !isFinite(centerAy) ||
+      !isFinite(centerBx) || !isFinite(centerBy)
+    ) {
+      return false;
+    }
+
+    const avgScaleA = (transformA.scaleX + transformA.scaleY) * 0.5;
+    const avgScaleB = (transformB.scaleX + transformB.scaleY) * 0.5;
+
+    const radiusA = circleA.radius * avgScaleA;
+    const radiusB = circleB.radius * avgScaleB;
+
+    const dx = centerBx - centerAx;
+    const dy = centerBy - centerAy;
+    const distSq = dx * dx + dy * dy;
+    const radiusSum = radiusA + radiusB;
+
+    return distSq <= radiusSum * radiusSum;
+  }
+
+  public circleEllipseCollision(
+    circle: CircleCollider,
+    circleTransform: Transform,
+    ellipse: EllipseCollider,
+    ellipseTransform: Transform,
+  ): boolean {
+    const circleVertices = this.approximateCircle(circle, circleTransform, 16);
+    const ellipseVertices = this.approximateEllipse(
+      ellipse,
+      ellipseTransform,
+      16,
+    );
+
+    if (circleVertices.length === 0 || ellipseVertices.length === 0) {
+      return false;
+    }
+
+    return this.doPolygonsIntersect(circleVertices, ellipseVertices);
+  }
+
+  public circlePolygonCollision(
+    circle: CircleCollider,
+    circleTransform: Transform,
+    polygon: PolygonCollider,
+    polygonTransform: Transform,
+  ): boolean {
+    const circleVertices = this.approximateCircle(circle, circleTransform, 16);
+    const polygonVertices = this.transformPolygonPoints(
+      polygon,
+      polygonTransform,
+    );
+
+    if (circleVertices.length === 0 || polygonVertices.length === 0) {
+      return false;
+    }
+
+    return this.doPolygonsIntersect(circleVertices, polygonVertices);
+  }
+
+  public ellipseEllipseCollision(
+    ellipseA: EllipseCollider,
+    transformA: Transform,
+    ellipseB: EllipseCollider,
+    transformB: Transform,
+  ): boolean {
+    const polygonA = this.approximateEllipse(ellipseA, transformA, 16);
+    const polygonB = this.approximateEllipse(ellipseB, transformB, 16);
+
+    if (polygonA.length === 0 || polygonB.length === 0) {
+      return false;
+    }
+
+    return this.doPolygonsIntersect(polygonA, polygonB);
+  }
+
+  public ellipsePolygonCollision(
+    ellipse: EllipseCollider,
+    ellipseTransform: Transform,
+    polygon: PolygonCollider,
+    polygonTransform: Transform,
+  ): boolean {
+    const ellipseVertices = this.approximateEllipse(
+      ellipse,
+      ellipseTransform,
+      16,
+    );
+
+    const polygonVertices = this.transformPolygonPoints(
+      polygon,
+      polygonTransform,
+    );
+
+    if (ellipseVertices.length === 0 || polygonVertices.length === 0) {
+      return false;
+    }
+
+    return this.doPolygonsIntersect(ellipseVertices, polygonVertices);
+  }
+
+  public polygonPolygonCollision(
+    polygonA: PolygonCollider,
+    transformA: Transform,
+    polygonB: PolygonCollider,
+    transformB: Transform,
+  ): boolean {
+    const verticesA = this.transformPolygonPoints(polygonA, transformA);
+    const verticesB = this.transformPolygonPoints(polygonB, transformB);
+
+    if (verticesA.length === 0 || verticesB.length === 0) {
+      return false;
+    }
+
+    return this.doPolygonsIntersect(verticesA, verticesB);
+  }
 }
 
-export default new CollisionUtils();
+export default new CollisionChecker();

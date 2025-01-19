@@ -1,6 +1,6 @@
 import GameNode from "../core/GameNode.js";
 import Collidable from "./Collidable.js";
-import CollisionUtils from "./CollisionUtils.js";
+import CollisionChecker from "./CollisionChecker.js";
 
 export default class CollisionDetector<
   ST extends Collidable,
@@ -18,7 +18,7 @@ export default class CollisionDetector<
     for (const subjectCollider of subject.colliders) {
       for (const obstacleCollider of obstacle.colliders) {
         if (
-          CollisionUtils.checkCollision(
+          CollisionChecker.checkCollision(
             subjectCollider,
             subject.globalTransform,
             obstacleCollider,

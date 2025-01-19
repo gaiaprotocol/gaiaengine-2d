@@ -30,4 +30,4 @@ declare class CollisionChecker {
 }
 declare const _default: CollisionChecker;
 export default _default;
-//# sourceMappingURL=CollisionUtils.d.ts.map
+//# sourceMappingURL=CollisionChecker.d.ts.map
