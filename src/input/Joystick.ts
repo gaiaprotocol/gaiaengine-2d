@@ -35,6 +35,9 @@ export default class Joystick extends WindowEventNode {
           this.calculateRadian();
         }
       }
+    }).onWindow("blur", () => {
+      this.keysPressed.clear();
+      this.onRelease();
     });
   }
 
