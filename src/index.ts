@@ -1,6 +1,10 @@
 export { default as Collidable } from "./collision/Collidable.js";
+export { default as CircleCollider } from "./collision/colliders/CircleCollider.js";
 export { default as Collider } from "./collision/colliders/Collider.js";
 export { default as ColliderType } from "./collision/colliders/ColliderType.js";
+export { default as EllipseCollider } from "./collision/colliders/EllipseCollider.js";
+export { default as PolygonCollider } from "./collision/colliders/PolygonCollider.js";
+export { default as RectCollider } from "./collision/colliders/RectCollider.js";
 export { default as CollisionDetector } from "./collision/CollisionDetector.js";
 export {
   compareCoordinates,

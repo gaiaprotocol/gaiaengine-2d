@@ -1,43 +1,53 @@
 import WindowEventNode from "../core/WindowEventNode.js";
 
-export default class Joystick extends WindowEventNode {
-  private keysPressed: Set<string> = new Set();
+interface JoystickOptions {
+  onMove: (radian: number) => void;
+  onRelease: () => void;
+  onKeydown?: (code: string) => void;
+}
 
-  constructor(
-    private onMove: (radian: number) => void,
-    private onRelease: () => void,
-  ) {
+export default class Joystick extends WindowEventNode {
+  private codesPressed: Set<string> = new Set();
+  private arrowCodesPressed: Set<string> = new Set();
+
+  constructor(private options: JoystickOptions) {
     super();
     this.onWindow("keydown", (event: KeyboardEvent) => {
-      const key = event.key;
+      const code = event.code;
+
+      if (this.codesPressed.has(code)) return;
+      this.codesPressed.add(code);
+      this.options.onKeydown?.(code);
+
       if (
-        key === "ArrowUp" ||
-        key === "ArrowDown" ||
-        key === "ArrowLeft" ||
-        key === "ArrowRight"
+        code === "ArrowUp" ||
+        code === "ArrowDown" ||
+        code === "ArrowLeft" ||
+        code === "ArrowRight"
       ) {
-        if (this.keysPressed.has(key)) return;
-        this.keysPressed.add(key);
+        this.arrowCodesPressed.add(code);
         this.calculateRadian();
       }
     }).onWindow("keyup", (event: KeyboardEvent) => {
-      const key = event.key;
+      const code = event.code;
+      this.codesPressed.delete(code);
+
       if (
-        key === "ArrowUp" ||
-        key === "ArrowDown" ||
-        key === "ArrowLeft" ||
-        key === "ArrowRight"
+        code === "ArrowUp" ||
+        code === "ArrowDown" ||
+        code === "ArrowLeft" ||
+        code === "ArrowRight"
       ) {
-        this.keysPressed.delete(key);
-        if (this.keysPressed.size === 0) {
-          this.onRelease();
+        this.arrowCodesPressed.delete(code);
+        if (this.arrowCodesPressed.size === 0) {
+          this.options.onRelease();
         } else {
           this.calculateRadian();
         }
       }
     }).onWindow("blur", () => {
-      this.keysPressed.clear();
-      this.onRelease();
+      this.arrowCodesPressed.clear();
+      this.options.onRelease();
     });
   }
 
@@ -45,14 +55,14 @@ export default class Joystick extends WindowEventNode {
     let dx = 0;
     let dy = 0;
 
-    if (this.keysPressed.has("ArrowUp")) dy -= 1;
-    if (this.keysPressed.has("ArrowDown")) dy += 1;
-    if (this.keysPressed.has("ArrowLeft")) dx -= 1;
-    if (this.keysPressed.has("ArrowRight")) dx += 1;
+    if (this.arrowCodesPressed.has("ArrowUp")) dy -= 1;
+    if (this.arrowCodesPressed.has("ArrowDown")) dy += 1;
+    if (this.arrowCodesPressed.has("ArrowLeft")) dx -= 1;
+    if (this.arrowCodesPressed.has("ArrowRight")) dx += 1;
 
     if (dx !== 0 || dy !== 0) {
       const radian = Math.atan2(dy, dx);
-      this.onMove(radian);
+      this.options.onMove(radian);
     }
   }
 }
