@@ -393,25 +393,21 @@ class CollisionChecker {
     const avgScale = (transform.scaleX + transform.scaleY) * 0.5;
     const radius = circle.radius * avgScale;
     const radianStep = (Math.PI * 2) / numSides;
+    const result: { x: number; y: number }[] = [];
 
-    const vertices = [];
     for (let i = 0; i < numSides; i++) {
-      const radian = i * radianStep;
-
-      const x = radius * Math.cos(radian);
-      const y = radius * Math.sin(radian);
+      const rad = i * radianStep;
+      const x = radius * Math.cos(rad);
+      const y = radius * Math.sin(rad);
 
       const worldX = x + centerX;
       const worldY = y + centerY;
-
-      if (!isFinite(worldX) || !isFinite(worldY)) {
-        continue;
+      if (isFinite(worldX) && isFinite(worldY)) {
+        result.push({ x: worldX, y: worldY });
       }
-
-      vertices.push({ x: worldX, y: worldY });
     }
 
-    return vertices;
+    return result;
   }
 
   private approximateEllipse(
@@ -425,36 +421,34 @@ class CollisionChecker {
 
     const centerX = transform.x + ellipse.x * transform.scaleX;
     const centerY = transform.y + ellipse.y * transform.scaleY;
+
     const a = (ellipse.width * transform.scaleX) / 2;
     const b = (ellipse.height * transform.scaleY) / 2;
-    const radianStep = (Math.PI * 2) / numSides;
-    const rotation = transform.rotation;
 
-    const cosRotation = Math.cos(rotation);
-    const sinRotation = Math.sin(rotation);
+    const rotation = transform.rotation;
 
     if (!isFinite(centerX) || !isFinite(centerY)) {
       return [];
     }
 
-    const vertices = [];
+    const cosR = Math.cos(rotation);
+    const sinR = Math.sin(rotation);
+    const step = (Math.PI * 2) / numSides;
+    const result: { x: number; y: number }[] = [];
 
     for (let i = 0; i < numSides; i++) {
-      const radian = i * radianStep;
-      const x = a * Math.cos(radian);
-      const y = b * Math.sin(radian);
+      const rad = i * step;
+      const x = a * Math.cos(rad);
+      const y = b * Math.sin(rad);
 
-      const rotatedX = x * cosRotation - y * sinRotation + centerX;
-      const rotatedY = x * sinRotation + y * cosRotation + centerY;
-
-      if (!isFinite(rotatedX) || !isFinite(rotatedY)) {
-        continue;
+      const rx = x * cosR - y * sinR + centerX;
+      const ry = x * sinR + y * cosR + centerY;
+      if (isFinite(rx) && isFinite(ry)) {
+        result.push({ x: rx, y: ry });
       }
-
-      vertices.push({ x: rotatedX, y: rotatedY });
     }
 
-    return vertices;
+    return result;
   }
 
   private transformPolygonPoints(
@@ -470,7 +464,6 @@ class CollisionChecker {
 
     const centerX = transform.x + polygon.x * transform.scaleX;
     const centerY = transform.y + polygon.y * transform.scaleY;
-
     if (!isFinite(centerX) || !isFinite(centerY)) {
       return [];
     }
@@ -480,16 +473,14 @@ class CollisionChecker {
         const x = point.x * transform.scaleX;
         const y = point.y * transform.scaleY;
 
-        const transformedX = x * cos - y * sin + centerX;
-        const transformedY = x * sin + y * cos + centerY;
-
-        if (!isFinite(transformedX) || !isFinite(transformedY)) {
+        const worldX = x * cos - y * sin + centerX;
+        const worldY = x * sin + y * cos + centerY;
+        if (!isFinite(worldX) || !isFinite(worldY)) {
           return null;
         }
-
-        return { x: transformedX, y: transformedY };
+        return { x: worldX, y: worldY };
       })
-      .filter((vertex) => vertex !== null) as { x: number; y: number }[];
+      .filter((v) => v !== null) as { x: number; y: number }[];
   }
 
   private doPolygonsIntersect(
@@ -501,10 +492,8 @@ class CollisionChecker {
     }
 
     const polygons = [verticesA, verticesB];
-
     for (let i = 0; i < polygons.length; i++) {
       const polygon = polygons[i];
-
       for (let j = 0; j < polygon.length; j++) {
         const k = (j + 1) % polygon.length;
 
@@ -512,23 +501,22 @@ class CollisionChecker {
           x: polygon[k].x - polygon[j].x,
           y: polygon[k].y - polygon[j].y,
         };
-
         const normal = { x: -edge.y, y: edge.x };
 
-        let minA = Infinity;
-        let maxA = -Infinity;
-        for (const vertex of verticesA) {
-          const projection = normal.x * vertex.x + normal.y * vertex.y;
-          minA = Math.min(minA, projection);
-          maxA = Math.max(maxA, projection);
+        let minA = Infinity,
+          maxA = -Infinity;
+        for (const v of verticesA) {
+          const proj = normal.x * v.x + normal.y * v.y;
+          if (proj < minA) minA = proj;
+          if (proj > maxA) maxA = proj;
         }
 
-        let minB = Infinity;
-        let maxB = -Infinity;
-        for (const vertex of verticesB) {
-          const projection = normal.x * vertex.x + normal.y * vertex.y;
-          minB = Math.min(minB, projection);
-          maxB = Math.max(maxB, projection);
+        let minB = Infinity,
+          maxB = -Infinity;
+        for (const v of verticesB) {
+          const proj = normal.x * v.x + normal.y * v.y;
+          if (proj < minB) minB = proj;
+          if (proj > maxB) maxB = proj;
         }
 
         if (maxA < minB || maxB < minA) {
@@ -562,14 +550,43 @@ class CollisionChecker {
     circle: CircleCollider,
     circleTransform: Transform,
   ): boolean {
-    const rectVertices = this.getRectVertices(rect, rectTransform);
-    const circleVertices = this.approximateCircle(circle, circleTransform, 16);
-
-    if (rectVertices.length === 0 || circleVertices.length === 0) {
+    if (
+      !this.isValidTransform(rectTransform) ||
+      !this.isValidTransform(circleTransform)
+    ) {
       return false;
     }
 
-    return this.doPolygonsIntersect(rectVertices, circleVertices);
+    const circleCenterX = circleTransform.x + circle.x * circleTransform.scaleX;
+    const circleCenterY = circleTransform.y + circle.y * circleTransform.scaleY;
+    const avgScale = (circleTransform.scaleX + circleTransform.scaleY) * 0.5;
+    const circleRadius = circle.radius * avgScale;
+
+    const rectCenterX = rectTransform.x + rect.x * rectTransform.scaleX;
+    const rectCenterY = rectTransform.y + rect.y * rectTransform.scaleY;
+    const halfW = (rect.width * rectTransform.scaleX) / 2;
+    const halfH = (rect.height * rectTransform.scaleY) / 2;
+
+    const dx = circleCenterX - rectCenterX;
+    const dy = circleCenterY - rectCenterY;
+
+    const cos = Math.cos(-rectTransform.rotation);
+    const sin = Math.sin(-rectTransform.rotation);
+    const localX = dx * cos - dy * sin;
+    const localY = dx * sin + dy * cos;
+
+    let clampedX = localX;
+    let clampedY = localY;
+    if (clampedX < -halfW) clampedX = -halfW;
+    if (clampedX > halfW) clampedX = halfW;
+    if (clampedY < -halfH) clampedY = -halfH;
+    if (clampedY > halfH) clampedY = halfH;
+
+    const distX = localX - clampedX;
+    const distY = localY - clampedY;
+    const distSq = distX * distX + distY * distY;
+
+    return distSq <= circleRadius * circleRadius;
   }
 
   public rectEllipseCollision(
@@ -646,6 +663,7 @@ class CollisionChecker {
 
     const dx = centerBx - centerAx;
     const dy = centerBy - centerAy;
+
     const distSq = dx * dx + dy * dy;
     const radiusSum = radiusA + radiusB;
 
@@ -658,18 +676,18 @@ class CollisionChecker {
     ellipse: EllipseCollider,
     ellipseTransform: Transform,
   ): boolean {
-    const circleVertices = this.approximateCircle(circle, circleTransform, 16);
-    const ellipseVertices = this.approximateEllipse(
+    const circlePoints = this.approximateCircle(circle, circleTransform, 16);
+    const ellipsePoints = this.approximateEllipse(
       ellipse,
       ellipseTransform,
       16,
     );
 
-    if (circleVertices.length === 0 || ellipseVertices.length === 0) {
+    if (circlePoints.length === 0 || ellipsePoints.length === 0) {
       return false;
     }
 
-    return this.doPolygonsIntersect(circleVertices, ellipseVertices);
+    return this.doPolygonsIntersect(circlePoints, ellipsePoints);
   }
 
   public circlePolygonCollision(
@@ -678,17 +696,108 @@ class CollisionChecker {
     polygon: PolygonCollider,
     polygonTransform: Transform,
   ): boolean {
-    const circleVertices = this.approximateCircle(circle, circleTransform, 16);
-    const polygonVertices = this.transformPolygonPoints(
-      polygon,
-      polygonTransform,
-    );
-
-    if (circleVertices.length === 0 || polygonVertices.length === 0) {
+    if (
+      !this.isValidTransform(circleTransform) ||
+      !this.isValidTransform(polygonTransform)
+    ) {
       return false;
     }
 
-    return this.doPolygonsIntersect(circleVertices, polygonVertices);
+    const circleCenterX = circleTransform.x + circle.x * circleTransform.scaleX;
+    const circleCenterY = circleTransform.y + circle.y * circleTransform.scaleY;
+
+    const avgScale = (circleTransform.scaleX + circleTransform.scaleY) * 0.5;
+    const circleRadius = circle.radius * avgScale;
+
+    const polyPoints = this.transformPolygonPoints(polygon, polygonTransform);
+    if (polyPoints.length === 0) return false;
+
+    if (
+      this.isPointInPolygon(
+        circleCenterX,
+        circleCenterY,
+        polyPoints,
+      )
+    ) {
+      return true;
+    }
+
+    for (let i = 0; i < polyPoints.length; i++) {
+      const j = (i + 1) % polyPoints.length;
+      const p1 = polyPoints[i];
+      const p2 = polyPoints[j];
+
+      const dist = this.distancePointToSegment(
+        circleCenterX,
+        circleCenterY,
+        p1.x,
+        p1.y,
+        p2.x,
+        p2.y,
+      );
+
+      if (dist <= circleRadius) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private isPointInPolygon(
+    x: number,
+    y: number,
+    points: { x: number; y: number }[],
+  ): boolean {
+    let inside = false;
+    for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
+      const xi = points[i].x,
+        yi = points[i].y;
+      const xj = points[j].x,
+        yj = points[j].y;
+
+      const intersect = yi > y !== yj > y &&
+        x < ((xj - xi) * (y - yi)) / (yj - yi + Number.EPSILON) + xi;
+
+      if (intersect) inside = !inside;
+    }
+    return inside;
+  }
+
+  private distancePointToSegment(
+    px: number,
+    py: number,
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+  ): number {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+
+    if (dx === 0 && dy === 0) {
+      const vx = px - x1;
+      const vy = py - y1;
+      return Math.sqrt(vx * vx + vy * vy);
+    }
+
+    const t = ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy);
+
+    if (t < 0) {
+      const vx = px - x1;
+      const vy = py - y1;
+      return Math.sqrt(vx * vx + vy * vy);
+    } else if (t > 1) {
+      const vx = px - x2;
+      const vy = py - y2;
+      return Math.sqrt(vx * vx + vy * vy);
+    } else {
+      const projx = x1 + t * dx;
+      const projy = y1 + t * dy;
+      const vx = px - projx;
+      const vy = py - projy;
+      return Math.sqrt(vx * vx + vy * vy);
+    }
   }
 
   public ellipseEllipseCollision(
@@ -713,22 +822,19 @@ class CollisionChecker {
     polygon: PolygonCollider,
     polygonTransform: Transform,
   ): boolean {
-    const ellipseVertices = this.approximateEllipse(
+    const ellipsePoints = this.approximateEllipse(
       ellipse,
       ellipseTransform,
       16,
     );
-
-    const polygonVertices = this.transformPolygonPoints(
+    const polygonPoints = this.transformPolygonPoints(
       polygon,
       polygonTransform,
     );
-
-    if (ellipseVertices.length === 0 || polygonVertices.length === 0) {
+    if (ellipsePoints.length === 0 || polygonPoints.length === 0) {
       return false;
     }
-
-    return this.doPolygonsIntersect(ellipseVertices, polygonVertices);
+    return this.doPolygonsIntersect(ellipsePoints, polygonPoints);
   }
 
   public polygonPolygonCollision(

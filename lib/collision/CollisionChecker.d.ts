@@ -24,6 +24,8 @@ declare class CollisionChecker {
     circleCircleCollision(circleA: CircleCollider, transformA: Transform, circleB: CircleCollider, transformB: Transform): boolean;
     circleEllipseCollision(circle: CircleCollider, circleTransform: Transform, ellipse: EllipseCollider, ellipseTransform: Transform): boolean;
     circlePolygonCollision(circle: CircleCollider, circleTransform: Transform, polygon: PolygonCollider, polygonTransform: Transform): boolean;
+    private isPointInPolygon;
+    private distancePointToSegment;
     ellipseEllipseCollision(ellipseA: EllipseCollider, transformA: Transform, ellipseB: EllipseCollider, transformB: Transform): boolean;
     ellipsePolygonCollision(ellipse: EllipseCollider, ellipseTransform: Transform, polygon: PolygonCollider, polygonTransform: Transform): boolean;
     polygonPolygonCollision(polygonA: PolygonCollider, transformA: Transform, polygonB: PolygonCollider, transformB: Transform): boolean;
