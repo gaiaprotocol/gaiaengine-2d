@@ -2,7 +2,10 @@ import GameNode from "./GameNode.js";
 import Transform from "./Transform.js";
 export default abstract class TransformableNode extends GameNode {
     constructor(x: number, y: number);
-    private transform;
+    protected transform: Transform & {
+        pivotX: number;
+        pivotY: number;
+    };
     set x(x: number);
     get x(): number;
     set y(y: number);

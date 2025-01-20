@@ -1,10 +1,10 @@
 import GameObject from "../core/GameObject.js";
 import GameScreen from "./GameScreen.js";
 
-export default class RootNode extends GameObject {
+export default class SuperRootNode extends GameObject {
   constructor() {
     super(0, 0);
-    this.globalTransform = (this as any).transform;
+    this.globalTransform = this.transform;
   }
 
   public setScreen(screen: GameScreen | undefined) {

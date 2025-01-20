@@ -1,18 +1,24 @@
 import { DomNode } from "@common-module/app";
+import GameObject from "../core/GameObject.js";
 import Camera from "./Camera.js";
-import RootNode from "./RootNode.js";
 interface GameScreenOptions {
     width: number;
     height: number;
     backgroundColor?: number;
+    layers?: {
+        name: string;
+        drawingOrder: number;
+    }[];
 }
 export default class GameScreen extends DomNode {
     private renderer;
     private animationInterval;
     private targetFPS;
     private actualFPS;
-    root: RootNode;
+    private superRoot;
+    private layers;
     camera: Camera;
+    root: GameObject;
     width: number;
     height: number;
     ratio: number;
@@ -20,7 +26,7 @@ export default class GameScreen extends DomNode {
     constructor(options: GameScreenOptions);
     resize(width: number, height: number, ratio?: number): void;
     private createRenderer;
-    updateRootNodePosition(): void;
+    updateSuperRootNodePosition(): void;
     private update;
     private lastFrameTime;
     private accumulatedTime;

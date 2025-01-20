@@ -8,7 +8,7 @@ export default abstract class TransformableNode extends GameNode {
     this.transform.y = y;
   }
 
-  private transform: Transform & { pivotX: number; pivotY: number } = {
+  protected transform: Transform & { pivotX: number; pivotY: number } = {
     x: Number.NEGATIVE_INFINITY,
     y: Number.NEGATIVE_INFINITY,
     pivotX: 0,

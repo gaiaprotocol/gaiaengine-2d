@@ -1,13 +1,15 @@
 import { BrowserInfo, DomNode } from "@common-module/app";
 import { autoDetectRenderer, Renderer } from "pixi.js";
+import GameObject from "../core/GameObject.js";
 import GaiaEngineConfig from "../GaiaEngineConfig.js";
 import Camera from "./Camera.js";
-import RootNode from "./RootNode.js";
+import SuperRootNode from "./SuperRootNode.js";
 
 interface GameScreenOptions {
   width: number;
   height: number;
   backgroundColor?: number;
+  layers?: { name: string; drawingOrder: number }[];
 }
 
 export default class GameScreen extends DomNode {
@@ -17,8 +19,11 @@ export default class GameScreen extends DomNode {
   private targetFPS: number | undefined;
   private actualFPS: number | undefined;
 
-  public root = new RootNode();
+  private superRoot = new SuperRootNode();
+  private layers: { [name: string]: GameObject } = {};
+
   public camera = new Camera(this);
+  public root = new GameObject(0, 0);
 
   public width: number;
   public height: number;
@@ -34,7 +39,14 @@ export default class GameScreen extends DomNode {
     this.height = options.height;
     this.backgroundColor = options.backgroundColor ?? 0x000000;
 
-    this.root.setScreen(this);
+    this.superRoot.setScreen(this);
+    for (const layerInfo of options.layers ?? []) {
+      const layer = new GameObject(0, 0);
+      layer.drawingOrder = layerInfo.drawingOrder;
+      this.layers[layerInfo.name] = layer;
+      this.superRoot.append(layer);
+    }
+    this.root.appendTo(this.superRoot);
     this.createRenderer();
 
     if (GaiaEngineConfig.isDevMode || BrowserInfo.isMobileDevice()) {
@@ -63,7 +75,7 @@ export default class GameScreen extends DomNode {
       this.style(style);
     }
 
-    this.updateRootNodePosition();
+    this.updateSuperRootNodePosition();
   }
 
   private async createRenderer() {
@@ -76,7 +88,7 @@ export default class GameScreen extends DomNode {
     this.renderer.canvas.style.display = "block";
     this.renderer.canvas.style.touchAction = "auto";
 
-    this.root.setPosition(
+    this.superRoot.setPosition(
       this.width / 2 - this.camera.getX() * this.camera.scale,
       this.height / 2 - this.camera.getY() * this.camera.scale,
     );
@@ -85,20 +97,20 @@ export default class GameScreen extends DomNode {
     this.htmlElement.appendChild(this.renderer.canvas);
     this.animationInterval = requestAnimationFrame(this.animate);
 
-    this.updateRootNodePosition();
+    this.updateSuperRootNodePosition();
   }
 
-  public updateRootNodePosition() {
-    this.root.scale = this.camera.scale;
-    this.root.setPosition(
+  public updateSuperRootNodePosition() {
+    this.superRoot.scale = this.camera.scale;
+    this.superRoot.setPosition(
       this.width / 2 - this.camera.getX() * this.camera.scale,
       this.height / 2 - this.camera.getY() * this.camera.scale,
     );
   }
 
   private update(deltaTime: number) {
-    this.root.update(deltaTime);
-    this.renderer?.render(this.root.getContainer());
+    this.superRoot.update(deltaTime);
+    this.renderer?.render(this.superRoot.getContainer());
   }
 
   private lastFrameTime = 0;
