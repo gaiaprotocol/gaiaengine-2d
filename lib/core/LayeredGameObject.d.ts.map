@@ -1,0 +1,1 @@
+{"version":3,"file":"LayeredGameObject.d.ts","sourceRoot":"","sources":["../../src/core/LayeredGameObject.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,MAAM,eAAe,CAAC;AACrC,OAAO,iBAAiB,MAAM,wBAAwB,CAAC;AAEvD,MAAM,CAAC,OAAO,OAAO,iBAAkB,SAAQ,iBAAiB;gBAE5D,CAAC,EAAE,MAAM,EACT,CAAC,EAAE,MAAM,EACT,KAAK,EAAE,MAAM,EACb,GAAG,SAAS,EAAE,CAAC,QAAQ,GAAG,SAAS,CAAC,EAAE;CAKzC"}

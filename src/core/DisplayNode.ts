@@ -11,7 +11,7 @@ export default class DisplayNode<CT extends Container = Container>
   }
 
   public set x(x: number) {
-    this.transform.x = x;
+    super.x = x;
     this.container.x = x;
   }
 
@@ -20,7 +20,7 @@ export default class DisplayNode<CT extends Container = Container>
   }
 
   public set y(y: number) {
-    this.transform.y = y;
+    super.y = y;
     this.container.y = y;
     if (this._useYForDrawingOrder) {
       this.updateDrawingOrder();
@@ -29,12 +29,6 @@ export default class DisplayNode<CT extends Container = Container>
 
   public get y() {
     return this.container.y;
-  }
-
-  public setPosition(x: number, y: number): this {
-    this.x = x;
-    this.y = y;
-    return this;
   }
 
   public set drawingOrder(drawingOrder: number) {
@@ -59,14 +53,13 @@ export default class DisplayNode<CT extends Container = Container>
   }
 
   public setPivot(x: number, y: number): this {
-    this.transform.pivotX = x;
-    this.transform.pivotY = y;
+    super.setPivot(x, y);
     this.container.pivot.set(x, y);
     return this;
   }
 
   public set scaleX(scaleX: number) {
-    this.transform.scaleX = scaleX;
+    super.scaleX = scaleX;
     this.container.scale.x = scaleX;
   }
 
@@ -75,7 +68,7 @@ export default class DisplayNode<CT extends Container = Container>
   }
 
   public set scaleY(scaleY: number) {
-    this.transform.scaleY = scaleY;
+    super.scaleY = scaleY;
     this.container.scale.y = scaleY;
   }
 
@@ -84,8 +77,7 @@ export default class DisplayNode<CT extends Container = Container>
   }
 
   public set scale(scale: number) {
-    this.transform.scaleX = scale;
-    this.transform.scaleY = scale;
+    super.scale = scale;
     this.container.scale = scale;
   }
 
@@ -94,7 +86,7 @@ export default class DisplayNode<CT extends Container = Container>
   }
 
   public set alpha(alpha: number) {
-    this.transform.alpha = alpha;
+    super.alpha = alpha;
     this.container.alpha = alpha;
   }
 
@@ -103,7 +95,7 @@ export default class DisplayNode<CT extends Container = Container>
   }
 
   public set rotation(rotation: number) {
-    this.transform.rotation = rotation;
+    super.rotation = rotation;
     this.container.rotation = rotation;
   }
 

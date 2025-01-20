@@ -8,7 +8,7 @@ export default abstract class TransformableNode extends GameNode {
     this.transform.y = y;
   }
 
-  protected transform: Transform & { pivotX: number; pivotY: number } = {
+  private transform: Transform & { pivotX: number; pivotY: number } = {
     x: Number.NEGATIVE_INFINITY,
     y: Number.NEGATIVE_INFINITY,
     pivotX: 0,
@@ -18,6 +18,75 @@ export default abstract class TransformableNode extends GameNode {
     rotation: 0,
     alpha: 1,
   };
+
+  public set x(x: number) {
+    this.transform.x = x;
+  }
+
+  public get x() {
+    return this.transform.x;
+  }
+
+  public set y(y: number) {
+    this.transform.y = y;
+  }
+
+  public get y() {
+    return this.transform.y;
+  }
+
+  public setPosition(x: number, y: number): this {
+    this.x = x;
+    this.y = y;
+    return this;
+  }
+
+  public setPivot(x: number, y: number): this {
+    this.transform.pivotX = x;
+    this.transform.pivotY = y;
+    return this;
+  }
+
+  public set scaleX(scaleX: number) {
+    this.transform.scaleX = scaleX;
+  }
+
+  public get scaleX() {
+    return this.transform.scaleX;
+  }
+
+  public set scaleY(scaleY: number) {
+    this.transform.scaleY = scaleY;
+  }
+
+  public get scaleY() {
+    return this.transform.scaleY;
+  }
+
+  public set scale(scale: number) {
+    this.transform.scaleX = scale;
+    this.transform.scaleY = scale;
+  }
+
+  public get scale() {
+    return this.transform.scaleX;
+  }
+
+  public set alpha(alpha: number) {
+    this.transform.alpha = alpha;
+  }
+
+  public get alpha() {
+    return this.transform.alpha;
+  }
+
+  public set rotation(rotation: number) {
+    this.transform.rotation = rotation;
+  }
+
+  public get rotation() {
+    return this.transform.rotation;
+  }
 
   public globalTransform: Transform = {
     x: Number.NEGATIVE_INFINITY,
