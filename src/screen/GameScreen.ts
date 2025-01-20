@@ -1,8 +1,9 @@
 import { BrowserInfo, DomNode } from "@common-module/app";
-import { autoDetectRenderer, Renderer } from "pixi.js";
+import { autoDetectRenderer, Container, Renderer } from "pixi.js";
 import GameObject from "../core/GameObject.js";
 import GaiaEngineConfig from "../GaiaEngineConfig.js";
 import Camera from "./Camera.js";
+import Layer from "./Layer.js";
 import SuperRootNode from "./SuperRootNode.js";
 
 interface GameScreenOptions {
@@ -20,7 +21,7 @@ export default class GameScreen extends DomNode {
   private actualFPS: number | undefined;
 
   private superRoot = new SuperRootNode();
-  private layers: { [name: string]: GameObject } = {};
+  private layers: { [name: string]: Layer } = {};
 
   public camera = new Camera(this);
   public root = new GameObject(0, 0);
@@ -41,7 +42,7 @@ export default class GameScreen extends DomNode {
 
     this.superRoot.setScreen(this);
     for (const layerInfo of options.layers ?? []) {
-      const layer = new GameObject(0, 0);
+      const layer = new Layer();
       layer.drawingOrder = layerInfo.drawingOrder;
       this.layers[layerInfo.name] = layer;
       this.superRoot.append(layer);
@@ -136,6 +137,12 @@ export default class GameScreen extends DomNode {
 
     this.animationInterval = requestAnimationFrame(this.animate);
   };
+
+  public appendToLayer(pixiContainer: Container, layerName: string) {
+    const layer = this.layers[layerName];
+    if (!layer) throw new Error(`Layer ${layerName} does not exist.`);
+    layer.getContainer().addChild(pixiContainer);
+  }
 
   public remove(): void {
     if (this.renderer) {

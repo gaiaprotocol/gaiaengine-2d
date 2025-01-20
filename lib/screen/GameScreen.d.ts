@@ -1,4 +1,5 @@
 import { DomNode } from "@common-module/app";
+import { Container } from "pixi.js";
 import GameObject from "../core/GameObject.js";
 import Camera from "./Camera.js";
 interface GameScreenOptions {
@@ -31,6 +32,7 @@ export default class GameScreen extends DomNode {
     private lastFrameTime;
     private accumulatedTime;
     private animate;
+    appendToLayer(pixiContainer: Container, layerName: string): void;
     remove(): void;
 }
 export {};
