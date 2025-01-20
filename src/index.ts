@@ -19,7 +19,7 @@ export { default as Atlas } from "./data/Atlas.js";
 export { default as FPSDisplay } from "./debug/FPSDisplay.js";
 export { default as Delay } from "./delay/Delay.js";
 export { default as Interval } from "./delay/Interval.js";
-export { default as TextNode } from "./dom/DomTextNode.js";
+export { default as DomTextNode } from "./dom/DomTextNode.js";
 export { default as DomWrapperNode } from "./dom/DomWrapperNode.js";
 export { default as Fadeable } from "./dynamic/Fadeable.js";
 export { default as Movable } from "./dynamic/Movable.js";
