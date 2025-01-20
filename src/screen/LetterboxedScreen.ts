@@ -6,6 +6,7 @@ interface LetterboxedScreenOptions {
   width: number;
   height: number;
   backgroundColor?: number;
+  layers?: { name: string; drawingOrder: number }[];
 }
 
 export default class LetterboxedScreen extends GameScreen {

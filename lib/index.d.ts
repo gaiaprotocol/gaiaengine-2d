@@ -1,4 +1,3 @@
-export { default as LayeredGameObject } from "./core/LayeredGameObject.js";
 export { default as Collidable } from "./collision/Collidable.js";
 export { default as CircleCollider } from "./collision/colliders/CircleCollider.js";
 export { default as Collider } from "./collision/colliders/Collider.js";
@@ -11,6 +10,7 @@ export { default as CollisionDetector } from "./collision/CollisionDetector.js";
 export { compareCoordinates, default as Coordinates, } from "./core/Coordinates.js";
 export { default as GameNode } from "./core/GameNode.js";
 export { default as GameObject } from "./core/GameObject.js";
+export { default as LayeredGameObject } from "./core/LayeredGameObject.js";
 export { default as WindowEventNode } from "./core/WindowEventNode.js";
 export { default as Atlas } from "./data/Atlas.js";
 export { default as FPSDisplay } from "./debug/FPSDisplay.js";

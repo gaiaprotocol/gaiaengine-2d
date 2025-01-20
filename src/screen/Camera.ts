@@ -18,12 +18,12 @@ export default class Camera {
   public setPosition(x: number, y: number) {
     this._x = x;
     this._y = y;
-    this.screen.updateSuperRootNodePosition();
+    this.screen.updateRootNodePosition();
   }
 
   public set scale(value: number) {
     this._scale = value;
-    this.screen.updateSuperRootNodePosition();
+    this.screen.updateRootNodePosition();
   }
 
   public get scale() {
