@@ -54,3 +54,4 @@ export { default as ShapeNode } from "./shapes/ShapeNode.js";
 export { default as BackgroundMusic } from "./sound/BackgroundMusic.js";
 export { default as RandomSoundLooper } from "./sound/RandomSoundLooper.js";
 export { default as SFXPlayer } from "./sound/SFXPlayer.js";
+export { default as TextNode } from "./TextNode.js";
