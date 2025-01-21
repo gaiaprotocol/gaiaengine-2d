@@ -25,7 +25,6 @@ export { default as AnimatedSprite } from "./image/AnimatedSprite.js";
 export { default as Background } from "./image/Background.js";
 export { default as Sprite } from "./image/Sprite.js";
 export { default as Joystick } from "./input/Joystick.js";
-export { default as ResourceLoader } from "./loaders/ResourceLoader.js";
 export { default as TextureLoader } from "./loaders/TextureLoader.js";
 export { default as MapData, FrameData, MapEntity, MapObjectData, TerrainData, } from "./map/MapData.js";
 export { default as RectMap, RectMapOptions as RectMapOptions, } from "./map/RectMap.js";

@@ -1,6 +1,6 @@
+import { ResourceLoader } from "@common-module/ts";
 import { Spritesheet } from "pixi.js";
 import Atlas from "../data/Atlas.js";
-import ResourceLoader from "./ResourceLoader.js";
 import TextureLoader from "./TextureLoader.js";
 
 class SpritesheetLoader extends ResourceLoader<Spritesheet> {

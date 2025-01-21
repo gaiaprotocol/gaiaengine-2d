@@ -1,5 +1,5 @@
+import { ResourceLoader } from "@common-module/ts";
 import { CanvasSource, Texture } from "pixi.js";
-import ResourceLoader from "./ResourceLoader.js";
 
 class TextureLoader extends ResourceLoader<Texture> {
   private createCanvasFromImage(image: HTMLImageElement): HTMLCanvasElement {

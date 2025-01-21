@@ -1,6 +1,6 @@
+import { ResourceLoader } from "@common-module/ts";
 import { Spritesheet } from "pixi.js";
 import Atlas from "../data/Atlas.js";
-import ResourceLoader from "./ResourceLoader.js";
 declare class SpritesheetLoader extends ResourceLoader<Spritesheet> {
     private idToSrc;
     protected loadResource(id: string, src: string, atlas: Atlas): Promise<Spritesheet | undefined>;
