@@ -16,7 +16,6 @@ export { default as Atlas } from "./data/Atlas.js";
 export { default as FPSDisplay } from "./debug/FPSDisplay.js";
 export { default as Delay } from "./delay/Delay.js";
 export { default as Interval } from "./delay/Interval.js";
-export { default as DomTextNode } from "./dom/DomTextNode.js";
 export { default as DomWrapperNode } from "./dom/DomWrapperNode.js";
 export { default as Fadeable } from "./dynamic/Fadeable.js";
 export { default as Movable } from "./dynamic/Movable.js";
@@ -42,5 +41,7 @@ export { default as ShapeNode } from "./shapes/ShapeNode.js";
 export { default as BackgroundMusic } from "./sound/BackgroundMusic.js";
 export { default as RandomSoundLooper } from "./sound/RandomSoundLooper.js";
 export { default as SFXPlayer } from "./sound/SFXPlayer.js";
-export { default as TextNode } from "./TextNode.js";
+export { default as BitmapTextNode } from "./text/BitmapTextNode.js";
+export { default as DomTextNode } from "./text/DomTextNode.js";
+export { default as TextNode } from "./text/TextNode.js";
 //# sourceMappingURL=index.d.ts.map

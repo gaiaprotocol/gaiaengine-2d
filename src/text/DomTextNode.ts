@@ -1,4 +1,4 @@
-import DomWrapperNode from "./DomWrapperNode.js";
+import DomWrapperNode from "../dom/DomWrapperNode.js";
 
 export default class DomTextNode<ST extends Partial<CSSStyleDeclaration>>
   extends DomWrapperNode {
