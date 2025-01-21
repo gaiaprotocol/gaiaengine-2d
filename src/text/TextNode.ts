@@ -27,7 +27,10 @@ export default class TextNode extends GameObject {
   }
 
   private async loadFont() {
-    if (typeof this.style.fontFamily === "string") {
+    if (
+      typeof this.style.fontFamily === "string" &&
+      !FontLoader.isLoaded(this.style.fontFamily)
+    ) {
       const loaded = await FontLoader.load(this.style.fontFamily);
       if (!loaded || this.removed) return;
       this.draw();
