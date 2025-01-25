@@ -14,7 +14,7 @@ export default class RectMap extends RectTileLoader {
     private spritesheets;
     private mapData;
     private _options;
-    private altases;
+    private atlases;
     private spritesheetsLoaded;
     private terrainLayer;
     private objectLayer;

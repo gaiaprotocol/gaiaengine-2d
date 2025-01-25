@@ -23,7 +23,7 @@ export interface RectMapOptions {
 }
 
 export default class RectMap extends RectTileLoader {
-  private altases: Record<string, Atlas> = {};
+  private atlases: Record<string, Atlas> = {};
   private spritesheetsLoaded = false;
 
   private terrainLayer: GameObject;
@@ -47,10 +47,8 @@ export default class RectMap extends RectTileLoader {
       extraLoadTileCount: _options.extraLoadTileCount,
       debounceDelay: _options.debounceDelay,
       onLoadTiles: (coordinates) => {
-        console.time("onLoadTiles");
         coordinates.forEach(({ x, y }) => this.renderTile(x, y));
         _options.onLoadTiles?.(coordinates);
-        console.timeEnd("onLoadTiles");
       },
       onDeleteTiles: (coordinates) => {
         coordinates.forEach(({ x, y }) => this.deleteTile(x, y));
@@ -64,14 +62,14 @@ export default class RectMap extends RectTileLoader {
       this.objectLayer = new GameObject(0, 0),
     );
 
-    this.altases = MapDataTransformer.transformToAtlases(mapData);
+    this.atlases = MapDataTransformer.transformToAtlases(mapData);
     this.loadSpritesheets();
   }
 
   private async loadSpritesheets() {
     await Promise.all(
       Object.entries(this.spritesheets).map(([id, src]) =>
-        SpritesheetLoader.load(id, src, this.altases[id])
+        SpritesheetLoader.load(id, src, this.atlases[id])
       ),
     );
     this.spritesheetsLoaded = true;
@@ -123,7 +121,7 @@ export default class RectMap extends RectTileLoader {
         y * this.tileSize,
         {
           src: spritesheetSrc,
-          atlas: this.altases[entry.spritesheet],
+          atlas: this.atlases[entry.spritesheet],
           animation: `terrain_${terrainId}_${direction}_${entryIndex}`,
           fps: entry.fps!,
           fadeDuration: this._options.tileFadeDuration,
@@ -135,7 +133,7 @@ export default class RectMap extends RectTileLoader {
         x * this.tileSize,
         y * this.tileSize,
         spritesheetSrc,
-        this.altases[entry.spritesheet],
+        this.atlases[entry.spritesheet],
         `frame_${frame.x}_${frame.y}_${frame.width}_${frame.height}`,
         this._options.tileFadeDuration,
       );
@@ -181,7 +179,7 @@ export default class RectMap extends RectTileLoader {
               mapObject.y,
               {
                 src: spritesheetSrc,
-                atlas: this.altases[objectInfo.spritesheet],
+                atlas: this.atlases[objectInfo.spritesheet],
                 animation: `object_${mapObject.object}`,
                 fps: objectInfo.fps!,
                 fadeDuration: this._options.tileFadeDuration,
@@ -193,7 +191,7 @@ export default class RectMap extends RectTileLoader {
               mapObject.x,
               mapObject.y,
               spritesheetSrc,
-              this.altases[objectInfo.spritesheet],
+              this.atlases[objectInfo.spritesheet],
               `frame_${frame.x}_${frame.y}_${frame.width}_${frame.height}`,
               this._options.tileFadeDuration,
             );
