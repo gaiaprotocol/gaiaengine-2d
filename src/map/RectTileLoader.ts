@@ -119,26 +119,6 @@ export default class RectTileLoader extends GameObject {
     }
   }
 
-  protected update(deltaTime: number): void {
-    if (this.screen) {
-      const cameraScale = this.screen.camera.scale;
-      if (
-        this.screen.camera.getX() !== this.prevCameraX ||
-        this.screen.camera.getY() !== this.prevCameraY ||
-        cameraScale !== this.prevCameraScale
-      ) {
-        this.loadTilesDebouncer
-          ? this.loadTilesDebouncer.execute()
-          : this.loadTiles();
-
-        this.prevCameraX = this.screen.camera.getX();
-        this.prevCameraY = this.screen.camera.getY();
-        this.prevCameraScale = cameraScale;
-      }
-    }
-    super.update(deltaTime);
-  }
-
   public reloadTiles() {
     const toDeleteCoordinates: Coordinates[] = [];
 
@@ -165,5 +145,42 @@ export default class RectTileLoader extends GameObject {
     this.loadTilesDebouncer
       ? this.loadTilesDebouncer.execute()
       : this.loadTiles();
+  }
+
+  protected isTileInCurrentRange(x: number, y: number): boolean {
+    if (
+      this.startTileX === undefined ||
+      this.endTileX === undefined ||
+      this.startTileY === undefined ||
+      this.endTileY === undefined
+    ) {
+      return false;
+    }
+    return (
+      x >= this.startTileX &&
+      x <= this.endTileX &&
+      y >= this.startTileY &&
+      y <= this.endTileY
+    );
+  }
+
+  protected update(deltaTime: number): void {
+    if (this.screen) {
+      const cameraScale = this.screen.camera.scale;
+      if (
+        this.screen.camera.getX() !== this.prevCameraX ||
+        this.screen.camera.getY() !== this.prevCameraY ||
+        cameraScale !== this.prevCameraScale
+      ) {
+        this.loadTilesDebouncer
+          ? this.loadTilesDebouncer.execute()
+          : this.loadTiles();
+
+        this.prevCameraX = this.screen.camera.getX();
+        this.prevCameraY = this.screen.camera.getY();
+        this.prevCameraScale = cameraScale;
+      }
+    }
+    super.update(deltaTime);
   }
 }

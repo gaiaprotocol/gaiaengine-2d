@@ -21,8 +21,9 @@ export default class RectTileLoader extends GameObject {
     private loadTilesDebouncer?;
     constructor(tileSize: number, options: RectTileLoaderOptions);
     private loadTiles;
-    protected update(deltaTime: number): void;
     reloadTiles(): void;
+    protected isTileInCurrentRange(x: number, y: number): boolean;
+    protected update(deltaTime: number): void;
 }
 export {};
 //# sourceMappingURL=RectTileLoader.d.ts.map

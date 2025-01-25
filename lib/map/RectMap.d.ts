@@ -31,6 +31,12 @@ export default class RectMap extends RectTileLoader {
     private renderTile;
     private renderSurroundingTerrains;
     private deleteTile;
+    private reloadTile;
+    private reloadTileAndNeighbors;
+    addTerrain(x: number, y: number, terrainId: string): void;
+    removeTerrain(x: number, y: number): void;
+    addObject(objectX: number, objectY: number, objectId: string): void;
+    removeObject(objectX: number, objectY: number, objectId: string): void;
     protected update(deltaTime: number): void;
     remove(): void;
 }

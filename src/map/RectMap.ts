@@ -361,6 +361,52 @@ export default class RectMap extends RectTileLoader {
     }
   }
 
+  private reloadTile(x: number, y: number) {
+    this.deleteTile(x, y);
+    if (this.isTileInCurrentRange(x, y)) {
+      this.renderTile(x, y);
+    }
+  }
+
+  private reloadTileAndNeighbors(x: number, y: number) {
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        const nx = x + i;
+        const ny = y + j;
+        this.reloadTile(nx, ny);
+      }
+    }
+  }
+
+  public addTerrain(x: number, y: number, terrainId: string) {
+    this.mapData.terrainMap[this.createCoordinateKey(x, y)] = terrainId;
+    this.reloadTileAndNeighbors(x, y);
+  }
+
+  public removeTerrain(x: number, y: number) {
+    delete this.mapData.terrainMap[this.createCoordinateKey(x, y)];
+    this.reloadTileAndNeighbors(x, y);
+  }
+
+  public addObject(objectX: number, objectY: number, objectId: string) {
+    this.mapData.mapObjects.push({ x: objectX, y: objectY, object: objectId });
+    const tileX = Math.floor(objectX / this.tileSize);
+    const tileY = Math.floor(objectY / this.tileSize);
+    this.reloadTile(tileX, tileY);
+  }
+
+  public removeObject(objectX: number, objectY: number, objectId: string) {
+    const idx = this.mapData.mapObjects.findIndex(
+      (o) => o.x === objectX && o.y === objectY && o.object === objectId,
+    );
+    if (idx !== -1) {
+      this.mapData.mapObjects.splice(idx, 1);
+    }
+    const tileX = Math.floor(objectX / this.tileSize);
+    const tileY = Math.floor(objectY / this.tileSize);
+    this.reloadTile(tileX, tileY);
+  }
+
   protected update(deltaTime: number): void {
     if (this.spritesheetsLoaded) {
       super.update(deltaTime);
