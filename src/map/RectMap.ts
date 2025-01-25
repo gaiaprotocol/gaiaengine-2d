@@ -116,17 +116,13 @@ export default class RectMap extends RectTileLoader {
 
     let tile;
     if (entry.frames.length > 1) {
-      tile = new AnimatedRectMapTerrain(
-        x * this.tileSize,
-        y * this.tileSize,
-        {
-          src: spritesheetSrc,
-          atlas: this.atlases[entry.spritesheet],
-          animation: `terrain_${terrainId}_${direction}_${entryIndex}`,
-          fps: entry.fps!,
-          fadeDuration: this._options.tileFadeDuration,
-        },
-      );
+      tile = new AnimatedRectMapTerrain(x * this.tileSize, y * this.tileSize, {
+        src: spritesheetSrc,
+        atlas: this.atlases[entry.spritesheet],
+        animation: `terrain_${terrainId}_${direction}_${entryIndex}`,
+        fps: entry.fps!,
+        fadeDuration: this._options.tileFadeDuration,
+      });
     } else if (entry.frames.length === 1) {
       const frame = entry.frames[0];
       tile = new RectMapTerrain(
@@ -174,17 +170,13 @@ export default class RectMap extends RectTileLoader {
 
           let object;
           if (objectInfo.frames.length > 1) {
-            object = new AnimatedRectMapObject(
-              mapObject.x,
-              mapObject.y,
-              {
-                src: spritesheetSrc,
-                atlas: this.atlases[objectInfo.spritesheet],
-                animation: `object_${mapObject.object}`,
-                fps: objectInfo.fps!,
-                fadeDuration: this._options.tileFadeDuration,
-              },
-            );
+            object = new AnimatedRectMapObject(mapObject.x, mapObject.y, {
+              src: spritesheetSrc,
+              atlas: this.atlases[objectInfo.spritesheet],
+              animation: `object_${mapObject.object}`,
+              fps: objectInfo.fps!,
+              fadeDuration: this._options.tileFadeDuration,
+            });
           } else {
             const frame = objectInfo.frames[0];
             object = new RectMapObject(
