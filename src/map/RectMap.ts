@@ -15,7 +15,7 @@ import TileRange from "./TileRange.js";
 
 export interface RectMapOptions {
   extraLoadTileCount?: number;
-  debounceDelay?: number;
+  debounceDelay: number;
   tileFadeDuration?: number;
   onLoadTiles?: (coordinates: Coordinates[]) => void;
   onDeleteTiles?: (coordinates: Coordinates[]) => void;
@@ -41,14 +41,16 @@ export default class RectMap extends RectTileLoader {
     tileSize: number,
     private spritesheets: { [id: string]: string },
     private mapData: MapData,
-    private _options: RectMapOptions = {},
+    private _options: RectMapOptions,
   ) {
     super(tileSize, {
       extraLoadTileCount: _options.extraLoadTileCount,
       debounceDelay: _options.debounceDelay,
       onLoadTiles: (coordinates) => {
+        console.time("onLoadTiles");
         coordinates.forEach(({ x, y }) => this.renderTile(x, y));
         _options.onLoadTiles?.(coordinates);
+        console.timeEnd("onLoadTiles");
       },
       onDeleteTiles: (coordinates) => {
         coordinates.forEach(({ x, y }) => this.deleteTile(x, y));
