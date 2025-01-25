@@ -119,34 +119,6 @@ export default class RectTileLoader extends GameObject {
     }
   }
 
-  public reloadTiles() {
-    const toDeleteCoordinates: Coordinates[] = [];
-
-    if (
-      this.startTileX !== undefined &&
-      this.endTileX !== undefined &&
-      this.startTileY !== undefined &&
-      this.endTileY !== undefined
-    ) {
-      for (let x = this.startTileX; x <= this.endTileX; x++) {
-        for (let y = this.startTileY; y <= this.endTileY; y++) {
-          toDeleteCoordinates.push({ x, y });
-        }
-      }
-    }
-
-    this.options.onDeleteTiles(toDeleteCoordinates);
-
-    this.startTileX = undefined;
-    this.endTileX = undefined;
-    this.startTileY = undefined;
-    this.endTileY = undefined;
-
-    this.loadTilesDebouncer
-      ? this.loadTilesDebouncer.execute()
-      : this.loadTiles();
-  }
-
   protected isTileInCurrentRange(x: number, y: number): boolean {
     if (
       this.startTileX === undefined ||
