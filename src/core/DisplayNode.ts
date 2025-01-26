@@ -31,6 +31,12 @@ export default class DisplayNode<CT extends Container = Container>
     return this.container.y;
   }
 
+  public setPosition(x: number, y: number): this {
+    super.setPosition(x, y);
+    this.container.position.set(x, y);
+    return this;
+  }
+
   public set drawingOrder(drawingOrder: number) {
     this.container.zIndex = drawingOrder;
   }
@@ -119,6 +125,14 @@ export default class DisplayNode<CT extends Container = Container>
     return this.container.tint;
   }
 
+  public hide(): void {
+    this.container.visible = false;
+  }
+
+  public show(): void {
+    this.container.visible = true;
+  }
+
   public appendTo(parent: GameNode, index?: number): this {
     index !== undefined
       ? (parent as DisplayNode).container.addChildAt(this.container, index)
@@ -129,13 +143,5 @@ export default class DisplayNode<CT extends Container = Container>
   public remove(): void {
     this.container.destroy();
     super.remove();
-  }
-
-  public hide(): void {
-    this.container.visible = false;
-  }
-
-  public show(): void {
-    this.container.visible = true;
   }
 }

@@ -36,8 +36,8 @@ export default abstract class TransformableNode extends GameNode {
   }
 
   public setPosition(x: number, y: number): this {
-    this.x = x;
-    this.y = y;
+    this.transform.x = x;
+    this.transform.y = y;
     return this;
   }
 

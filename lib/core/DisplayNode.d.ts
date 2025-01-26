@@ -9,6 +9,7 @@ export default class DisplayNode<CT extends Container = Container> extends Trans
     get x(): number;
     set y(y: number);
     get y(): number;
+    setPosition(x: number, y: number): this;
     set drawingOrder(drawingOrder: number);
     get drawingOrder(): number;
     enableYBasedDrawingOrder(): void;

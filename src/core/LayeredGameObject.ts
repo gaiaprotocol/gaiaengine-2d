@@ -29,8 +29,7 @@ export default class LayeredGameObject extends TransformableNode {
   protected update(deltaTime: number) {
     super.update(deltaTime);
 
-    this.container.x = this.globalTransform.x;
-    this.container.y = this.globalTransform.y;
+    this.container.position.set(this.globalTransform.x, this.globalTransform.y);
     this.container.scale.set(
       this.globalTransform.scaleX,
       this.globalTransform.scaleY,
