@@ -5,8 +5,8 @@ export default class LayeredGameObject extends TransformableNode {
     private layer;
     private container;
     constructor(x: number, y: number, layer: string, ...gameNodes: (GameNode | undefined)[]);
-    set screen(screen: GameScreen | undefined);
-    get screen(): GameScreen | undefined;
+    protected set screen(screen: GameScreen | undefined);
+    protected get screen(): GameScreen | undefined;
     protected update(deltaTime: number): void;
     remove(): void;
 }

@@ -5,8 +5,8 @@ import GameScreen from "../screen/GameScreen.js";
 export default class DomWrapperNode<HE extends HTMLElement = HTMLElement> extends TransformableNode {
     protected domNode: DomNode;
     constructor(x: number, y: number, elementOrSelector?: HE | DomSelector, ...children: DomChild<HE>[]);
-    set screen(screen: GameScreen | undefined);
-    get screen(): GameScreen | undefined;
+    protected set screen(screen: GameScreen | undefined);
+    protected get screen(): GameScreen | undefined;
     protected update(deltaTime: number): void;
     remove(): void;
 }

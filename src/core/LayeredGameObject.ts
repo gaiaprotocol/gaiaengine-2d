@@ -17,12 +17,12 @@ export default class LayeredGameObject extends TransformableNode {
     this.append(...gameNodes);
   }
 
-  public set screen(screen: GameScreen | undefined) {
+  protected set screen(screen: GameScreen | undefined) {
     if (screen) screen.appendToLayer(this.container, this.layer);
     super.screen = screen;
   }
 
-  public get screen() {
+  protected get screen() {
     return super.screen;
   }
 

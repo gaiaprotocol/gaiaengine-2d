@@ -1,4 +1,5 @@
 import GameObject from "../core/GameObject.js";
+import GameScreen from "../screen/GameScreen.js";
 interface JoystickOptions {
     onMove: (radian: number) => void;
     onRelease: () => void;
@@ -18,6 +19,8 @@ export default class Joystick extends GameObject {
     private joystickSprite?;
     private knobSprite?;
     constructor(options: JoystickOptions);
+    protected set screen(screen: GameScreen | undefined);
+    protected get screen(): GameScreen | undefined;
     private handleKeyDown;
     private handleKeyUp;
     private handleBlur;
@@ -25,6 +28,7 @@ export default class Joystick extends GameObject {
     private handleTouchMove;
     private handleTouchEnd;
     private calculateRadian;
+    remove(): void;
 }
 export {};
 //# sourceMappingURL=Joystick.d.ts.map

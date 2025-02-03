@@ -1,6 +1,7 @@
 import GameObject from "../core/GameObject.js";
 import WindowEventNode from "../core/WindowEventNode.js";
 import Sprite from "../image/Sprite.js";
+import GameScreen from "../screen/GameScreen.js";
 
 interface JoystickOptions {
   onMove: (radian: number) => void;
@@ -27,18 +28,28 @@ export default class Joystick extends GameObject {
   constructor(private options: JoystickOptions) {
     super(0, 0);
 
-    this.eventNode
-      .appendTo(this)
-      .onWindow("keydown", this.handleKeyDown.bind(this))
-      .onWindow("keyup", this.handleKeyUp.bind(this))
-      .onWindow("blur", this.handleBlur.bind(this))
-      .onWindow("touchstart", this.handleTouchStart.bind(this))
-      .onWindow("touchmove", this.handleTouchMove.bind(this))
-      .onWindow("touchend", this.handleTouchEnd.bind(this))
-      .onWindow("touchcancel", this.handleTouchEnd.bind(this));
+    this.eventNode.appendTo(this)
+      .onWindow("keydown", this.handleKeyDown)
+      .onWindow("keyup", this.handleKeyUp)
+      .onWindow("blur", this.handleBlur);
   }
 
-  private handleKeyDown(event: KeyboardEvent): void {
+  protected set screen(screen: GameScreen | undefined) {
+    if (screen) {
+      screen
+        .onDom("touchstart", this.handleTouchStart)
+        .onDom("touchmove", this.handleTouchMove)
+        .onDom("touchend", this.handleTouchEnd)
+        .onDom("touchcancel", this.handleTouchEnd);
+    }
+    super.screen = screen;
+  }
+
+  protected get screen() {
+    return super.screen;
+  }
+
+  private handleKeyDown = (event: KeyboardEvent) => {
     const code = event.code;
 
     if (this.codesPressed.has(code)) return;
@@ -54,9 +65,9 @@ export default class Joystick extends GameObject {
       this.arrowCodesPressed.add(code);
       this.calculateRadian();
     }
-  }
+  };
 
-  private handleKeyUp(event: KeyboardEvent): void {
+  private handleKeyUp = (event: KeyboardEvent) => {
     const code = event.code;
     this.codesPressed.delete(code);
 
@@ -73,14 +84,16 @@ export default class Joystick extends GameObject {
         this.calculateRadian();
       }
     }
-  }
+  };
 
-  private handleBlur(event: Event): void {
+  private handleBlur = (event: Event) => {
     this.arrowCodesPressed.clear();
     this.options.onRelease();
-  }
+  };
 
-  private handleTouchStart(event: TouchEvent): void {
+  private handleTouchStart = (event: TouchEvent) => {
+    event.preventDefault();
+
     if (this.activeTouchId !== undefined) return;
 
     const touch = event.changedTouches[0];
@@ -103,9 +116,11 @@ export default class Joystick extends GameObject {
         this.options.knobImage,
       );
     }
-  }
+  };
 
-  private handleTouchMove(event: TouchEvent): void {
+  private handleTouchMove = (event: TouchEvent) => {
+    event.preventDefault();
+
     if (this.activeTouchId === undefined) return;
 
     for (let i = 0; i < event.changedTouches.length; i++) {
@@ -140,9 +155,9 @@ export default class Joystick extends GameObject {
         break;
       }
     }
-  }
+  };
 
-  private handleTouchEnd(event: TouchEvent): void {
+  private handleTouchEnd = (event: TouchEvent) => {
     if (this.activeTouchId === undefined) return;
 
     let ended = false;
@@ -164,7 +179,7 @@ export default class Joystick extends GameObject {
       }
       this.options.onRelease();
     }
-  }
+  };
 
   private calculateRadian(): void {
     let dx = 0;
@@ -179,5 +194,16 @@ export default class Joystick extends GameObject {
       const radian = Math.atan2(dy, dx);
       this.options.onMove(radian);
     }
+  }
+
+  public remove(): void {
+    if (this.screen) {
+      this.screen
+        .offDom("touchstart", this.handleTouchStart)
+        .offDom("touchmove", this.handleTouchMove)
+        .offDom("touchend", this.handleTouchEnd)
+        .offDom("touchcancel", this.handleTouchEnd);
+    }
+    super.remove();
   }
 }

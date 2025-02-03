@@ -22,12 +22,12 @@ export default class DomWrapperNode<HE extends HTMLElement = HTMLElement>
     });
   }
 
-  public set screen(screen: GameScreen | undefined) {
+  protected set screen(screen: GameScreen | undefined) {
     if (screen) this.domNode.appendTo(screen);
     super.screen = screen;
   }
 
-  public get screen() {
+  protected get screen() {
     return super.screen;
   }
 
