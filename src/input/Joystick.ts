@@ -103,18 +103,28 @@ export default class Joystick extends GameObject {
 
     if (this.options.joystickImage) {
       this.joystickSprite = new Sprite(
-        this.touchStartX,
-        this.touchStartY,
+        (this.touchStartX - this.globalTransform.x) /
+          this.globalTransform.scaleX,
+        (this.touchStartY - this.globalTransform.y) /
+          this.globalTransform.scaleY,
         this.options.joystickImage,
-      );
+      ).appendTo(this);
+
+      this.joystickSprite.scaleX = 1 / this.globalTransform.scaleX;
+      this.joystickSprite.scaleY = 1 / this.globalTransform.scaleY;
     }
 
     if (this.options.knobImage) {
       this.knobSprite = new Sprite(
-        this.touchStartX,
-        this.touchStartY,
+        (this.touchStartX - this.globalTransform.x) /
+          this.globalTransform.scaleX,
+        (this.touchStartY - this.globalTransform.y) /
+          this.globalTransform.scaleY,
         this.options.knobImage,
-      );
+      ).appendTo(this);
+
+      this.knobSprite.scaleX = 1 / this.globalTransform.scaleX;
+      this.knobSprite.scaleY = 1 / this.globalTransform.scaleY;
     }
   };
 
@@ -143,8 +153,10 @@ export default class Joystick extends GameObject {
 
         if (this.knobSprite) {
           this.knobSprite.setPosition(
-            this.touchStartX + clampedX,
-            this.touchStartY + clampedY,
+            (this.touchStartX + clampedX - this.globalTransform.x) /
+              this.globalTransform.scaleX,
+            (this.touchStartY + clampedY - this.globalTransform.y) /
+              this.globalTransform.scaleY,
           );
         }
 
