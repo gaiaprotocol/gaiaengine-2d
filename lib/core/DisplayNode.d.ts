@@ -30,9 +30,9 @@ export default class DisplayNode<CT extends Container = Container> extends Trans
     get blendMode(): BLEND_MODES;
     set tint(tint: ColorSource);
     get tint(): ColorSource;
-    appendTo(parent: GameNode, index?: number): this;
-    remove(): void;
     hide(): void;
     show(): void;
+    appendTo(parent: GameNode, index?: number): this;
+    remove(): void;
 }
 //# sourceMappingURL=DisplayNode.d.ts.map
