@@ -3,8 +3,12 @@ import GameObject from "../core/GameObject.js";
 export default class TextNode extends GameObject {
     private text;
     private style;
+    private extraOptions?;
     private pixiText?;
-    constructor(x: number, y: number, text: string, style: TextStyleOptions);
+    constructor(x: number, y: number, text: string, style: TextStyleOptions, extraOptions?: {
+        textAnchorX?: number | undefined;
+        textAnchorY?: number | undefined;
+    } | undefined);
     private draw;
     private loadFont;
 }

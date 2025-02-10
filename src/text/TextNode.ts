@@ -10,6 +10,7 @@ export default class TextNode extends GameObject {
     y: number,
     private text: string,
     private style: TextStyleOptions,
+    private extraOptions?: { textAnchorX?: number; textAnchorY?: number },
   ) {
     super(x, y);
     this.draw();
@@ -23,6 +24,12 @@ export default class TextNode extends GameObject {
       style: this.style,
       anchor: 0.5,
     });
+    if (this.extraOptions?.textAnchorX !== undefined) {
+      this.pixiText.anchor.x = this.extraOptions.textAnchorX + 0.5;
+    }
+    if (this.extraOptions?.textAnchorY !== undefined) {
+      this.pixiText.anchor.y = this.extraOptions.textAnchorY + 0.5;
+    }
     this.container.addChild(this.pixiText);
   }
 
