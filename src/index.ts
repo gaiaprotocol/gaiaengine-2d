@@ -9,7 +9,7 @@ export { default as CollisionChecker } from "./collision/CollisionChecker.js";
 export { default as CollisionDetector } from "./collision/CollisionDetector.js";
 export {
   compareCoordinates,
-  default as Coordinates,
+  default as Coordinates
 } from "./core/Coordinates.js";
 export { default as GameNode } from "./core/GameNode.js";
 export { default as GameObject } from "./core/GameObject.js";
@@ -31,15 +31,13 @@ export { default as Sprite } from "./image/Sprite.js";
 export { default as Joystick } from "./input/Joystick.js";
 export { default as TextureLoader } from "./loaders/TextureLoader.js";
 export {
-  default as MapData,
-  FrameData,
-  MapEntity,
+  FrameData, default as MapData, MapEntity,
   MapObjectData,
-  TerrainData,
+  TerrainData
 } from "./map/MapData.js";
 export {
   default as RectMap,
-  RectMapOptions as RectMapOptions,
+  RectMapOptions as RectMapOptions
 } from "./map/RectMap.js";
 export { default as TerrainDirection } from "./map/TerrainDirection.js";
 export { default as TileRange } from "./map/TileRange.js";
@@ -47,6 +45,7 @@ export { default as Scene } from "./scene/Scene.js";
 export { default as Fullscreen } from "./screen/Fullscreen.js";
 export { default as GameScreen } from "./screen/GameScreen.js";
 export { default as LetterboxedScreen } from "./screen/LetterboxedScreen.js";
+export { default as PanZoomGameScreen } from "./screen/PanZoomGameScreen.js";
 export { default as CircleNode } from "./shapes/CircleNode.js";
 export { default as EllipseNode } from "./shapes/EllipseNode.js";
 export { default as RectangleNode } from "./shapes/RectangleNode.js";

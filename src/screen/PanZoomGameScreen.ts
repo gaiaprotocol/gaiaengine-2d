@@ -9,6 +9,9 @@ interface PanZoomGameScreenOptions {
   dragThreshold: number;
   zoomSensitivity: number;
   backgroundColor?: number;
+  initialCameraX?: number;
+  initialCameraY?: number;
+  initialCameraZoom?: number;
 }
 
 export default class PanZoomGameScreen extends GameScreen {
@@ -31,10 +34,13 @@ export default class PanZoomGameScreen extends GameScreen {
 
   private initializeCamera(): void {
     this.camera.setPosition(
-      -(this.store.get<number>("cameraX") ?? 0),
-      -(this.store.get<number>("cameraY") ?? 0),
+      -(this.store.get<number>("cameraX") ??
+        (this.options.initialCameraX ?? 0)),
+      -(this.store.get<number>("cameraY") ??
+        (this.options.initialCameraY ?? 0)),
     );
-    this.camera.scale = this.store.get<number>("cameraZoom") ?? 1;
+    this.camera.scale = this.store.get<number>("cameraZoom") ??
+      (this.options.initialCameraZoom ?? 1);
   }
 
   private attachEventListeners(): void {
