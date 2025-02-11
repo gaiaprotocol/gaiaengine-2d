@@ -17,8 +17,9 @@ interface PanZoomGameScreenOptions {
 export default class PanZoomGameScreen extends GameScreen {
   private store: Store<string>;
 
-  private isMousePressed = false;
-  private isDraggingView = false;
+  protected isMousePressed = false;
+  protected isDraggingView = false;
+
   private initialDragX = 0;
   private initialDragY = 0;
   private previousMouseX = 0;
@@ -64,14 +65,14 @@ export default class PanZoomGameScreen extends GameScreen {
     this.previousMouseY = mouseY;
   }
 
-  private handleMouseMove(event: MouseEvent): void {
+  protected handleMouseMove(event: MouseEvent): void {
     const { clientX: mouseX, clientY: mouseY } = event;
     if (this.isMousePressed) {
       this.handleDragMove(mouseX, mouseY);
     }
   }
 
-  private handleDragMove(mouseX: number, mouseY: number): void {
+  protected handleDragMove(mouseX: number, mouseY: number): void {
     const cameraX = this.camera.getX();
     const cameraY = this.camera.getY();
     const scale = this.camera.scale;
@@ -98,7 +99,7 @@ export default class PanZoomGameScreen extends GameScreen {
     }
   }
 
-  private handleMouseUp(): void {
+  protected handleMouseUp(event: MouseEvent): void {
     this.isMousePressed = false;
     this.isDraggingView = false;
   }

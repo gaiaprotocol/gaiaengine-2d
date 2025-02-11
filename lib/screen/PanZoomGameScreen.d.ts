@@ -14,8 +14,8 @@ interface PanZoomGameScreenOptions {
 export default class PanZoomGameScreen extends GameScreen {
     private options;
     private store;
-    private isMousePressed;
-    private isDraggingView;
+    protected isMousePressed: boolean;
+    protected isDraggingView: boolean;
     private initialDragX;
     private initialDragY;
     private previousMouseX;
@@ -24,9 +24,9 @@ export default class PanZoomGameScreen extends GameScreen {
     private initializeCamera;
     private attachEventListeners;
     private handleMouseDown;
-    private handleMouseMove;
-    private handleDragMove;
-    private handleMouseUp;
+    protected handleMouseMove(event: MouseEvent): void;
+    protected handleDragMove(mouseX: number, mouseY: number): void;
+    protected handleMouseUp(event: MouseEvent): void;
     private handleMouseWheel;
 }
 export {};
