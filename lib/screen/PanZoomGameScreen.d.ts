@@ -1,7 +1,6 @@
-import { KebabCase } from "@common-module/ts";
 import GameScreen from "./GameScreen.js";
 interface PanZoomGameScreenOptions {
-    id: KebabCase<string>;
+    id: string;
     minZoom: number;
     maxZoom: number;
     dragThreshold: number;

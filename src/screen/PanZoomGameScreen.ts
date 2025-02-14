@@ -1,9 +1,8 @@
 import { Store } from "@common-module/app";
-import { KebabCase } from "@common-module/ts";
 import GameScreen from "./GameScreen.js";
 
 interface PanZoomGameScreenOptions {
-  id: KebabCase<string>;
+  id: string;
   minZoom: number;
   maxZoom: number;
   dragThreshold: number;
@@ -15,7 +14,7 @@ interface PanZoomGameScreenOptions {
 }
 
 export default class PanZoomGameScreen extends GameScreen {
-  private store: Store<string>;
+  private store: Store;
 
   protected isMousePressed = false;
   protected isDraggingView = false;
