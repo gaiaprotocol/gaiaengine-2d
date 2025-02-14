@@ -11,6 +11,7 @@ interface GameScreenOptions {
   height: number;
   backgroundColor?: number;
   layers?: { name: string; drawingOrder: number }[];
+  pixelated?: boolean;
 }
 
 export default class GameScreen extends DomNode {
@@ -32,16 +33,16 @@ export default class GameScreen extends DomNode {
 
   private backgroundColor: number;
 
-  constructor(options: GameScreenOptions) {
+  constructor(private _options: GameScreenOptions) {
     super(".game-screen");
     this.style({ position: "relative" });
 
-    this.width = options.width;
-    this.height = options.height;
-    this.backgroundColor = options.backgroundColor ?? 0x000000;
+    this.width = _options.width;
+    this.height = _options.height;
+    this.backgroundColor = _options.backgroundColor ?? 0x000000;
 
     this.superRoot.setScreen(this);
-    for (const layerInfo of options.layers ?? []) {
+    for (const layerInfo of _options.layers ?? []) {
       const layer = new Layer();
       layer.drawingOrder = layerInfo.drawingOrder;
       this.layers[layerInfo.name] = layer;
@@ -88,6 +89,9 @@ export default class GameScreen extends DomNode {
     });
     this.renderer.canvas.style.display = "block";
     this.renderer.canvas.style.touchAction = "auto";
+    if (this._options.pixelated) {
+      this.renderer.canvas.style.imageRendering = "pixelated";
+    }
 
     this.resize(this.width, this.height, this.ratio);
     this.htmlElement.appendChild(this.renderer.canvas);

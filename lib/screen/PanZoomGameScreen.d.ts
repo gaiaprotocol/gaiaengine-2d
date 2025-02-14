@@ -9,6 +9,7 @@ interface PanZoomGameScreenOptions {
     initialCameraX?: number;
     initialCameraY?: number;
     initialCameraZoom?: number;
+    pixelated?: boolean;
 }
 export default class PanZoomGameScreen extends GameScreen {
     private options;

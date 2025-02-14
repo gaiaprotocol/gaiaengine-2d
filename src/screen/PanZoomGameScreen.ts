@@ -11,6 +11,7 @@ interface PanZoomGameScreenOptions {
   initialCameraX?: number;
   initialCameraY?: number;
   initialCameraZoom?: number;
+  pixelated?: boolean;
 }
 
 export default class PanZoomGameScreen extends GameScreen {
@@ -25,7 +26,12 @@ export default class PanZoomGameScreen extends GameScreen {
   private previousMouseY = 0;
 
   constructor(private options: PanZoomGameScreenOptions) {
-    super({ width: 0, height: 0, backgroundColor: options.backgroundColor });
+    super({
+      width: 0,
+      height: 0,
+      backgroundColor: options.backgroundColor,
+      pixelated: options.pixelated,
+    });
     this.store = new Store(options.id);
 
     this.initializeCamera();

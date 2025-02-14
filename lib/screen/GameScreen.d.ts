@@ -10,8 +10,10 @@ interface GameScreenOptions {
         name: string;
         drawingOrder: number;
     }[];
+    pixelated?: boolean;
 }
 export default class GameScreen extends DomNode {
+    private _options;
     private renderer;
     private animationInterval;
     private targetFPS;
@@ -24,7 +26,7 @@ export default class GameScreen extends DomNode {
     height: number;
     ratio: number;
     private backgroundColor;
-    constructor(options: GameScreenOptions);
+    constructor(_options: GameScreenOptions);
     resize(width: number, height: number, ratio?: number): void;
     private createRenderer;
     updateRootNodePosition(): void;
