@@ -141,7 +141,7 @@ export default class DisplayNode<CT extends Container = Container>
   }
 
   public remove(): void {
-    this.container.destroy();
+    this.container.destroy({ children: true });
     super.remove();
   }
 }
