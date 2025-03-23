@@ -1,4 +1,4 @@
-import { BrowserInfo } from "@common-module/app";
+import { Browser } from "@common-module/app";
 import { IntegerUtils } from "@common-module/ts";
 import Sound from "./Sound.js";
 
@@ -14,7 +14,7 @@ export default class RandomSoundLooper {
       this.sounds.push(sound);
     }
 
-    if (BrowserInfo.isMobileDevice()) {
+    if (Browser.isMobileDevice()) {
       document.addEventListener(
         "visibilitychange",
         this.handleVisibilityChange,
@@ -78,7 +78,7 @@ export default class RandomSoundLooper {
       sound.remove();
     }
 
-    if (BrowserInfo.isMobileDevice()) {
+    if (Browser.isMobileDevice()) {
       document.removeEventListener(
         "visibilitychange",
         this.handleVisibilityChange,

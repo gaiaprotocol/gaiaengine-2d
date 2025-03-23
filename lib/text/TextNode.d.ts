@@ -6,8 +6,8 @@ export default class TextNode extends GameObject {
     private extraOptions?;
     private pixiText?;
     constructor(x: number, y: number, text: string, style: TextStyleOptions, extraOptions?: {
-        textAnchorX?: number | undefined;
-        textAnchorY?: number | undefined;
+        textAnchorX?: number;
+        textAnchorY?: number;
     } | undefined);
     private draw;
     private loadFont;

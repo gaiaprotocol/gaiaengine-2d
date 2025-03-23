@@ -1,4 +1,4 @@
-import { BrowserInfo } from "@common-module/app";
+import { Browser } from "@common-module/app";
 import { EventContainer } from "@common-module/ts";
 import AudioBufferManager from "./AudioBufferManager.js";
 
@@ -64,7 +64,7 @@ export default class Sound extends EventContainer<{
   }
 
   public play(): this {
-    if (BrowserInfo.isMobileDevice() && !BrowserInfo.isPageVisible()) {
+    if (Browser.isMobileDevice() && !Browser.isPageVisible()) {
       return this;
     }
 

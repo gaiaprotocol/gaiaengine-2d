@@ -1,4 +1,4 @@
-import { BrowserInfo, DomNode } from "@common-module/app";
+import { Browser, DomNode } from "@common-module/app";
 import { autoDetectRenderer, Container, Renderer } from "pixi.js";
 import GameObject from "../core/GameObject.js";
 import GaiaEngineConfig from "../GaiaEngineConfig.js";
@@ -51,8 +51,8 @@ export default class GameScreen extends DomNode {
     this.root.appendTo(this.superRoot);
     this.createRenderer();
 
-    if (GaiaEngineConfig.isDevMode || BrowserInfo.isMobileDevice()) {
-      if (!BrowserInfo.hasPageFocus()) this.actualFPS = 6;
+    if (GaiaEngineConfig.isDevMode || Browser.isMobileDevice()) {
+      if (!Browser.hasPageFocus()) this.actualFPS = 6;
       this.onWindow("blur", () => this.actualFPS = 6);
       this.onWindow("focus", () => this.actualFPS = this.targetFPS);
     }
