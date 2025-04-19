@@ -1,4 +1,4 @@
-import { TreeNode } from "@common-module/ts";
+import { TreeNode } from "@commonmodule/ts";
 import GameScreen from "../screen/GameScreen.js";
 
 export default abstract class GameNode extends TreeNode<GameNode> {

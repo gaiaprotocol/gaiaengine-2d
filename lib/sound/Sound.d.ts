@@ -1,4 +1,4 @@
-import { EventContainer } from "@common-module/ts";
+import { EventContainer } from "@commonmodule/ts";
 export default class Sound extends EventContainer<{
     ended: () => void;
 }> {

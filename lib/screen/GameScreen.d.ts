@@ -1,4 +1,4 @@
-import { DomNode } from "@common-module/app";
+import { DomNode } from "@commonmodule/app";
 import { Container } from "pixi.js";
 import GameObject from "../core/GameObject.js";
 import Camera from "./Camera.js";

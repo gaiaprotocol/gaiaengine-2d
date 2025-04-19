@@ -1,4 +1,4 @@
-import { Store } from "@common-module/app";
+import { Store } from "@commonmodule/app";
 import GameScreen from "./GameScreen.js";
 
 interface PanZoomGameScreenOptions {

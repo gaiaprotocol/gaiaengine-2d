@@ -1,1 +1,0 @@
-{"version":3,"file":"RectCollider copy.d.ts","sourceRoot":"","sources":["../../../src/collision/colliders/RectCollider copy.ts"],"names":[],"mappings":"AAAA,OAAO,YAAY,MAAM,mBAAmB,CAAC;AAC7C,OAAO,YAAY,MAAM,mBAAmB,CAAC;AAE7C,MAAM,CAAC,OAAO,WAAW,YAAa,SAAQ,YAAY;IACxD,IAAI,EAAE,YAAY,CAAC,SAAS,CAAC;IAC7B,KAAK,EAAE,MAAM,CAAC;IACd,MAAM,EAAE,MAAM,CAAC;CAChB"}

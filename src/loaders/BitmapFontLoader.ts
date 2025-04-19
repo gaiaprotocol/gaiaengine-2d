@@ -1,4 +1,4 @@
-import { ResourceLoader } from "@common-module/ts";
+import { ResourceLoader } from "@commonmodule/ts";
 import BitmapFont, { Char } from "../text/BitmapFont.js";
 import TextureLoader from "./TextureLoader.js";
 

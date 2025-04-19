@@ -1,4 +1,4 @@
-import { BodyNode, DomNode } from "@common-module/app";
+import { BodyNode, DomNode } from "@commonmodule/app";
 
 export default class Letterbox extends DomNode {
   constructor(style: Partial<CSSStyleDeclaration>) {

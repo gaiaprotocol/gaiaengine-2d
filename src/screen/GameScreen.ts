@@ -1,4 +1,4 @@
-import { Browser, DomNode } from "@common-module/app";
+import { Browser, DomNode } from "@commonmodule/app";
 import { autoDetectRenderer, Container, Renderer } from "pixi.js";
 import GameObject from "../core/GameObject.js";
 import GaiaEngineConfig from "../GaiaEngineConfig.js";

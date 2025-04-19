@@ -1,4 +1,4 @@
-import { IntegerUtils } from "@common-module/ts";
+import { IntegerUtils } from "@commonmodule/ts";
 import Sound from "./Sound.js";
 
 class SFXPlayer {

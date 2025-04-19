@@ -1,5 +1,5 @@
-import { Browser } from "@common-module/app";
-import { IntegerUtils } from "@common-module/ts";
+import { Browser } from "@commonmodule/app";
+import { IntegerUtils } from "@commonmodule/ts";
 import Sound from "./Sound.js";
 
 export default class RandomSoundLooper {

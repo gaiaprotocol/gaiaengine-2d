@@ -1,4 +1,4 @@
-import { ResourceLoader } from "@common-module/ts";
+import { ResourceLoader } from "@commonmodule/ts";
 import BitmapFont from "../text/BitmapFont.js";
 declare class BitmapFontLoader extends ResourceLoader<BitmapFont> {
     private fntToSrc;

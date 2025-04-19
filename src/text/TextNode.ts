@@ -1,4 +1,4 @@
-import { FontLoader } from "@common-module/app";
+import { FontLoader } from "@commonmodule/app";
 import { Text as PixiText, TextStyleOptions } from "pixi.js";
 import GameObject from "../core/GameObject.js";
 

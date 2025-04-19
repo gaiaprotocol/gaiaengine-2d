@@ -1,4 +1,4 @@
-import { Debouncer } from "@common-module/ts";
+import { Debouncer } from "@commonmodule/ts";
 import Coordinates from "../core/Coordinates.js";
 import GameObject from "../core/GameObject.js";
 import TileRange from "./TileRange.js";

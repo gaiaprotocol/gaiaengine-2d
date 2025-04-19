@@ -1,4 +1,4 @@
-import { IntegerUtils } from "@common-module/ts";
+import { IntegerUtils } from "@commonmodule/ts";
 import Coordinates from "../core/Coordinates.js";
 import GameObject from "../core/GameObject.js";
 import Atlas from "../data/Atlas.js";

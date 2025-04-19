@@ -1,5 +1,5 @@
-import { DomChild, DomNode } from "@common-module/app";
-import { DomSelector } from "@common-module/universal-page";
+import { DomChild, DomNode } from "@commonmodule/app";
+import { DomSelector } from "@commonmodule/universal-page";
 import TransformableNode from "../core/TransformableNode.js";
 import GameScreen from "../screen/GameScreen.js";
 

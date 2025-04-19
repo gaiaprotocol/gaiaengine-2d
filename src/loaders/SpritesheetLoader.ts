@@ -1,4 +1,4 @@
-import { ResourceLoader } from "@common-module/ts";
+import { ResourceLoader } from "@commonmodule/ts";
 import { Spritesheet } from "pixi.js";
 import Atlas from "../data/Atlas.js";
 import TextureLoader from "./TextureLoader.js";
