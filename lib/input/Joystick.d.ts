@@ -1,11 +1,12 @@
+import { DomNode } from "@commonmodule/app";
 import GameObject from "../core/GameObject.js";
 import GameScreen from "../screen/GameScreen.js";
 interface JoystickOptions {
     onMove: (radian: number) => void;
     onRelease: () => void;
     onKeydown?: (code: string) => void;
-    joystickImage: string;
-    knobImage: string;
+    joystickImage: DomNode;
+    knobImage: DomNode;
     maxKnobDistance: number;
     moveThreshold: number;
 }
@@ -17,8 +18,8 @@ export default class Joystick extends GameObject {
     private touchStartX;
     private touchStartY;
     private eventNode;
-    private joystickSprite?;
-    private knobSprite?;
+    private joystickImage;
+    private knobImage;
     private isMoving;
     constructor(options: JoystickOptions);
     protected set screen(screen: GameScreen | undefined);

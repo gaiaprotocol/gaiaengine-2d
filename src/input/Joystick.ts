@@ -1,6 +1,6 @@
+import { DomNode } from "@commonmodule/app";
 import GameObject from "../core/GameObject.js";
 import WindowEventNode from "../core/WindowEventNode.js";
-import Sprite from "../image/Sprite.js";
 import GameScreen from "../screen/GameScreen.js";
 
 interface JoystickOptions {
@@ -8,8 +8,8 @@ interface JoystickOptions {
   onRelease: () => void;
   onKeydown?: (code: string) => void;
 
-  joystickImage: string;
-  knobImage: string;
+  joystickImage: DomNode;
+  knobImage: DomNode;
   maxKnobDistance: number;
   moveThreshold: number;
 }
@@ -23,8 +23,8 @@ export default class Joystick extends GameObject {
   private touchStartY: number = 0;
 
   private eventNode = new WindowEventNode();
-  private joystickSprite?: Sprite;
-  private knobSprite?: Sprite;
+  private joystickImage: DomNode;
+  private knobImage: DomNode;
 
   private isMoving = false;
 
@@ -35,6 +35,9 @@ export default class Joystick extends GameObject {
       .onWindow("keydown", this.handleKeyDown)
       .onWindow("keyup", this.handleKeyUp)
       .onWindow("blur", this.handleBlur);
+
+    this.joystickImage = options.joystickImage;
+    this.knobImage = options.knobImage;
   }
 
   protected set screen(screen: GameScreen | undefined) {
@@ -44,6 +47,20 @@ export default class Joystick extends GameObject {
         .onDom("touchmove", this.handleTouchMove)
         .onDom("touchend", this.handleTouchEnd)
         .onDom("touchcancel", this.handleTouchEnd);
+
+      this.joystickImage.style({
+        left: "-999999px",
+        top: "-999999px",
+        zIndex: "999998",
+        transform: "translate(-50%, -50%)",
+      }).appendTo(screen);
+
+      this.knobImage.style({
+        left: "-999999px",
+        top: "-999999px",
+        zIndex: "999998",
+        transform: "translate(-50%, -50%)",
+      }).appendTo(screen);
     }
     super.screen = screen;
   }
@@ -105,27 +122,19 @@ export default class Joystick extends GameObject {
     this.touchStartY = touch.clientY;
     this.isMoving = false;
 
-    this.joystickSprite = new Sprite(
-      (this.touchStartX - this.globalTransform.x) /
-        this.globalTransform.scaleX,
-      (this.touchStartY - this.globalTransform.y) /
-        this.globalTransform.scaleY,
-      this.options.joystickImage,
-    ).appendTo(this);
+    if (!this.screen) return;
 
-    this.joystickSprite.scaleX = 1 / this.globalTransform.scaleX;
-    this.joystickSprite.scaleY = 1 / this.globalTransform.scaleY;
+    const screenRect = this.screen.calculateRect();
 
-    this.knobSprite = new Sprite(
-      (this.touchStartX - this.globalTransform.x) /
-        this.globalTransform.scaleX,
-      (this.touchStartY - this.globalTransform.y) /
-        this.globalTransform.scaleY,
-      this.options.knobImage,
-    ).appendTo(this);
+    this.joystickImage.style({
+      left: `${this.touchStartX - screenRect.left}px`,
+      top: `${this.touchStartY - screenRect.top}px`,
+    });
 
-    this.knobSprite.scaleX = 1 / this.globalTransform.scaleX;
-    this.knobSprite.scaleY = 1 / this.globalTransform.scaleY;
+    this.knobImage.style({
+      left: `${this.touchStartX - screenRect.left}px`,
+      top: `${this.touchStartY - screenRect.top}px`,
+    });
   };
 
   private handleTouchMove = (event: TouchEvent) => {
@@ -149,12 +158,13 @@ export default class Joystick extends GameObject {
           clampedY = deltaY * scale;
         }
 
-        this.knobSprite?.setPosition(
-          (this.touchStartX + clampedX - this.globalTransform.x) /
-            this.globalTransform.scaleX,
-          (this.touchStartY + clampedY - this.globalTransform.y) /
-            this.globalTransform.scaleY,
-        );
+        if (this.screen) {
+          const screenRect = this.screen.calculateRect();
+          this.knobImage.style({
+            left: `${this.touchStartX - screenRect.left + clampedX}px`,
+            top: `${this.touchStartY - screenRect.top + clampedY}px`,
+          });
+        }
 
         if (this.isMoving || distance >= this.options.moveThreshold) {
           this.isMoving = true;
@@ -183,15 +193,8 @@ export default class Joystick extends GameObject {
     if (ended) {
       this.activeTouchId = undefined;
 
-      if (this.joystickSprite) {
-        this.joystickSprite.remove();
-        this.joystickSprite = undefined;
-      }
-
-      if (this.knobSprite) {
-        this.knobSprite.remove();
-        this.knobSprite = undefined;
-      }
+      this.joystickImage.style({ left: "-999999px", top: "-999999px" });
+      this.knobImage.style({ left: "-999999px", top: "-999999px" });
 
       if (this.isMoving) this.options.onRelease();
     }
@@ -219,6 +222,9 @@ export default class Joystick extends GameObject {
         .offDom("touchmove", this.handleTouchMove)
         .offDom("touchend", this.handleTouchEnd)
         .offDom("touchcancel", this.handleTouchEnd);
+
+      this.joystickImage.remove();
+      this.knobImage.remove();
     }
     super.remove();
   }
