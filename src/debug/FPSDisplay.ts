@@ -1,49 +1,36 @@
-import { StyleUtils } from "@commonmodule/app";
+import { DomNode, el, StyleUtils } from "@commonmodule/app";
+import GameObject from "../core/GameObject.js";
 import Interval from "../delay/Interval.js";
 import GameScreen from "../screen/GameScreen.js";
-import DomTextNode from "../text/DomTextNode.js";
 
-export default class FPSDisplay extends DomTextNode<{
-  fontSize: string;
-  color: string;
-  textAlign: string;
-  width: string;
-  height: string;
-}> {
+export default class FPSDisplay extends GameObject {
   private deltaTime = 0;
+  private textNode: DomNode;
 
-  constructor(private additionalX = 0, private additionalY = 0) {
-    super(0, 0, "FPS: 0", {
-      fontSize: "16px",
-      color: "#000",
-      textAlign: "right",
-      width: "80px",
-      height: "30px",
+  constructor() {
+    super(0, 0);
+
+    this.textNode = el("", "FPS: 0", {
+      style: {
+        position: "absolute",
+        right: "16px",
+        top: "10px",
+        fontSize: "16px",
+        color: "#000",
+      },
     });
-    this.setPivot(54 - this.additionalX, -24 - this.additionalY);
-    StyleUtils.applyTextStroke(this.domNode, 1, "#fff");
+
+    StyleUtils.applyTextStroke(this.textNode, 1, "#fff");
 
     new Interval(
       0.1,
-      () => this.text = `FPS: ${Math.round(1 / this.deltaTime)}`,
+      () => this.textNode.text = `FPS: ${Math.round(1 / this.deltaTime)}`,
     ).appendTo(this);
-  }
-
-  private updatePosition() {
-    if (this.screen) {
-      this.scale = 1 / this.screen.camera.scale;
-      this.setPosition(
-        this.screen.camera.getX() +
-          this.screen.width / 2 / this.screen.camera.scale,
-        this.screen.camera.getY() -
-          this.screen.height / 2 / this.screen.camera.scale,
-      );
-    }
   }
 
   public set screen(screen: GameScreen | undefined) {
     super.screen = screen;
-    this.updatePosition();
+    if (screen) this.textNode.appendTo(screen);
   }
 
   public get screen() {
@@ -52,7 +39,11 @@ export default class FPSDisplay extends DomTextNode<{
 
   public update(deltaTime: number): void {
     this.deltaTime = deltaTime;
-    this.updatePosition();
     super.update(deltaTime);
+  }
+
+  public remove(): void {
+    this.textNode.remove();
+    super.remove();
   }
 }

@@ -1,19 +1,12 @@
+import GameObject from "../core/GameObject.js";
 import GameScreen from "../screen/GameScreen.js";
-import DomTextNode from "../text/DomTextNode.js";
-export default class FPSDisplay extends DomTextNode<{
-    fontSize: string;
-    color: string;
-    textAlign: string;
-    width: string;
-    height: string;
-}> {
-    private additionalX;
-    private additionalY;
+export default class FPSDisplay extends GameObject {
     private deltaTime;
-    constructor(additionalX?: number, additionalY?: number);
-    private updatePosition;
+    private textNode;
+    constructor();
     set screen(screen: GameScreen | undefined);
     get screen(): GameScreen | undefined;
     update(deltaTime: number): void;
+    remove(): void;
 }
 //# sourceMappingURL=FPSDisplay.d.ts.map

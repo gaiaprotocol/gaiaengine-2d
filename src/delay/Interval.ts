@@ -6,10 +6,14 @@ export default class Interval extends GameNode {
   constructor(
     private readonly intervalDuration: number,
     private readonly callback: () => void,
+    private readonly startImmediately: boolean = false,
   ) {
     super();
     if (this.intervalDuration <= 0) {
       throw new Error("Interval duration must be greater than zero.");
+    }
+    if (this.startImmediately) {
+      this.accumulatedTime = this.intervalDuration;
     }
   }
 
