@@ -29,7 +29,7 @@ export default class GameScreen extends DomNode {
 
   public width: number;
   public height: number;
-  public ratio = 1;
+  public scale = 1;
 
   private backgroundColor: number;
 
@@ -58,10 +58,10 @@ export default class GameScreen extends DomNode {
     }
   }
 
-  public resize(width: number, height: number, ratio = 1) {
+  public resize(width: number, height: number, scale = 1) {
     this.width = width;
     this.height = height;
-    this.ratio = ratio;
+    this.scale = scale;
 
     if (this.renderer) {
       this.renderer.resize(this.width, this.height);
@@ -69,8 +69,8 @@ export default class GameScreen extends DomNode {
       this.renderer.canvas.height = this.height;
 
       const style = {
-        width: `${this.width * this.ratio}px`,
-        height: `${this.height * this.ratio}px`,
+        width: `${this.width * this.scale}px`,
+        height: `${this.height * this.scale}px`,
       };
 
       Object.assign(this.renderer.canvas.style, style);
@@ -93,7 +93,7 @@ export default class GameScreen extends DomNode {
       this.renderer.canvas.style.imageRendering = "pixelated";
     }
 
-    this.resize(this.width, this.height, this.ratio);
+    this.resize(this.width, this.height, this.scale);
     this.htmlElement.appendChild(this.renderer.canvas);
     this.animationInterval = requestAnimationFrame(this.animate);
   }

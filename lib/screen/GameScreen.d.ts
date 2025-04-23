@@ -24,10 +24,10 @@ export default class GameScreen extends DomNode {
     root: GameObject;
     width: number;
     height: number;
-    ratio: number;
+    scale: number;
     private backgroundColor;
     constructor(_options: GameScreenOptions);
-    resize(width: number, height: number, ratio?: number): void;
+    resize(width: number, height: number, scale?: number): void;
     private createRenderer;
     updateRootNodePosition(): void;
     private update;

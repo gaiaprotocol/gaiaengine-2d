@@ -1,4 +1,4 @@
-import { BodyNode, DomNode } from "@commonmodule/app";
+import { DomNode } from "@commonmodule/app";
 
 export default class Letterbox extends DomNode {
   constructor(style: Partial<CSSStyleDeclaration>) {
@@ -9,6 +9,5 @@ export default class Letterbox extends DomNode {
       backgroundColor: "#000000",
       ...style,
     });
-    this.appendTo(BodyNode);
   }
 }

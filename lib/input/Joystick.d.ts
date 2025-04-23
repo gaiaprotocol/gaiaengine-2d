@@ -4,9 +4,10 @@ interface JoystickOptions {
     onMove: (radian: number) => void;
     onRelease: () => void;
     onKeydown?: (code: string) => void;
-    joystickImage?: string;
-    knobImage?: string;
-    maxKnobDistance?: number;
+    joystickImage: string;
+    knobImage: string;
+    maxKnobDistance: number;
+    moveThreshold: number;
 }
 export default class Joystick extends GameObject {
     private options;
@@ -18,6 +19,7 @@ export default class Joystick extends GameObject {
     private eventNode;
     private joystickSprite?;
     private knobSprite?;
+    private isMoving;
     constructor(options: JoystickOptions);
     protected set screen(screen: GameScreen | undefined);
     protected get screen(): GameScreen | undefined;

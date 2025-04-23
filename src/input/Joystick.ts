@@ -8,9 +8,10 @@ interface JoystickOptions {
   onRelease: () => void;
   onKeydown?: (code: string) => void;
 
-  joystickImage?: string;
-  knobImage?: string;
-  maxKnobDistance?: number;
+  joystickImage: string;
+  knobImage: string;
+  maxKnobDistance: number;
+  moveThreshold: number;
 }
 
 export default class Joystick extends GameObject {
@@ -24,6 +25,8 @@ export default class Joystick extends GameObject {
   private eventNode = new WindowEventNode();
   private joystickSprite?: Sprite;
   private knobSprite?: Sprite;
+
+  private isMoving = false;
 
   constructor(private options: JoystickOptions) {
     super(0, 0);
@@ -100,32 +103,29 @@ export default class Joystick extends GameObject {
     this.activeTouchId = touch.identifier;
     this.touchStartX = touch.clientX;
     this.touchStartY = touch.clientY;
+    this.isMoving = false;
 
-    if (this.options.joystickImage) {
-      this.joystickSprite = new Sprite(
-        (this.touchStartX - this.globalTransform.x) /
-          this.globalTransform.scaleX,
-        (this.touchStartY - this.globalTransform.y) /
-          this.globalTransform.scaleY,
-        this.options.joystickImage,
-      ).appendTo(this);
+    this.joystickSprite = new Sprite(
+      (this.touchStartX - this.globalTransform.x) /
+        this.globalTransform.scaleX,
+      (this.touchStartY - this.globalTransform.y) /
+        this.globalTransform.scaleY,
+      this.options.joystickImage,
+    ).appendTo(this);
 
-      this.joystickSprite.scaleX = 1 / this.globalTransform.scaleX;
-      this.joystickSprite.scaleY = 1 / this.globalTransform.scaleY;
-    }
+    this.joystickSprite.scaleX = 1 / this.globalTransform.scaleX;
+    this.joystickSprite.scaleY = 1 / this.globalTransform.scaleY;
 
-    if (this.options.knobImage) {
-      this.knobSprite = new Sprite(
-        (this.touchStartX - this.globalTransform.x) /
-          this.globalTransform.scaleX,
-        (this.touchStartY - this.globalTransform.y) /
-          this.globalTransform.scaleY,
-        this.options.knobImage,
-      ).appendTo(this);
+    this.knobSprite = new Sprite(
+      (this.touchStartX - this.globalTransform.x) /
+        this.globalTransform.scaleX,
+      (this.touchStartY - this.globalTransform.y) /
+        this.globalTransform.scaleY,
+      this.options.knobImage,
+    ).appendTo(this);
 
-      this.knobSprite.scaleX = 1 / this.globalTransform.scaleX;
-      this.knobSprite.scaleY = 1 / this.globalTransform.scaleY;
-    }
+    this.knobSprite.scaleX = 1 / this.globalTransform.scaleX;
+    this.knobSprite.scaleY = 1 / this.globalTransform.scaleY;
   };
 
   private handleTouchMove = (event: TouchEvent) => {
@@ -142,28 +142,29 @@ export default class Joystick extends GameObject {
 
         let clampedX = deltaX;
         let clampedY = deltaY;
-        if (
-          this.options.maxKnobDistance !== undefined &&
-          this.options.maxKnobDistance < distance
-        ) {
-          const ratio = this.options.maxKnobDistance / distance;
-          clampedX = deltaX * ratio;
-          clampedY = deltaY * ratio;
+
+        if (this.options.maxKnobDistance < distance) {
+          const scale = this.options.maxKnobDistance / distance;
+          clampedX = deltaX * scale;
+          clampedY = deltaY * scale;
         }
 
-        if (this.knobSprite) {
-          this.knobSprite.setPosition(
-            (this.touchStartX + clampedX - this.globalTransform.x) /
-              this.globalTransform.scaleX,
-            (this.touchStartY + clampedY - this.globalTransform.y) /
-              this.globalTransform.scaleY,
-          );
+        this.knobSprite?.setPosition(
+          (this.touchStartX + clampedX - this.globalTransform.x) /
+            this.globalTransform.scaleX,
+          (this.touchStartY + clampedY - this.globalTransform.y) /
+            this.globalTransform.scaleY,
+        );
+
+        if (this.isMoving || distance >= this.options.moveThreshold) {
+          this.isMoving = true;
+
+          if (clampedX !== 0 || clampedY !== 0) {
+            const radian = Math.atan2(clampedY, clampedX);
+            this.options.onMove(radian);
+          }
         }
 
-        if (clampedX !== 0 || clampedY !== 0) {
-          const radian = Math.atan2(clampedY, clampedX);
-          this.options.onMove(radian);
-        }
         break;
       }
     }
@@ -181,15 +182,18 @@ export default class Joystick extends GameObject {
     }
     if (ended) {
       this.activeTouchId = undefined;
+
       if (this.joystickSprite) {
         this.joystickSprite.remove();
         this.joystickSprite = undefined;
       }
+
       if (this.knobSprite) {
         this.knobSprite.remove();
         this.knobSprite = undefined;
       }
-      this.options.onRelease();
+
+      if (this.isMoving) this.options.onRelease();
     }
   };
 

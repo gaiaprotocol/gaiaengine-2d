@@ -30,20 +30,22 @@ export default class LetterboxedScreen extends GameScreen {
       .updateLayout()
       .onWindow("resize", this.updateLayout)
       .appendTo(BodyNode);
+
+    this.append(...Object.values(this.letterboxes));
   }
 
   private updateLayout() {
     const { clientWidth: winWidth, clientHeight: winHeight } =
       document.documentElement;
 
-    const widthRatio = winWidth / this.width;
-    const heightRatio = winHeight / this.height;
-    this.ratio = Math.min(widthRatio, heightRatio);
+    const widthScale = winWidth / this.width;
+    const heightScale = winHeight / this.height;
+    this.scale = Math.min(widthScale, heightScale);
 
-    this.resize(this.width, this.height, this.ratio);
+    this.resize(this.width, this.height, this.scale);
 
-    const left = `${(winWidth - this.width * this.ratio) / 2}px`;
-    const top = `${(winHeight - this.height * this.ratio) / 2}px`;
+    const left = `${(winWidth - this.width * this.scale) / 2}px`;
+    const top = `${(winHeight - this.height * this.scale) / 2}px`;
 
     this.style({ left, top });
 

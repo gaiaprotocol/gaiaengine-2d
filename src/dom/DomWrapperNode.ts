@@ -36,12 +36,12 @@ export default class DomWrapperNode<HE extends HTMLElement = HTMLElement>
 
     if (this.screen) {
       this.domNode.style({
-        left: `${this.globalTransform.x * this.screen.ratio}px`,
-        top: `${this.globalTransform.y * this.screen.ratio}px`,
+        left: `${this.globalTransform.x * this.screen.scale}px`,
+        top: `${this.globalTransform.y * this.screen.scale}px`,
         transform: `translate(-50%, -50%) scale(${
-          this.globalTransform.scaleX * this.screen.ratio
+          this.globalTransform.scaleX * this.screen.scale
         }, ${
-          this.globalTransform.scaleY * this.screen.ratio
+          this.globalTransform.scaleY * this.screen.scale
         }) rotate(${this.globalTransform.rotation}rad)`,
         opacity: String(this.globalTransform.alpha),
       });
