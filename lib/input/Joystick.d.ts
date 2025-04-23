@@ -24,8 +24,8 @@ export default class Joystick extends GameObject {
     private touchStartY;
     private isMoving;
     private eventNode;
-    private joystickImage;
-    private knobImage;
+    private joystickImage?;
+    private knobImage?;
     constructor(options: JoystickOptions);
     protected set screen(screen: GameScreen | undefined);
     protected get screen(): GameScreen | undefined;

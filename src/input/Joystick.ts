@@ -1,4 +1,4 @@
-import { DomNode } from "@commonmodule/app";
+import { Browser, DomNode } from "@commonmodule/app";
 import GameObject from "../core/GameObject.js";
 import WindowEventNode from "../core/WindowEventNode.js";
 import GameScreen from "../screen/GameScreen.js";
@@ -30,8 +30,8 @@ export default class Joystick extends GameObject {
   private isMoving = false;
 
   private eventNode = new WindowEventNode();
-  private joystickImage: DomNode;
-  private knobImage: DomNode;
+  private joystickImage?: DomNode;
+  private knobImage?: DomNode;
 
   constructor(private options: JoystickOptions) {
     super(0, 0);
@@ -41,11 +41,13 @@ export default class Joystick extends GameObject {
       .onWindow("keyup", this.handleKeyUp)
       .onWindow("blur", this.handleBlur);
 
-    if (options.defaultPosition) {
-      this.defaultPosition = options.defaultPosition;
+    if (Browser.isMobileDevice()) {
+      if (options.defaultPosition) {
+        this.defaultPosition = options.defaultPosition;
+      }
+      this.joystickImage = options.joystickImage;
+      this.knobImage = options.knobImage;
     }
-    this.joystickImage = options.joystickImage;
-    this.knobImage = options.knobImage;
   }
 
   protected set screen(screen: GameScreen | undefined) {
@@ -56,14 +58,14 @@ export default class Joystick extends GameObject {
         .onDom("touchend", this.handleTouchEnd)
         .onDom("touchcancel", this.handleTouchEnd);
 
-      this.joystickImage.style({
+      this.joystickImage?.style({
         left: `${this.defaultPosition.left}px`,
         top: `${this.defaultPosition.top}px`,
         zIndex: "999998",
         transform: "translate(-50%, -50%)",
       }).appendTo(screen);
 
-      this.knobImage.style({
+      this.knobImage?.style({
         left: `${this.defaultPosition.left}px`,
         top: `${this.defaultPosition.top}px`,
         zIndex: "999998",
@@ -134,12 +136,12 @@ export default class Joystick extends GameObject {
 
     const screenRect = this.screen.calculateRect();
 
-    this.joystickImage.style({
+    this.joystickImage?.style({
       left: `${this.touchStartX - screenRect.left}px`,
       top: `${this.touchStartY - screenRect.top}px`,
     });
 
-    this.knobImage.style({
+    this.knobImage?.style({
       left: `${this.touchStartX - screenRect.left}px`,
       top: `${this.touchStartY - screenRect.top}px`,
     });
@@ -168,7 +170,7 @@ export default class Joystick extends GameObject {
 
         if (this.screen) {
           const screenRect = this.screen.calculateRect();
-          this.knobImage.style({
+          this.knobImage?.style({
             left: `${this.touchStartX - screenRect.left + clampedX}px`,
             top: `${this.touchStartY - screenRect.top + clampedY}px`,
           });
@@ -201,11 +203,11 @@ export default class Joystick extends GameObject {
     if (ended) {
       this.activeTouchId = undefined;
 
-      this.joystickImage.style({
+      this.joystickImage?.style({
         left: `${this.defaultPosition.left}px`,
         top: `${this.defaultPosition.top}px`,
       });
-      this.knobImage.style({
+      this.knobImage?.style({
         left: `${this.defaultPosition.left}px`,
         top: `${this.defaultPosition.top}px`,
       });
@@ -234,11 +236,11 @@ export default class Joystick extends GameObject {
 
     if (this.activeTouchId !== undefined) return;
 
-    this.joystickImage.style({
+    this.joystickImage?.style({
       left: `${this.defaultPosition.left}px`,
       top: `${this.defaultPosition.top}px`,
     });
-    this.knobImage.style({
+    this.knobImage?.style({
       left: `${this.defaultPosition.left}px`,
       top: `${this.defaultPosition.top}px`,
     });
@@ -252,8 +254,8 @@ export default class Joystick extends GameObject {
         .offDom("touchend", this.handleTouchEnd)
         .offDom("touchcancel", this.handleTouchEnd);
 
-      this.joystickImage.remove();
-      this.knobImage.remove();
+      this.joystickImage?.remove();
+      this.knobImage?.remove();
     }
     super.remove();
   }
