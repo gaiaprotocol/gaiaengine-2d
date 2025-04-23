@@ -12,21 +12,26 @@ interface JoystickOptions {
   knobImage: DomNode;
   maxKnobDistance: number;
   moveThreshold: number;
+
+  defaultPosition?: { left: number; top: number };
 }
 
 export default class Joystick extends GameObject {
   private codesPressed: Set<string> = new Set();
   private arrowCodesPressed: Set<string> = new Set();
 
+  private defaultPosition: { left: number; top: number } = {
+    left: -999999,
+    top: -999999,
+  };
   private activeTouchId?: number;
   private touchStartX: number = 0;
   private touchStartY: number = 0;
+  private isMoving = false;
 
   private eventNode = new WindowEventNode();
   private joystickImage: DomNode;
   private knobImage: DomNode;
-
-  private isMoving = false;
 
   constructor(private options: JoystickOptions) {
     super(0, 0);
@@ -36,6 +41,9 @@ export default class Joystick extends GameObject {
       .onWindow("keyup", this.handleKeyUp)
       .onWindow("blur", this.handleBlur);
 
+    if (options.defaultPosition) {
+      this.defaultPosition = options.defaultPosition;
+    }
     this.joystickImage = options.joystickImage;
     this.knobImage = options.knobImage;
   }
@@ -49,15 +57,15 @@ export default class Joystick extends GameObject {
         .onDom("touchcancel", this.handleTouchEnd);
 
       this.joystickImage.style({
-        left: "-999999px",
-        top: "-999999px",
+        left: `${this.defaultPosition.left}px`,
+        top: `${this.defaultPosition.top}px`,
         zIndex: "999998",
         transform: "translate(-50%, -50%)",
       }).appendTo(screen);
 
       this.knobImage.style({
-        left: "-999999px",
-        top: "-999999px",
+        left: `${this.defaultPosition.left}px`,
+        top: `${this.defaultPosition.top}px`,
         zIndex: "999998",
         transform: "translate(-50%, -50%)",
       }).appendTo(screen);
@@ -193,8 +201,14 @@ export default class Joystick extends GameObject {
     if (ended) {
       this.activeTouchId = undefined;
 
-      this.joystickImage.style({ left: "-999999px", top: "-999999px" });
-      this.knobImage.style({ left: "-999999px", top: "-999999px" });
+      this.joystickImage.style({
+        left: `${this.defaultPosition.left}px`,
+        top: `${this.defaultPosition.top}px`,
+      });
+      this.knobImage.style({
+        left: `${this.defaultPosition.left}px`,
+        top: `${this.defaultPosition.top}px`,
+      });
 
       if (this.isMoving) this.options.onRelease();
     }
@@ -213,6 +227,21 @@ export default class Joystick extends GameObject {
       const radian = Math.atan2(dy, dx);
       this.options.onMove(radian);
     }
+  }
+
+  public setDefaultPosition(position: { left: number; top: number }): void {
+    this.defaultPosition = position;
+
+    if (this.activeTouchId !== undefined) return;
+
+    this.joystickImage.style({
+      left: `${this.defaultPosition.left}px`,
+      top: `${this.defaultPosition.top}px`,
+    });
+    this.knobImage.style({
+      left: `${this.defaultPosition.left}px`,
+      top: `${this.defaultPosition.top}px`,
+    });
   }
 
   public remove(): void {
