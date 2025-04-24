@@ -9,4 +9,4 @@ export default class DebugDisplay extends GameObject {
     update(deltaTime: number): void;
     remove(): void;
 }
-//# sourceMappingURL=FPSDisplay.d.ts.map
+//# sourceMappingURL=DebugDisplay.d.ts.map

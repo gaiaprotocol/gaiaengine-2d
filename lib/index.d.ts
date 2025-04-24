@@ -14,7 +14,7 @@ export { default as LayeredGameObject } from "./core/LayeredGameObject.js";
 export { default as TransformableNode } from "./core/TransformableNode.js";
 export { default as WindowEventNode } from "./core/WindowEventNode.js";
 export { default as Atlas } from "./data/Atlas.js";
-export { default as FPSDisplay } from "./debug/FPSDisplay.js";
+export { default as DebugDisplay } from "./debug/DebugDisplay.js";
 export { default as Delay } from "./delay/Delay.js";
 export { default as Interval } from "./delay/Interval.js";
 export { default as DomWrapperNode } from "./dom/DomWrapperNode.js";

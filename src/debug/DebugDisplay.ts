@@ -2,15 +2,16 @@ import { DomNode, el, StyleUtils } from "@commonmodule/app";
 import GameObject from "../core/GameObject.js";
 import Interval from "../delay/Interval.js";
 import GameScreen from "../screen/GameScreen.js";
+import DebugManager from "./DebugManager.js";
 
-export default class FPSDisplay extends GameObject {
+export default class DebugDisplay extends GameObject {
   private deltaTime = 0;
   private textNode: DomNode;
 
   constructor() {
     super(0, 0);
 
-    this.textNode = el("", "FPS: 0", {
+    this.textNode = el("", "FPS: 0, Node: 0", {
       style: {
         position: "absolute",
         right: "16px",
@@ -24,7 +25,10 @@ export default class FPSDisplay extends GameObject {
 
     new Interval(
       0.1,
-      () => this.textNode.text = `FPS: ${Math.round(1 / this.deltaTime)}`,
+      () =>
+        this.textNode.text = `FPS: ${
+          Math.round(1 / this.deltaTime)
+        }, Node: ${DebugManager.displayNodeCount}`,
     ).appendTo(this);
   }
 

@@ -1,5 +1,7 @@
 import { EventRecord } from "@commonmodule/ts";
 import { BLEND_MODES, ColorSource, Container } from "pixi.js";
+import DebugManager from "../debug/DebugManager.js";
+import GaiaEngineConfig from "../GaiaEngineConfig.js";
 import GameNode from "./GameNode.js";
 import TransformableNode from "./TransformableNode.js";
 
@@ -11,6 +13,10 @@ export default class DisplayNode<
 
   constructor(protected container: CT) {
     super(container.x, container.y);
+
+    if (GaiaEngineConfig.isDevMode) {
+      DebugManager.displayNodeCount += 1;
+    }
   }
 
   public set x(x: number) {
@@ -145,6 +151,11 @@ export default class DisplayNode<
 
   public remove(): void {
     this.container.destroy({ children: true });
+
+    if (GaiaEngineConfig.isDevMode) {
+      DebugManager.displayNodeCount -= 1;
+    }
+
     super.remove();
   }
 }
