@@ -124,7 +124,13 @@ export default class GameScreen extends DomNode {
         const frameDuration = 1 / this.actualFPS;
         if (this.accumulatedTime >= frameDuration) {
           this.update(frameDuration);
-          this.accumulatedTime -= frameDuration;
+
+          if (this.accumulatedTime >= frameDuration * 2) {
+            this.update(elapsedTime);
+            this.accumulatedTime = 0;
+          } else {
+            this.accumulatedTime -= frameDuration;
+          }
         }
       } else {
         this.update(elapsedTime);
