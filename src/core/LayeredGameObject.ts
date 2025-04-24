@@ -1,9 +1,11 @@
+import { EventRecord } from "@commonmodule/ts";
 import { Container } from "pixi.js";
 import GameScreen from "../screen/GameScreen.js";
 import GameNode from "./GameNode.js";
 import TransformableNode from "./TransformableNode.js";
 
-export default class LayeredGameObject extends TransformableNode {
+export default class LayeredGameObject<E extends EventRecord = EventRecord>
+  extends TransformableNode<E> {
   private container: Container;
 
   constructor(

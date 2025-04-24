@@ -1,5 +1,6 @@
+import { EventRecord } from "@commonmodule/ts";
 import GameObject from "../core/GameObject.js";
-export default class Movable extends GameObject {
+export default class Movable<E extends EventRecord = EventRecord> extends GameObject<E> {
     protected minX: number;
     protected maxX: number;
     protected minY: number;

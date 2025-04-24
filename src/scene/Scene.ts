@@ -1,9 +1,11 @@
 import GameObject from "../core/GameObject.js";
 import BackgroundMusic from "../sound/BackgroundMusic.js";
+import { EventRecord } from "@commonmodule/ts";
 
 type SceneConstructor = new () => Scene;
 
-export default abstract class Scene extends GameObject {
+export default abstract class Scene<E extends EventRecord = EventRecord>
+  extends GameObject<E> {
   protected bgm: BackgroundMusic | undefined;
 
   constructor() {

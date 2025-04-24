@@ -1,7 +1,8 @@
+import { EventRecord } from "@commonmodule/ts";
 import { BLEND_MODES, ColorSource, Container } from "pixi.js";
 import GameNode from "./GameNode.js";
 import TransformableNode from "./TransformableNode.js";
-export default class DisplayNode<CT extends Container = Container, E extends Record<string, (...args: any[]) => any> = {}> extends TransformableNode<E> {
+export default class DisplayNode<CT extends Container = Container, E extends EventRecord = EventRecord> extends TransformableNode<E> {
     protected container: CT;
     private _useYForDrawingOrder;
     constructor(container: CT);
