@@ -1,6 +1,8 @@
-import { TreeNode } from "@commonmodule/ts";
+import { EventTreeNode } from "@commonmodule/ts";
 import GameScreen from "../screen/GameScreen.js";
-export default abstract class GameNode extends TreeNode<GameNode> {
+export default abstract class GameNode<E extends Record<string, (...args: any[]) => any> = {}> extends EventTreeNode<GameNode, E & {
+    visible: () => void;
+}> {
     private _screen;
     protected set screen(screen: GameScreen | undefined);
     protected get screen(): GameScreen | undefined;

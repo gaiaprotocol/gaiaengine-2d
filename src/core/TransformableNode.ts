@@ -1,7 +1,9 @@
 import GameNode from "./GameNode.js";
 import Transform from "./Transform.js";
 
-export default abstract class TransformableNode extends GameNode {
+export default abstract class TransformableNode<
+  E extends Record<string, (...args: any[]) => any> = {},
+> extends GameNode<E> {
   constructor(x: number, y: number) {
     super();
     this.transform.x = x;

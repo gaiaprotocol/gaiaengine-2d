@@ -2,8 +2,10 @@ import { BLEND_MODES, ColorSource, Container } from "pixi.js";
 import GameNode from "./GameNode.js";
 import TransformableNode from "./TransformableNode.js";
 
-export default class DisplayNode<CT extends Container = Container>
-  extends TransformableNode {
+export default class DisplayNode<
+  CT extends Container = Container,
+  E extends Record<string, (...args: any[]) => any> = {},
+> extends TransformableNode<E> {
   private _useYForDrawingOrder: boolean = false;
 
   constructor(protected container: CT) {

@@ -125,5 +125,6 @@ export default class Sound extends EventContainer<{
     }
     this.audioBuffer = undefined;
     this.audioContext = undefined;
+    this.removeEvents();
   }
 }
