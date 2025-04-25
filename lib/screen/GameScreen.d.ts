@@ -21,7 +21,7 @@ export default class GameScreen extends DomNode {
     private superRoot;
     private layers;
     camera: Camera;
-    root: GameObject<import("@commonmodule/ts").EventRecord>;
+    root: GameObject<{}>;
     width: number;
     height: number;
     scale: number;

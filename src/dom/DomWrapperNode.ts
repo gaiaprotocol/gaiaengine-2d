@@ -6,7 +6,7 @@ import GameScreen from "../screen/GameScreen.js";
 
 export default class DomWrapperNode<
   H extends HTMLElement = HTMLElement,
-  E extends EventRecord = EventRecord,
+  E extends EventRecord = {},
 > extends TransformableNode<E> {
   protected domNode: DomNode;
 

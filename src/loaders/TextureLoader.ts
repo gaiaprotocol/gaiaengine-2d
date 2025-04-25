@@ -55,7 +55,7 @@ class TextureLoader extends ResourceLoader<Texture> {
     return await loadPromise;
   }
 
-  protected cleanup(texture: Texture): void {
+  protected cleanup(src: string, texture: Texture): void {
     texture.destroy(true);
   }
 }

@@ -64,7 +64,7 @@ class BitmapFontLoader extends ResourceLoader<BitmapFont> {
     return await loadPromise;
   }
 
-  protected cleanup(_: BitmapFont, fnt: string): void {
+  protected cleanup(fnt: string): void {
     const src = this.fntToSrc.get(fnt);
     if (src) TextureLoader.release(src);
   }

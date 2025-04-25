@@ -4,7 +4,7 @@ import Atlas from "../data/Atlas.js";
 declare class SpritesheetLoader extends ResourceLoader<Spritesheet> {
     private idToSrc;
     protected loadResource(id: string, src: string, atlas: Atlas): Promise<Spritesheet | undefined>;
-    protected cleanup(spritesheet: Spritesheet, id: string): void;
+    protected cleanup(id: string, spritesheet: Spritesheet): void;
 }
 declare const _default: SpritesheetLoader;
 export default _default;

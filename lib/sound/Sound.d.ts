@@ -7,6 +7,7 @@ export default class Sound extends EventContainer<{
     private _volume;
     private isPlaying;
     private isPaused;
+    private loadAudioPromise;
     private audioBuffer?;
     private audioContext?;
     private gainNode?;
@@ -16,6 +17,7 @@ export default class Sound extends EventContainer<{
     private offset;
     protected isAudioInitialized: boolean;
     constructor(src: string, loop?: boolean, _volume?: number);
+    private loadAudio;
     private initializeAudio;
     play(): this;
     private stopSource;

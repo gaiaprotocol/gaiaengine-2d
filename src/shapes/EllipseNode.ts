@@ -2,7 +2,7 @@ import { EventRecord } from "@commonmodule/ts";
 import { FillInput, StrokeInput } from "pixi.js";
 import ShapeNode from "./ShapeNode.js";
 
-export default class EllipseNode<E extends EventRecord = EventRecord>
+export default class EllipseNode<E extends EventRecord = {}>
   extends ShapeNode<E> {
   constructor(
     x: number,

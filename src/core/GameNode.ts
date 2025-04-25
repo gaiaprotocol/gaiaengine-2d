@@ -1,19 +1,12 @@
 import { EventRecord, EventTreeNode } from "@commonmodule/ts";
 import GameScreen from "../screen/GameScreen.js";
 
-export default abstract class GameNode<E extends EventRecord = EventRecord>
-  extends EventTreeNode<GameNode, E & { visible: () => void }> {
+export default abstract class GameNode<E extends EventRecord = {}>
+  extends EventTreeNode<GameNode, E> {
   private _screen: GameScreen | undefined;
 
   protected set screen(screen: GameScreen | undefined) {
     if (this._screen === screen) return;
-
-    if (this._screen === undefined && screen !== undefined) {
-      this.emit(
-        "visible",
-        ...([] as Parameters<(E & { visible: () => void })["visible"]>),
-      );
-    }
 
     this._screen = screen;
     for (const child of this.children) {

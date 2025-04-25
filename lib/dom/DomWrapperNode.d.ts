@@ -3,7 +3,7 @@ import { EventRecord } from "@commonmodule/ts";
 import { DomSelector } from "@commonmodule/universal-page";
 import TransformableNode from "../core/TransformableNode.js";
 import GameScreen from "../screen/GameScreen.js";
-export default class DomWrapperNode<H extends HTMLElement = HTMLElement, E extends EventRecord = EventRecord> extends TransformableNode<E> {
+export default class DomWrapperNode<H extends HTMLElement = HTMLElement, E extends EventRecord = {}> extends TransformableNode<E> {
     protected domNode: DomNode;
     constructor(x: number, y: number, elementOrSelector?: H | DomSelector, ...children: DomChild<H>[]);
     protected set screen(screen: GameScreen | undefined);

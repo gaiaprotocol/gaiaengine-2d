@@ -4,7 +4,7 @@ declare class TextureLoader extends ResourceLoader<Texture> {
     private createCanvasFromImage;
     private createTextureFromCanvas;
     protected loadResource(src: string): Promise<Texture | undefined>;
-    protected cleanup(texture: Texture): void;
+    protected cleanup(src: string, texture: Texture): void;
 }
 declare const _default: TextureLoader;
 export default _default;

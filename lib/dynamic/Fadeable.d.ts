@@ -1,6 +1,6 @@
 import { EventRecord } from "@commonmodule/ts";
 import GameObject from "../core/GameObject.js";
-export default class Fadeable<E extends EventRecord = EventRecord> extends GameObject<E> {
+export default class Fadeable<E extends EventRecord = {}> extends GameObject<E> {
     protected fadingSpeed: number;
     protected minFadingSpeed: number;
     protected maxFadingSpeed: number;

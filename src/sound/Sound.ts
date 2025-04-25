@@ -1,12 +1,14 @@
 import { Browser } from "@commonmodule/app";
 import { EventContainer } from "@commonmodule/ts";
-import AudioBufferManager from "./AudioBufferManager.js";
+import AudioBufferLoader from "../loaders/AudioBufferLoader.js";
+import AudioContextManager from "./AudioContextManager.js";
 
 export default class Sound extends EventContainer<{
   ended: () => void;
 }> {
   private isPlaying = false;
   private isPaused = false;
+  private loadAudioPromise: Promise<void>;
 
   private audioBuffer?: AudioBuffer;
   private audioContext?: AudioContext;
@@ -25,17 +27,19 @@ export default class Sound extends EventContainer<{
     private _volume = 0.8,
   ) {
     super();
-    AudioBufferManager.loadBuffer(this.src);
+    this.loadAudioPromise = this.loadAudio();
+  }
+
+  private async loadAudio(): Promise<void> {
+    this.audioBuffer = await AudioBufferLoader.load(this.src);
   }
 
   private async initializeAudio(): Promise<void> {
-    if (!this.audioBuffer) {
-      this.audioBuffer = await AudioBufferManager.loadBuffer(this.src);
-    }
+    if (!this.audioBuffer) await this.loadAudioPromise;
     if (!this.isPlaying) return;
 
     if (!this.audioContext) {
-      this.audioContext = await AudioBufferManager.getAudioContext();
+      this.audioContext = await AudioContextManager.getAvailableAudioContext();
     }
     if (!this.isPlaying) return;
 
@@ -46,7 +50,7 @@ export default class Sound extends EventContainer<{
     }
 
     this.source = this.audioContext.createBufferSource();
-    this.source.buffer = this.audioBuffer;
+    this.source.buffer = this.audioBuffer!;
     this.source.loop = this.loop;
     this.source.connect(this.gainNode);
     this.source.start(0, this.offset);
@@ -125,6 +129,7 @@ export default class Sound extends EventContainer<{
     }
     this.audioBuffer = undefined;
     this.audioContext = undefined;
+    AudioBufferLoader.release(this.src);
     this.clearEvents();
   }
 }

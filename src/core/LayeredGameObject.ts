@@ -4,7 +4,7 @@ import GameScreen from "../screen/GameScreen.js";
 import GameNode from "./GameNode.js";
 import TransformableNode from "./TransformableNode.js";
 
-export default class LayeredGameObject<E extends EventRecord = EventRecord>
+export default class LayeredGameObject<E extends EventRecord = {}>
   extends TransformableNode<E> {
   private container: Container;
 

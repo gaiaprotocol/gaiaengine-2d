@@ -5,7 +5,7 @@ import TransitionOverlay from "./TransitionOverlay.js";
 
 type SceneConstructor = new () => Scene;
 
-export default abstract class Scene<E extends EventRecord = EventRecord>
+export default abstract class Scene<E extends EventRecord = {}>
   extends GameObject<E> {
   protected bgm: BackgroundMusic | undefined;
 

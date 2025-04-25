@@ -40,7 +40,7 @@ class SpritesheetLoader extends ResourceLoader<Spritesheet> {
     return await loadPromise;
   }
 
-  protected cleanup(spritesheet: Spritesheet, id: string): void {
+  protected cleanup(id: string, spritesheet: Spritesheet): void {
     spritesheet.destroy();
 
     const src = this.idToSrc.get(id);

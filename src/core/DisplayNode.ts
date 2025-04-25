@@ -7,7 +7,7 @@ import TransformableNode from "./TransformableNode.js";
 
 export default class DisplayNode<
   CT extends Container = Container,
-  E extends EventRecord = EventRecord,
+  E extends EventRecord = {},
 > extends TransformableNode<E> {
   private _useYForDrawingOrder: boolean = false;
 

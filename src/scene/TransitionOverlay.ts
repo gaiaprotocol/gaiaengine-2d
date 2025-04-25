@@ -16,11 +16,6 @@ export default class TransitionOverlay extends DomNode {
       transition: "opacity 0.5s ease",
     });
 
-    this.on(
-      "visible",
-      () => requestAnimationFrame(() => this.style({ opacity: "1" })),
-    );
-
     const fadeInHandler = (event: TransitionEvent) => {
       if (event.propertyName !== "opacity") return;
       this.offDom("transitionend", fadeInHandler);
@@ -35,5 +30,10 @@ export default class TransitionOverlay extends DomNode {
     };
 
     this.onDom("transitionend", fadeInHandler);
+
+    this.on(
+      "visible",
+      () => requestAnimationFrame(() => this.style({ opacity: "1" })),
+    );
   }
 }
