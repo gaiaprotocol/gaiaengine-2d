@@ -2,7 +2,6 @@ export default class RandomSoundLooper {
     private _volume;
     private readonly sounds;
     private currentSound?;
-    private currentIndex;
     constructor(sources: string[], _volume?: number);
     private getRandomSound;
     private handleSoundEnded;

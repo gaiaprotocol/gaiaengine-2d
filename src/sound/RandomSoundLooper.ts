@@ -5,11 +5,10 @@ import Sound from "./Sound.js";
 export default class RandomSoundLooper {
   private readonly sounds: Sound[] = [];
   private currentSound?: Sound;
-  private currentIndex: number = -1;
 
   constructor(sources: string[], private _volume = 0.8) {
     for (const src of sources) {
-      const sound = new Sound(src, false, _volume);
+      const sound = new Sound(src, _volume);
       sound.on("ended", this.handleSoundEnded);
       this.sounds.push(sound);
     }
@@ -23,13 +22,8 @@ export default class RandomSoundLooper {
   }
 
   private getRandomSound(): Sound {
-    if (this.sounds.length <= 1) {
-      return this.sounds[0];
-    }
-
-    const newIndex = IntegerUtils.random(0, this.sounds.length - 1);
-    this.currentIndex = newIndex;
-    return this.sounds[newIndex];
+    if (this.sounds.length <= 1) return this.sounds[0];
+    return this.sounds[IntegerUtils.random(0, this.sounds.length - 1)];
   }
 
   private handleSoundEnded = () => {
@@ -58,7 +52,6 @@ export default class RandomSoundLooper {
   public stop(): this {
     this.currentSound?.stop();
     this.currentSound = undefined;
-    this.currentIndex = -1;
     return this;
   }
 

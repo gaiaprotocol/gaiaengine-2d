@@ -1,6 +1,7 @@
 import ColliderType from "../collision/colliders/ColliderType.js";
 import GameObject from "../core/GameObject.js";
 import CircleNode from "../shapes/CircleNode.js";
+import RectangleNode from "../shapes/RectangleNode.js";
 import ShapeNode from "../shapes/ShapeNode.js";
 
 export default class DebugColliderDrawNode extends GameObject {
@@ -17,7 +18,18 @@ export default class DebugColliderDrawNode extends GameObject {
       this.parentScale = parent.scale;
 
       for (const collider of (parent as any).colliders) {
-        if (collider.type === ColliderType.Circle) {
+        if (collider.type === ColliderType.Rectangle) {
+          this.append(
+            new RectangleNode(
+              collider.x,
+              collider.y,
+              collider.width,
+              collider.height,
+              undefined,
+              { color: this.strokeColor, width: 1 / this.parentScale },
+            ),
+          );
+        } else if (collider.type === ColliderType.Circle) {
           this.append(
             new CircleNode(
               collider.x,

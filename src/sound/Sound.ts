@@ -23,8 +23,8 @@ export default class Sound extends EventContainer<{
 
   constructor(
     private readonly src: string,
-    private readonly loop = false,
     private _volume = 0.8,
+    private readonly loop = false,
   ) {
     super();
     this.loadAudioPromise = this.loadAudio();

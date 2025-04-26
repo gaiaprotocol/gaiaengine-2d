@@ -13,7 +13,11 @@ export default class Movable<E extends EventRecord = {}> extends GameObject<E> {
     protected maxSpeedX: number;
     protected minSpeedY: number;
     protected maxSpeedY: number;
+    protected targetX?: number;
+    protected targetY?: number;
+    protected onArrive?: () => void;
     move(radian: number, speed: number): void;
+    moveTo(x: number, y: number, speed: number, onArrive?: () => void): void;
     stop(): void;
     protected update(deltaTime: number): void;
 }
