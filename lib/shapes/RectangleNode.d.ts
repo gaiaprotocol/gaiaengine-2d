@@ -12,7 +12,6 @@ export default class RectangleNode<E extends EventRecord = {}> extends ShapeNode
     get width(): number;
     set height(height: number);
     get height(): number;
-    set stroke(stroke: StrokeInput | undefined);
-    get stroke(): StrokeInput | undefined;
+    stroke(stroke: StrokeInput): void;
 }
 //# sourceMappingURL=RectangleNode.d.ts.map

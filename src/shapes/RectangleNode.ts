@@ -45,12 +45,7 @@ export default class RectangleNode<E extends EventRecord = {}>
     return this._height;
   }
 
-  public set stroke(stroke: StrokeInput | undefined) {
-    this._stroke = stroke;
-    this.draw();
-  }
-
-  public get stroke() {
-    return this._stroke;
+  public stroke(stroke: StrokeInput): void {
+    this.container.stroke(stroke);
   }
 }

@@ -7,7 +7,6 @@ export default class CircleNode<E extends EventRecord = {}> extends ShapeNode<E>
     private _stroke?;
     constructor(x: number, y: number, _radius: number, fill: FillInput | undefined, _stroke?: StrokeInput | undefined);
     protected draw(): void;
-    set stroke(stroke: StrokeInput | undefined);
-    get stroke(): StrokeInput | undefined;
+    stroke(stroke: StrokeInput): void;
 }
 //# sourceMappingURL=CircleNode.d.ts.map

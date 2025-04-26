@@ -80,15 +80,11 @@ export default class AnimatedSprite extends GameObject {
   }
 
   public get loop(): boolean {
-    return this.currentSprite instanceof PixiAnimatedSprite
-      ? this.currentSprite.loop
-      : false;
+    return (this.currentSprite as PixiAnimatedSprite).loop;
   }
 
   public set loop(loop: boolean) {
-    if (this.currentSprite instanceof PixiAnimatedSprite) {
-      this.currentSprite.loop = loop;
-    }
+    (this.currentSprite as PixiAnimatedSprite).loop = loop;
   }
 
   public remove(): void {

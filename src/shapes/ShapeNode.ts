@@ -1,5 +1,5 @@
 import { EventRecord } from "@commonmodule/ts";
-import { Graphics } from "pixi.js";
+import { Graphics, StrokeInput } from "pixi.js";
 import DisplayNode from "../core/DisplayNode.js";
 
 export default abstract class ShapeNode<E extends EventRecord = {}>
@@ -9,4 +9,5 @@ export default abstract class ShapeNode<E extends EventRecord = {}>
   }
 
   protected abstract draw(): void;
+  public abstract stroke(stroke: StrokeInput): void;
 }

@@ -7,9 +7,10 @@ export { default as PolygonCollider } from "./collision/colliders/PolygonCollide
 export { default as RectCollider } from "./collision/colliders/RectCollider.js";
 export { default as CollisionChecker } from "./collision/CollisionChecker.js";
 export { default as CollisionDetector } from "./collision/CollisionDetector.js";
+export { default as ZoneCollisionDetector } from "./collision/ZoneCollisionDetector.js";
 export {
   compareCoordinates,
-  default as Coordinates,
+  default as Coordinates
 } from "./core/Coordinates.js";
 export { default as GameNode } from "./core/GameNode.js";
 export { default as GameObject } from "./core/GameObject.js";
@@ -35,15 +36,13 @@ export { default as ResourcePreloader } from "./loaders/ResourcePreloader.js";
 export { default as TextLoader } from "./loaders/TextLoader.js";
 export { default as TextureLoader } from "./loaders/TextureLoader.js";
 export {
-  default as MapData,
-  FrameData,
-  MapEntity,
+  FrameData, default as MapData, MapEntity,
   MapObjectData,
-  TerrainData,
+  TerrainData
 } from "./map/MapData.js";
 export {
   default as RectMap,
-  RectMapOptions as RectMapOptions,
+  RectMapOptions as RectMapOptions
 } from "./map/RectMap.js";
 export { default as TerrainDirection } from "./map/TerrainDirection.js";
 export { default as TileRange } from "./map/TileRange.js";
@@ -63,3 +62,4 @@ export { default as Sound } from "./sound/Sound.js";
 export { default as BitmapTextNode } from "./text/BitmapTextNode.js";
 export { default as DomTextNode } from "./text/DomTextNode.js";
 export { default as TextNode } from "./text/TextNode.js";
+

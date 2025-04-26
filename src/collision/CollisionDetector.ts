@@ -6,12 +6,29 @@ export default class CollisionDetector<
   ST extends Collidable,
   OT extends Collidable,
 > extends GameNode {
-  constructor(
-    private subjects: ST[],
-    private obstacles: OT[],
-    private onCollision: (subject: ST, obstacle: OT) => void,
-  ) {
+  private subjects: ST[] = [];
+  private obstacles: OT[] = [];
+
+  constructor(private onCollision: (subject: ST, obstacle: OT) => void) {
     super();
+  }
+
+  public addSubject(subject: ST): void {
+    this.subjects.push(subject);
+  }
+
+  public removeSubject(subject: ST): void {
+    const index = this.subjects.indexOf(subject);
+    if (index !== -1) this.subjects.splice(index, 1);
+  }
+
+  public addObstacle(obstacle: OT): void {
+    this.obstacles.push(obstacle);
+  }
+
+  public removeObstacle(obstacle: OT): void {
+    const index = this.obstacles.indexOf(obstacle);
+    if (index !== -1) this.obstacles.splice(index, 1);
   }
 
   private checkCollision(subject: ST, obstacle: OT): boolean {
