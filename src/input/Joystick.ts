@@ -8,10 +8,10 @@ interface JoystickOptions {
   onRelease: () => void;
   onKeydown?: (code: string) => void;
 
-  joystickImage: DomNode;
-  knobImage: DomNode;
-  maxKnobDistance: number;
-  moveThreshold: number;
+  joystickImage?: DomNode;
+  knobImage?: DomNode;
+  maxKnobDistance?: number;
+  moveThreshold?: number;
 
   defaultPosition?: { left: number; top: number };
 }
@@ -162,7 +162,10 @@ export default class Joystick extends GameObject {
         let clampedX = deltaX;
         let clampedY = deltaY;
 
-        if (this.options.maxKnobDistance < distance) {
+        if (
+          this.options.maxKnobDistance !== undefined &&
+          this.options.maxKnobDistance < distance
+        ) {
           const scale = this.options.maxKnobDistance / distance;
           clampedX = deltaX * scale;
           clampedY = deltaY * scale;
@@ -176,7 +179,11 @@ export default class Joystick extends GameObject {
           });
         }
 
-        if (this.isMoving || distance >= this.options.moveThreshold) {
+        if (
+          this.isMoving ||
+          this.options.moveThreshold === undefined ||
+          distance >= this.options.moveThreshold
+        ) {
           this.isMoving = true;
 
           if (clampedX !== 0 || clampedY !== 0) {

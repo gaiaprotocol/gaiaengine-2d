@@ -5,10 +5,10 @@ interface JoystickOptions {
     onMove: (radian: number) => void;
     onRelease: () => void;
     onKeydown?: (code: string) => void;
-    joystickImage: DomNode;
-    knobImage: DomNode;
-    maxKnobDistance: number;
-    moveThreshold: number;
+    joystickImage?: DomNode;
+    knobImage?: DomNode;
+    maxKnobDistance?: number;
+    moveThreshold?: number;
     defaultPosition?: {
         left: number;
         top: number;
