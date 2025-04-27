@@ -1,10 +1,11 @@
 import GameNode from "../core/GameNode.js";
+import GameObject from "../core/GameObject.js";
 import Collidable from "./Collidable.js";
 import CollisionChecker from "./CollisionChecker.js";
 
 export default class CollisionDetector<
-  ST extends Collidable,
-  OT extends Collidable,
+  ST extends GameObject & Collidable,
+  OT extends GameObject & Collidable,
 > extends GameNode {
   private subjects: ST[] = [];
   private obstacles: OT[] = [];
@@ -56,6 +57,7 @@ export default class CollisionDetector<
       for (const obstacle of this.obstacles) {
         if (this.checkCollision(subject, obstacle)) {
           this.onCollision(subject, obstacle);
+          if (subject.removed) break;
         }
       }
     }

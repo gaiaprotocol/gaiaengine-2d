@@ -2,16 +2,26 @@ import { BLEND_MODES } from "pixi.js";
 import GameObject from "../core/GameObject.js";
 interface ParticleSystemOptions {
     src: string;
-    minCount: number;
-    maxCount: number;
-    minLifetime: number;
-    maxLifetime: number;
-    minDirection: number;
-    maxDirection: number;
-    minSpeed: number;
-    maxSpeed: number;
-    minScale: number;
-    maxScale: number;
+    count: {
+        min: number;
+        max: number;
+    };
+    lifetime: {
+        min: number;
+        max: number;
+    };
+    direction: {
+        min: number;
+        max: number;
+    };
+    speed: {
+        min: number;
+        max: number;
+    };
+    scale: {
+        min: number;
+        max: number;
+    };
     fadingSpeed: number;
     rotationToDirection: boolean;
     blendMode: BLEND_MODES;

@@ -70,6 +70,7 @@ export default class ZoneCollisionDetector<
             const obstacle = potentialObstacle;
             if (this.checkCollision(subject, obstacle)) {
               this.onCollision(subject, obstacle);
+              if (subject.removed) break;
             }
           }
         }

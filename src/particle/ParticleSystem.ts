@@ -6,20 +6,11 @@ import TextureLoader from "../loaders/TextureLoader.js";
 interface ParticleSystemOptions {
   src: string;
 
-  minCount: number;
-  maxCount: number;
-
-  minLifetime: number;
-  maxLifetime: number;
-
-  minDirection: number;
-  maxDirection: number;
-
-  minSpeed: number;
-  maxSpeed: number;
-
-  minScale: number;
-  maxScale: number;
+  count: { min: number; max: number };
+  lifetime: { min: number; max: number };
+  direction: { min: number; max: number };
+  speed: { min: number; max: number };
+  scale: { min: number; max: number };
 
   fadingSpeed: number;
   rotationToDirection: boolean;
@@ -47,22 +38,25 @@ export default class ParticleSystem extends GameObject {
   }
 
   public async burst(x: number, y: number) {
-    const count = RealUtils.random(this.o.minCount, this.o.maxCount);
+    const count = RealUtils.random(this.o.count.min, this.o.count.max);
 
     await Promise.all(Array.from({ length: count }, async () => {
       const texture = await TextureLoader.load(this.o.src);
       if (!texture) return;
 
-      const lifetime = RealUtils.random(this.o.minLifetime, this.o.maxLifetime);
+      const lifetime = RealUtils.random(
+        this.o.lifetime.min,
+        this.o.lifetime.max,
+      );
 
       const direction = RealUtils.random(
-        this.o.minDirection,
-        this.o.maxDirection,
+        this.o.direction.min,
+        this.o.direction.max,
       );
       const sin = Math.sin(direction);
       const cos = Math.cos(direction);
 
-      const speed = RealUtils.random(this.o.minSpeed, this.o.maxSpeed);
+      const speed = RealUtils.random(this.o.speed.min, this.o.speed.max);
       const fadingSpeed = this.o.fadingSpeed;
 
       const pixiGraphic = new PixiSprite({
@@ -72,7 +66,7 @@ export default class ParticleSystem extends GameObject {
         anchor: { x: 0.5, y: 0.5 },
       });
 
-      pixiGraphic.scale = RealUtils.random(this.o.minScale, this.o.maxScale);
+      pixiGraphic.scale = RealUtils.random(this.o.scale.min, this.o.scale.max);
       pixiGraphic.blendMode = this.o.blendMode;
 
       if (this.o.rotationToDirection) pixiGraphic.rotation = direction;

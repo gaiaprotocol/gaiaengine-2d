@@ -2,6 +2,7 @@ import { Browser } from "@commonmodule/app";
 import { IntegerUtils } from "@commonmodule/ts";
 import AudioContextManager from "./AudioContextManager.js";
 import Sound from "./Sound.js";
+import VolumeManager from "./VolumeManager.js";
 
 export default class BackgroundMusic {
   private readonly sounds: Sound[] = [];
@@ -10,14 +11,13 @@ export default class BackgroundMusic {
 
   constructor(
     sources: { ogg?: string; mp3: string } | { ogg?: string; mp3: string }[],
-    private _volume = 0.5,
   ) {
     if (!Array.isArray(sources)) sources = [sources];
     for (const src of sources) {
       const url = AudioContextManager.canPlayOgg() && src.ogg
         ? src.ogg
         : src.mp3;
-      const sound = new Sound(url, _volume);
+      const sound = new Sound(url, VolumeManager.backgroundMusicVolume);
       sound.on("ended", this.handleSoundEnded);
       this.sounds.push(sound);
     }
@@ -28,7 +28,15 @@ export default class BackgroundMusic {
         this.handleVisibilityChange,
       );
     }
+
+    VolumeManager.on("changeBackgroundMusicVolume", this.changeVolumeHandler);
   }
+
+  private changeVolumeHandler = (volume: number): void => {
+    for (const sound of this.sounds) {
+      sound.volume = volume;
+    }
+  };
 
   private getRandomTrack(): Sound {
     if (this.sounds.length <= 1) {
@@ -74,17 +82,6 @@ export default class BackgroundMusic {
     return this;
   }
 
-  public set volume(volume: number) {
-    this._volume = volume;
-    for (const sound of this.sounds) {
-      sound.volume = volume;
-    }
-  }
-
-  public get volume(): number {
-    return this.currentSound ? this.currentSound.volume : this._volume;
-  }
-
   public remove(): void {
     for (const sound of this.sounds) {
       sound.remove();
@@ -96,5 +93,7 @@ export default class BackgroundMusic {
         this.handleVisibilityChange,
       );
     }
+
+    VolumeManager.off("changeBackgroundMusicVolume", this.changeVolumeHandler);
   }
 }

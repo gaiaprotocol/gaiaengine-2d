@@ -1,6 +1,7 @@
 import GameNode from "../core/GameNode.js";
+import GameObject from "../core/GameObject.js";
 import Collidable from "./Collidable.js";
-export default class CollisionDetector<ST extends Collidable, OT extends Collidable> extends GameNode {
+export default class CollisionDetector<ST extends GameObject & Collidable, OT extends GameObject & Collidable> extends GameNode {
     private onCollision;
     private subjects;
     private obstacles;
