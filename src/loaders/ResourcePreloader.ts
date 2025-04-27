@@ -1,4 +1,5 @@
 import Atlas from "../data/Atlas.js";
+import AudioContextManager from "../sound/AudioContextManager.js";
 import AudioBufferLoader from "./AudioBufferLoader.js";
 import BinaryLoader from "./BinaryLoader.js";
 import SpritesheetLoader from "./SpritesheetLoader.js";
@@ -7,15 +8,12 @@ import TextureLoader from "./TextureLoader.js";
 
 class ResourcePreloader {
   public async preloadResources(
-    resources: ({
-      type: "text" | "binary" | "texture" | "audio";
-      src: string;
-    } | {
-      type: "spritesheet";
-      id: string;
-      src: string;
-      atlas: Atlas;
-    })[],
+    resources: (
+      | { type: "text" | "binary" | "texture" | "audio"; src: string }
+      | { type: "audio"; ogg: string; mp3?: string }
+      | { type: "audio"; ogg?: string; mp3: string }
+      | { type: "spritesheet"; id: string; src: string; atlas: Atlas }
+    )[],
   ): Promise<void> {
     await Promise.all(
       resources.map(async (resource) => {
@@ -25,6 +23,13 @@ class ResourcePreloader {
           await BinaryLoader.load(resource.src);
         } else if (resource.type === "texture") {
           await TextureLoader.load(resource.src);
+        } else if (
+          resource.type === "audio" && ("ogg" in resource || "mp3" in resource)
+        ) {
+          const src = AudioContextManager.canPlayOgg() && resource.ogg
+            ? resource.ogg
+            : resource.mp3;
+          await AudioBufferLoader.load(src!);
         } else if (resource.type === "audio") {
           await AudioBufferLoader.load(resource.src);
         } else if (resource.type === "spritesheet") {

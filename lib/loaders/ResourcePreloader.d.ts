@@ -4,6 +4,14 @@ declare class ResourcePreloader {
         type: "text" | "binary" | "texture" | "audio";
         src: string;
     } | {
+        type: "audio";
+        ogg: string;
+        mp3?: string;
+    } | {
+        type: "audio";
+        ogg?: string;
+        mp3: string;
+    } | {
         type: "spritesheet";
         id: string;
         src: string;
