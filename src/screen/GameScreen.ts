@@ -55,6 +55,9 @@ export default class GameScreen extends DomNode {
       if (!Browser.hasPageFocus()) this.actualFPS = 6;
       this.onWindow("blur", () => this.actualFPS = 6);
       this.onWindow("focus", () => this.actualFPS = this.targetFPS);
+      this.onWindow("pageshow", (event: PageTransitionEvent) => {
+        if (event.persisted) this.actualFPS = this.targetFPS;
+      });
     }
   }
 
