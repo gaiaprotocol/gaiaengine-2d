@@ -12,10 +12,11 @@ interface ParticleSystemOptions {
   speed: { min: number; max: number };
   scale: { min: number; max: number };
 
+  alpha?: number;
   fadingSpeed: number;
   rotationToDirection: boolean;
 
-  blendMode: BLEND_MODES;
+  blendMode?: BLEND_MODES;
 }
 
 interface Particle {
@@ -67,8 +68,9 @@ export default class ParticleSystem extends GameObject {
       });
 
       pixiGraphic.scale = RealUtils.random(this.o.scale.min, this.o.scale.max);
-      pixiGraphic.blendMode = this.o.blendMode;
 
+      if (this.o.alpha) pixiGraphic.alpha = this.o.alpha;
+      if (this.o.blendMode) pixiGraphic.blendMode = this.o.blendMode;
       if (this.o.rotationToDirection) pixiGraphic.rotation = direction;
 
       this.container.addChild(pixiGraphic);

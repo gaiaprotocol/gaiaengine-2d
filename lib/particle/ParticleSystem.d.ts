@@ -22,9 +22,10 @@ interface ParticleSystemOptions {
         min: number;
         max: number;
     };
+    alpha?: number;
     fadingSpeed: number;
     rotationToDirection: boolean;
-    blendMode: BLEND_MODES;
+    blendMode?: BLEND_MODES;
 }
 export default class ParticleSystem extends GameObject {
     private o;
