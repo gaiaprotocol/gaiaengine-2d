@@ -3,9 +3,7 @@ import { EventContainer } from "@commonmodule/ts";
 import AudioBufferLoader from "../loaders/AudioBufferLoader.js";
 import AudioContextManager from "./AudioContextManager.js";
 
-export default class Sound extends EventContainer<{
-  ended: () => void;
-}> {
+export default class Sound extends EventContainer<{ ended: () => void }> {
   private isPlaying = false;
   private isPaused = false;
   private loadAudioPromise: Promise<void>;
@@ -72,9 +70,9 @@ export default class Sound extends EventContainer<{
       return this;
     }
 
-    if (!this.isPaused) {
-      this.offset = 0;
-    }
+    if (this.isPlaying) this.stop();
+    if (!this.isPaused) this.offset = 0;
+
     this.isPlaying = true;
     this.isPaused = false;
     this.initializeAudio();

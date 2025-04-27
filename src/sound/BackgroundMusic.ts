@@ -32,12 +32,6 @@ export default class BackgroundMusic {
     VolumeManager.on("changeBackgroundMusicVolume", this.changeVolumeHandler);
   }
 
-  private changeVolumeHandler = (volume: number): void => {
-    for (const sound of this.sounds) {
-      sound.volume = volume;
-    }
-  };
-
   private getRandomTrack(): Sound {
     if (this.sounds.length <= 1) {
       return this.sounds[0];
@@ -59,13 +53,17 @@ export default class BackgroundMusic {
   };
 
   private handleVisibilityChange = (): void => {
-    document.hidden ? this.pause() : this.play();
+    if (this.currentSound) document.hidden ? this.pause() : this.play();
+  };
+
+  private changeVolumeHandler = (volume: number): void => {
+    for (const sound of this.sounds) {
+      sound.volume = volume;
+    }
   };
 
   public play(): this {
-    if (!this.currentSound) {
-      this.currentSound = this.getRandomTrack();
-    }
+    if (!this.currentSound) this.currentSound = this.getRandomTrack();
     this.currentSound.play();
     return this;
   }

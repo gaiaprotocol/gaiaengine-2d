@@ -9,10 +9,10 @@ export default class BackgroundMusic {
         ogg?: string;
         mp3: string;
     }[]);
-    private changeVolumeHandler;
     private getRandomTrack;
     private handleSoundEnded;
     private handleVisibilityChange;
+    private changeVolumeHandler;
     play(): this;
     pause(): this;
     stop(): this;
