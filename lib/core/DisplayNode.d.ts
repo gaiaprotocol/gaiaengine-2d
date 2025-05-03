@@ -1,5 +1,5 @@
 import { EventRecord } from "@commonmodule/ts";
-import { BLEND_MODES, ColorSource, Container } from "pixi.js";
+import { BLEND_MODES, ColorSource, Container, Filter } from "pixi.js";
 import GameNode from "./GameNode.js";
 import TransformableNode from "./TransformableNode.js";
 export default class DisplayNode<CT extends Container = Container, E extends EventRecord = {}> extends TransformableNode<E> {
@@ -33,6 +33,7 @@ export default class DisplayNode<CT extends Container = Container, E extends Eve
     get tint(): ColorSource;
     hide(): void;
     show(): void;
+    addFilter(filter: Filter): this;
     appendTo(parent: GameNode, index?: number): this;
     remove(): void;
 }

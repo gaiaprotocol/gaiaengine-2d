@@ -1,5 +1,5 @@
 import { EventRecord } from "@commonmodule/ts";
-import { BLEND_MODES, ColorSource, Container } from "pixi.js";
+import { BLEND_MODES, ColorSource, Container, Filter } from "pixi.js";
 import DebugManager from "../debug/DebugManager.js";
 import GaiaEngineConfig from "../GaiaEngineConfig.js";
 import GameNode from "./GameNode.js";
@@ -140,6 +140,13 @@ export default class DisplayNode<
 
   public show(): void {
     this.container.visible = true;
+  }
+
+  public addFilter(filter: Filter): this {
+    this.container.filters = this.container.filters
+      ? [...this.container.filters as Filter[], filter]
+      : [filter];
+    return this;
   }
 
   public appendTo(parent: GameNode, index?: number): this {
