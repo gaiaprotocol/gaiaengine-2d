@@ -1,6 +1,6 @@
+import { BackgroundMusic } from "@commonmodule/app";
 import { EventRecord } from "@commonmodule/ts";
 import GameObject from "../core/GameObject.js";
-import BackgroundMusic from "../sound/BackgroundMusic.js";
 import TransitionOverlay from "./TransitionOverlay.js";
 
 type SceneConstructor = new () => Scene;

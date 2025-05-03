@@ -1,10 +1,9 @@
 import Atlas from "../data/Atlas.js";
-import AudioContextManager from "../sound/AudioContextManager.js";
-import AudioBufferLoader from "./AudioBufferLoader.js";
 import BinaryLoader from "./BinaryLoader.js";
 import SpritesheetLoader from "./SpritesheetLoader.js";
 import TextLoader from "./TextLoader.js";
 import TextureLoader from "./TextureLoader.js";
+import { AudioBufferLoader, AudioContextManager } from "@commonmodule/app";
 
 class ResourcePreloader {
   public async preloadResources(
