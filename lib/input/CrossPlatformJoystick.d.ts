@@ -5,11 +5,12 @@ interface CrossPlatformJoystickOptions extends JoystickOptions {
     joystickImage: DomNode;
     knobImage: DomNode;
     maxKnobDistance: number;
-    moveThreshold: number;
+    moveThreshold?: number;
     defaultPosition?: {
         left: number;
         top: number;
     };
+    onMove: (radian: number, distance?: number) => void;
 }
 export default class CrossPlatformJoystick extends Joystick {
     private options;

@@ -6,9 +6,11 @@ interface CrossPlatformJoystickOptions extends JoystickOptions {
   joystickImage: DomNode;
   knobImage: DomNode;
   maxKnobDistance: number;
-  moveThreshold: number;
+  moveThreshold?: number;
 
   defaultPosition?: { left: number; top: number };
+
+  onMove: (radian: number, distance?: number) => void;
 }
 
 export default class CrossPlatformJoystick extends Joystick {
@@ -100,7 +102,7 @@ export default class CrossPlatformJoystick extends Joystick {
       if (touch.identifier === this.activeTouchId) {
         const deltaX = touch.clientX - this.touchStartX;
         const deltaY = touch.clientY - this.touchStartY;
-        const distance = Math.hypot(deltaX, deltaY);
+        let distance = Math.hypot(deltaX, deltaY);
 
         let clampedX = deltaX;
         let clampedY = deltaY;
@@ -109,6 +111,7 @@ export default class CrossPlatformJoystick extends Joystick {
           const scale = this.options.maxKnobDistance / distance;
           clampedX = deltaX * scale;
           clampedY = deltaY * scale;
+          distance = this.options.maxKnobDistance;
         }
 
         if (this.screen) {
@@ -119,12 +122,16 @@ export default class CrossPlatformJoystick extends Joystick {
           });
         }
 
-        if (this.isMoving || distance >= this.options.moveThreshold) {
+        if (
+          this.isMoving ||
+          this.options.moveThreshold === undefined ||
+          distance >= this.options.moveThreshold
+        ) {
           this.isMoving = true;
 
           if (clampedX !== 0 || clampedY !== 0) {
             const radian = Math.atan2(clampedY, clampedX);
-            this.options.onMove(radian);
+            this.options.onMove(radian, distance);
           }
         }
 
