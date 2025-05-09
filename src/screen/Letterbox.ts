@@ -1,6 +1,6 @@
-import { DomNode } from "@commonmodule/app";
+import { Dom } from "@commonmodule/app";
 
-export default class Letterbox extends DomNode {
+export default class Letterbox extends Dom {
   constructor(style: Partial<CSSStyleDeclaration>) {
     super();
     this.style({

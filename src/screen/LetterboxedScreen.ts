@@ -1,4 +1,4 @@
-import { BodyNode } from "@commonmodule/app";
+import { AppRoot } from "@commonmodule/app";
 import GameScreen from "./GameScreen.js";
 import Letterbox from "./Letterbox.js";
 
@@ -28,8 +28,9 @@ export default class LetterboxedScreen extends GameScreen {
         height: "100%",
       })
       .updateLayout()
-      .onWindow("resize", this.updateLayout)
-      .appendTo(BodyNode);
+      .appendTo(AppRoot);
+
+    AppRoot.bind("resize", this, () => this.updateLayout());
 
     this.append(...Object.values(this.letterboxes));
   }

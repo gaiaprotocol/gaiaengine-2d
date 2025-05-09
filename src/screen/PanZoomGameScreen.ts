@@ -51,10 +51,10 @@ export default class PanZoomGameScreen extends GameScreen {
 
   private attachEventListeners(): void {
     this
-      .onDom("mousedown", this.handleMouseDown.bind(this))
-      .onDom("mousemove", this.handleMouseMove.bind(this))
-      .onDom("mouseup", this.handleMouseUp.bind(this))
-      .onDom("wheel", this.handleMouseWheel.bind(this));
+      .on("mousedown", this.handleMouseDown.bind(this))
+      .on("mousemove", this.handleMouseMove.bind(this))
+      .on("mouseup", this.handleMouseUp.bind(this))
+      .on("wheel", this.handleMouseWheel.bind(this));
   }
 
   private handleMouseDown(event: MouseEvent): void {

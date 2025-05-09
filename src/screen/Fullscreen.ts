@@ -1,4 +1,4 @@
-import { BodyNode } from "@commonmodule/app";
+import { AppRoot } from "@commonmodule/app";
 import GameScreen from "./GameScreen.js";
 
 interface FullscreenOptions {
@@ -22,10 +22,11 @@ export default class Fullscreen extends GameScreen {
         width: "100%",
         height: "100%",
       })
-      .appendTo(BodyNode);
+      .appendTo(AppRoot);
 
-    this.onWindow(
+    AppRoot.bind(
       "resize",
+      this,
       () =>
         this.resize(document.documentElement.clientWidth, window.innerHeight),
     );

@@ -26,7 +26,7 @@ export default class Sprite extends BaseImageSprite {
       this.id = `${src}:${AtlasHasher.getAtlasHash(this.atlas)}`;
 
       const sheet = await SpritesheetLoader.load(this.id, src, this.atlas);
-      if (!sheet || this.removed) return;
+      if (!sheet || this.isRemoved()) return;
 
       const texture = sheet.textures[this.frame];
       if (!texture) throw new Error(`Failed to load texture: ${src}`);
@@ -36,7 +36,7 @@ export default class Sprite extends BaseImageSprite {
       );
     } else {
       const texture = await TextureLoader.load(src);
-      if (!texture || this.removed) return;
+      if (!texture || this.isRemoved()) return;
 
       this.container.addChild(
         new PixiSprite({ texture, anchor: { x: 0.5, y: 0.5 } }),

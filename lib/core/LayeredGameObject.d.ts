@@ -1,8 +1,8 @@
-import { EventRecord } from "@commonmodule/ts";
+import { EventHandlers } from "@commonmodule/ts";
 import GameScreen from "../screen/GameScreen.js";
 import GameNode from "./GameNode.js";
 import TransformableNode from "./TransformableNode.js";
-export default class LayeredGameObject<E extends EventRecord = {}> extends TransformableNode<E> {
+export default class LayeredGameObject<E extends EventHandlers = {}> extends TransformableNode<E> {
     private layer;
     private container;
     constructor(x: number, y: number, layer: string, ...gameNodes: (GameNode | undefined)[]);

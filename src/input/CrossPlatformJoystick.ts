@@ -1,10 +1,10 @@
-import { Browser, DomNode } from "@commonmodule/app";
+import { Browser, Dom } from "@commonmodule/app";
 import GameScreen from "../screen/GameScreen.js";
 import Joystick, { JoystickOptions } from "./Joystick.js";
 
 interface CrossPlatformJoystickOptions extends JoystickOptions {
-  joystickImage: DomNode;
-  knobImage: DomNode;
+  joystickImage: Dom;
+  knobImage: Dom;
   maxKnobDistance: number;
   moveThreshold?: number;
 
@@ -23,8 +23,8 @@ export default class CrossPlatformJoystick extends Joystick {
   private touchStartY: number = 0;
   private isMoving = false;
 
-  private joystickImage?: DomNode;
-  private knobImage?: DomNode;
+  private joystickImage?: Dom;
+  private knobImage?: Dom;
 
   constructor(private options: CrossPlatformJoystickOptions) {
     super(options);
@@ -40,10 +40,10 @@ export default class CrossPlatformJoystick extends Joystick {
   protected set screen(screen: GameScreen | undefined) {
     if (screen) {
       screen
-        .onDom("touchstart", this.handleTouchStart)
-        .onDom("touchmove", this.handleTouchMove)
-        .onDom("touchend", this.handleTouchEnd)
-        .onDom("touchcancel", this.handleTouchEnd);
+        .on("touchstart", this.handleTouchStart)
+        .on("touchmove", this.handleTouchMove)
+        .on("touchend", this.handleTouchEnd)
+        .on("touchcancel", this.handleTouchEnd);
 
       this.joystickImage?.style({
         left: `${this.defaultPosition.left}px`,
@@ -184,10 +184,10 @@ export default class CrossPlatformJoystick extends Joystick {
   public remove(): void {
     if (this.screen) {
       this.screen
-        .offDom("touchstart", this.handleTouchStart)
-        .offDom("touchmove", this.handleTouchMove)
-        .offDom("touchend", this.handleTouchEnd)
-        .offDom("touchcancel", this.handleTouchEnd);
+        .off("touchstart", this.handleTouchStart)
+        .off("touchmove", this.handleTouchMove)
+        .off("touchend", this.handleTouchEnd)
+        .off("touchcancel", this.handleTouchEnd);
 
       this.joystickImage?.remove();
       this.knobImage?.remove();

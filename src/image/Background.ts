@@ -19,7 +19,7 @@ export default class Background extends BaseImageSprite {
 
   protected async loadTexture(src: string) {
     const texture = await TextureLoader.load(src);
-    if (!texture || this.removed) return;
+    if (!texture || this.isRemoved()) return;
 
     this.container.addChild(
       this.tilingSprite = new TilingSprite({

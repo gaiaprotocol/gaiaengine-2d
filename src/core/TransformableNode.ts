@@ -1,10 +1,9 @@
-import { EventRecord } from "@commonmodule/ts";
+import { EventHandlers } from "@commonmodule/ts";
 import GameNode from "./GameNode.js";
 import Transform from "./Transform.js";
 
-export default abstract class TransformableNode<
-  E extends EventRecord = {},
-> extends GameNode<E> {
+export default abstract class TransformableNode<E extends EventHandlers = {}>
+  extends GameNode<E> {
   constructor(x: number, y: number) {
     super();
     this.transform.x = x;

@@ -39,7 +39,7 @@ export default class TextNode extends GameObject {
       !FontLoader.isLoaded(this.style.fontFamily)
     ) {
       const loaded = await FontLoader.load(this.style.fontFamily);
-      if (!loaded || this.removed) return;
+      if (!loaded || this.isRemoved()) return;
       this.draw();
     }
   }

@@ -1,4 +1,4 @@
-import { EventRecord } from "@commonmodule/ts";
+import { EventHandlers } from "@commonmodule/ts";
 import { BLEND_MODES, ColorSource, Container, Filter } from "pixi.js";
 import DebugManager from "../debug/DebugManager.js";
 import GaiaEngineConfig from "../GaiaEngineConfig.js";
@@ -7,7 +7,7 @@ import TransformableNode from "./TransformableNode.js";
 
 export default class DisplayNode<
   CT extends Container = Container,
-  E extends EventRecord = {},
+  E extends EventHandlers = {},
 > extends TransformableNode<E> {
   private _useYForDrawingOrder: boolean = false;
 

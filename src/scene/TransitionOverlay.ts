@@ -1,6 +1,6 @@
-import { DomNode } from "@commonmodule/app";
+import { Dom } from "@commonmodule/app";
 
-export default class TransitionOverlay extends DomNode {
+export default class TransitionOverlay extends Dom {
   constructor(callback: () => void) {
     super();
 
@@ -18,10 +18,10 @@ export default class TransitionOverlay extends DomNode {
 
     const fadeInHandler = (event: TransitionEvent) => {
       if (event.propertyName !== "opacity") return;
-      this.offDom("transitionend", fadeInHandler);
+      this.off("transitionend", fadeInHandler);
       callback();
       this.style({ opacity: "0" });
-      this.onDom("transitionend", fadeOutHandler);
+      this.on("transitionend", fadeOutHandler);
     };
 
     const fadeOutHandler = (event: TransitionEvent) => {
@@ -29,7 +29,7 @@ export default class TransitionOverlay extends DomNode {
       this.remove();
     };
 
-    this.onDom("transitionend", fadeInHandler);
+    this.on("transitionend", fadeInHandler);
 
     this.on(
       "visible",

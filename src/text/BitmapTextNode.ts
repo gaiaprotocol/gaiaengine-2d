@@ -23,7 +23,7 @@ export default class BitmapTextNode extends GameObject {
       this.options.fnt,
       this.options.src,
     );
-    if (!font || this.removed) return;
+    if (!font || this.isRemoved()) return;
 
     const sprites: Sprite[] = [];
 

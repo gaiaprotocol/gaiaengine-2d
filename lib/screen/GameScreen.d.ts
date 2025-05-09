@@ -1,4 +1,4 @@
-import { DomNode } from "@commonmodule/app";
+import { Dom } from "@commonmodule/app";
 import { Container } from "pixi.js";
 import GameObject from "../core/GameObject.js";
 import Camera from "./Camera.js";
@@ -12,7 +12,7 @@ interface GameScreenOptions {
     }[];
     pixelated?: boolean;
 }
-export default class GameScreen extends DomNode {
+export default class GameScreen extends Dom {
     private _options;
     private renderer;
     private animationInterval;

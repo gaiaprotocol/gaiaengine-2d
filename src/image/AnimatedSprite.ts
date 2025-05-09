@@ -65,7 +65,7 @@ export default class AnimatedSprite extends GameObject {
       this.options.src,
       this.options.atlas,
     );
-    if (!this.sheet || this.removed) return;
+    if (!this.sheet || this.isRemoved()) return;
     this.changeAnimation();
   }
 

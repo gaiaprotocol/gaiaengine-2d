@@ -57,7 +57,7 @@ export default class CollisionDetector<
       for (const obstacle of this.obstacles) {
         if (this.checkCollision(subject, obstacle)) {
           this.onCollision(subject, obstacle);
-          if (subject.removed) break;
+          if (subject.isRemoved()) break;
         }
       }
     }

@@ -1,9 +1,9 @@
-import { DomNode } from "@commonmodule/app";
+import { Dom } from "@commonmodule/app";
 import GameScreen from "../screen/GameScreen.js";
 import Joystick, { JoystickOptions } from "./Joystick.js";
 interface CrossPlatformJoystickOptions extends JoystickOptions {
-    joystickImage: DomNode;
-    knobImage: DomNode;
+    joystickImage: Dom;
+    knobImage: Dom;
     maxKnobDistance: number;
     moveThreshold?: number;
     defaultPosition?: {

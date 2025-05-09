@@ -1,1 +1,1 @@
-{"version":3,"file":"TransitionOverlay.d.ts","sourceRoot":"","sources":["../../src/scene/TransitionOverlay.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,mBAAmB,CAAC;AAE5C,MAAM,CAAC,OAAO,OAAO,iBAAkB,SAAQ,OAAO;gBACxC,QAAQ,EAAE,MAAM,IAAI;CAmCjC"}
+{"version":3,"file":"TransitionOverlay.d.ts","sourceRoot":"","sources":["../../src/scene/TransitionOverlay.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,GAAG,EAAE,MAAM,mBAAmB,CAAC;AAExC,MAAM,CAAC,OAAO,OAAO,iBAAkB,SAAQ,GAAG;gBACpC,QAAQ,EAAE,MAAM,IAAI;CAmCjC"}

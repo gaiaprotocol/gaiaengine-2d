@@ -1,8 +1,8 @@
-import { EventRecord, EventTreeNode } from "@commonmodule/ts";
+import { EventHandlers, EventNode } from "@commonmodule/ts";
 import GameScreen from "../screen/GameScreen.js";
 
-export default abstract class GameNode<E extends EventRecord = {}>
-  extends EventTreeNode<GameNode, E> {
+export default abstract class GameNode<E extends EventHandlers = {}>
+  extends EventNode<GameNode, E> {
   private _screen: GameScreen | undefined;
 
   protected set screen(screen: GameScreen | undefined) {
@@ -32,7 +32,7 @@ export default abstract class GameNode<E extends EventRecord = {}>
   }
 
   protected update(deltaTime: number): void {
-    if (!this.removed) {
+    if (!this.isRemoved()) {
       for (const child of this.children) {
         child.update(deltaTime);
       }

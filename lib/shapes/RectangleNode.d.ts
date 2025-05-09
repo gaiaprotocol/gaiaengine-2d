@@ -1,7 +1,7 @@
-import { EventRecord } from "@commonmodule/ts";
+import { EventHandlers } from "@commonmodule/ts";
 import { FillInput, StrokeInput } from "pixi.js";
 import ShapeNode from "./ShapeNode.js";
-export default class RectangleNode<E extends EventRecord = {}> extends ShapeNode<E> {
+export default class RectangleNode<E extends EventHandlers = {}> extends ShapeNode<E> {
     private _width;
     private _height;
     private fill;

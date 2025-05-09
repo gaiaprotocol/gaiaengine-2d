@@ -1,4 +1,4 @@
-import { Browser, DomNode } from "@commonmodule/app";
+import { AppRoot, Browser, Dom } from "@commonmodule/app";
 import { autoDetectRenderer, Container, Renderer } from "pixi.js";
 import GameObject from "../core/GameObject.js";
 import GaiaEngineConfig from "../GaiaEngineConfig.js";
@@ -14,7 +14,7 @@ interface GameScreenOptions {
   pixelated?: boolean;
 }
 
-export default class GameScreen extends DomNode {
+export default class GameScreen extends Dom {
   private renderer: Renderer | undefined;
   private animationInterval: number | undefined;
 
@@ -53,9 +53,9 @@ export default class GameScreen extends DomNode {
 
     if (GaiaEngineConfig.isDevMode || Browser.isMobileDevice()) {
       if (!Browser.hasPageFocus()) this.actualFPS = 6;
-      this.onWindow("blur", () => this.actualFPS = 6);
-      this.onWindow("focus", () => this.actualFPS = this.targetFPS);
-      this.onWindow("pageshow", (event: PageTransitionEvent) => {
+      AppRoot.bind("blur", this, () => this.actualFPS = 6);
+      AppRoot.bind("focus", this, () => this.actualFPS = this.targetFPS);
+      AppRoot.bind("pageshow", this, (event: PageTransitionEvent) => {
         if (event.persisted) this.actualFPS = this.targetFPS;
       });
     }
