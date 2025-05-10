@@ -1,6 +1,7 @@
 import { Dom, DomChild } from "@commonmodule/app";
 import { EventHandlers } from "@commonmodule/ts";
 import { DomSelector } from "@commonmodule/universal-page";
+import GameNode from "../core/GameNode.js";
 import TransformableNode from "../core/TransformableNode.js";
 import GameScreen from "../screen/GameScreen.js";
 
@@ -8,7 +9,7 @@ export default class DomWrapperNode<
   H extends HTMLElement = HTMLElement,
   E extends EventHandlers = {},
 > extends TransformableNode<E> {
-  protected domNode: Dom;
+  protected dom: Dom;
 
   constructor(
     x: number,
@@ -17,7 +18,7 @@ export default class DomWrapperNode<
     ...children: DomChild<H>[]
   ) {
     super(x, y);
-    this.domNode = new Dom(elementOrSelector, ...children).style({
+    this.dom = new Dom(elementOrSelector, ...children).style({
       position: "absolute",
       left: "-9999999px",
       top: "-9999999px",
@@ -26,7 +27,7 @@ export default class DomWrapperNode<
   }
 
   protected set screen(screen: GameScreen | undefined) {
-    if (screen) this.domNode.appendTo(screen);
+    if (screen) this.dom.appendTo(screen);
     super.screen = screen;
   }
 
@@ -34,11 +35,9 @@ export default class DomWrapperNode<
     return super.screen;
   }
 
-  protected update(deltaTime: number) {
-    super.update(deltaTime);
-
+  private updateStyle() {
     if (this.screen) {
-      this.domNode.style({
+      this.dom.style({
         left: `${this.globalTransform.x * this.screen.scale}px`,
         top: `${this.globalTransform.y * this.screen.scale}px`,
         transform: `translate(-50%, -50%) scale(${
@@ -51,8 +50,19 @@ export default class DomWrapperNode<
     }
   }
 
+  protected update(deltaTime: number) {
+    super.update(deltaTime);
+    this.updateStyle();
+  }
+
+  public appendTo(parent: GameNode, index?: number): this {
+    super.appendTo(parent, index);
+    this.updateStyle();
+    return this;
+  }
+
   public remove(): void {
-    this.domNode.remove();
+    this.dom.remove();
     super.remove();
   }
 }

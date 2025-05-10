@@ -4,6 +4,7 @@ import GameScreen from "../screen/GameScreen.js";
 export default abstract class GameNode<E extends EventHandlers = {}>
   extends EventNode<GameNode, E> {
   private _screen: GameScreen | undefined;
+  private _paused: boolean = false;
 
   protected set screen(screen: GameScreen | undefined) {
     if (this._screen === screen) return;
@@ -31,8 +32,20 @@ export default abstract class GameNode<E extends EventHandlers = {}>
     return super.appendTo(parent, index);
   }
 
+  public pause(): void {
+    this._paused = true;
+  }
+
+  public resume(): void {
+    this._paused = false;
+  }
+
+  public isPaused(): boolean {
+    return this._paused;
+  }
+
   protected update(deltaTime: number): void {
-    if (!this.isRemoved()) {
+    if (!this.isRemoved() && !this.isPaused()) {
       for (const child of this.children) {
         child.update(deltaTime);
       }

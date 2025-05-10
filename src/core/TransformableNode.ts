@@ -99,7 +99,7 @@ export default abstract class TransformableNode<E extends EventHandlers = {}>
     alpha: 1,
   };
 
-  protected update(deltaTime: number): void {
+  private updateGlobalTransform() {
     const parent = this.parent as TransformableNode | undefined;
     const pt = parent?.globalTransform;
 
@@ -127,7 +127,17 @@ export default abstract class TransformableNode<E extends EventHandlers = {}>
       this.globalTransform.rotation = pt.rotation + this.transform.rotation;
       this.globalTransform.alpha = pt.alpha * this.transform.alpha;
     }
+  }
 
+  public appendTo(parent: GameNode, index?: number): this {
+    super.appendTo(parent, index);
+    this.updateGlobalTransform();
+    return this;
+  }
+
+  protected update(deltaTime: number): void {
+    if (this.isPaused()) return;
+    this.updateGlobalTransform();
     super.update(deltaTime);
   }
 }

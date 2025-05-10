@@ -24,6 +24,8 @@ export default abstract class TransformableNode<E extends EventHandlers = {}> ex
     set rotation(rotation: number);
     get rotation(): number;
     globalTransform: Transform;
+    private updateGlobalTransform;
+    appendTo(parent: GameNode, index?: number): this;
     protected update(deltaTime: number): void;
 }
 //# sourceMappingURL=TransformableNode.d.ts.map
