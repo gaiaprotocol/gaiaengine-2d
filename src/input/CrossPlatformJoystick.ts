@@ -67,6 +67,8 @@ export default class CrossPlatformJoystick extends Joystick {
   }
 
   private handleTouchStart = (event: TouchEvent) => {
+    if (this.isPaused()) return;
+
     event.preventDefault();
 
     if (this.activeTouchId !== undefined) return;
@@ -93,6 +95,8 @@ export default class CrossPlatformJoystick extends Joystick {
   };
 
   private handleTouchMove = (event: TouchEvent) => {
+    if (this.isPaused()) return;
+
     event.preventDefault();
 
     if (this.activeTouchId === undefined) return;
@@ -141,7 +145,7 @@ export default class CrossPlatformJoystick extends Joystick {
   };
 
   private handleTouchEnd = (event: TouchEvent) => {
-    if (this.activeTouchId === undefined) return;
+    if (this.isPaused() || this.activeTouchId === undefined) return;
 
     let ended = false;
     for (let i = 0; i < event.changedTouches.length; i++) {

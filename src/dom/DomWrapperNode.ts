@@ -1,24 +1,12 @@
-import { Dom, DomChild } from "@commonmodule/app";
-import { EventHandlers } from "@commonmodule/ts";
-import { DomSelector } from "@commonmodule/universal-page";
+import { Dom } from "@commonmodule/app";
 import GameNode from "../core/GameNode.js";
 import TransformableNode from "../core/TransformableNode.js";
 import GameScreen from "../screen/GameScreen.js";
 
-export default class DomWrapperNode<
-  H extends HTMLElement = HTMLElement,
-  E extends EventHandlers = {},
-> extends TransformableNode<E> {
-  protected dom: Dom;
-
-  constructor(
-    x: number,
-    y: number,
-    elementOrSelector?: H | DomSelector,
-    ...children: DomChild<H>[]
-  ) {
+export default class DomWrapperNode extends TransformableNode {
+  constructor(x: number, y: number, public dom: Dom) {
     super(x, y);
-    this.dom = new Dom(elementOrSelector, ...children).style({
+    this.dom.style({
       position: "absolute",
       left: "-9999999px",
       top: "-9999999px",

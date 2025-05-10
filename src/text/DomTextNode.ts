@@ -1,9 +1,10 @@
+import { el } from "@commonmodule/app";
 import DomWrapperNode from "../dom/DomWrapperNode.js";
 
 export default class DomTextNode<ST extends Partial<CSSStyleDeclaration> = {}>
   extends DomWrapperNode {
   constructor(x: number, y: number, text: string, style: ST) {
-    super(x, y, "", text);
+    super(x, y, el("", text));
     if (style) this.dom.style(style);
   }
 

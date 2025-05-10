@@ -34,10 +34,16 @@ export default abstract class GameNode<E extends EventHandlers = {}>
 
   public pause(): void {
     this._paused = true;
+    for (const child of this.children) {
+      child.pause();
+    }
   }
 
   public resume(): void {
     this._paused = false;
+    for (const child of this.children) {
+      child.resume();
+    }
   }
 
   public isPaused(): boolean {
