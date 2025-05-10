@@ -1,5 +1,5 @@
+import { AppRoot } from "@commonmodule/app";
 import GameObject from "../core/GameObject.js";
-import WindowEventNode from "../core/WindowEventNode.js";
 
 export interface JoystickOptions {
   onMove: (radian: number) => void;
@@ -10,15 +10,13 @@ export interface JoystickOptions {
 export default class Joystick extends GameObject {
   private codesPressed: Set<string> = new Set();
   private arrowCodesPressed: Set<string> = new Set();
-  private eventNode = new WindowEventNode();
 
   constructor(private _options: JoystickOptions) {
     super(0, 0);
 
-    this.eventNode.appendTo(this)
-      .onWindow("keydown", this.handleKeyDown)
-      .onWindow("keyup", this.handleKeyUp)
-      .onWindow("blur", this.handleBlur);
+    AppRoot.bind(this, "keydown", this.handleKeyDown);
+    AppRoot.bind(this, "keyup", this.handleKeyUp);
+    AppRoot.bind(this, "blur", this.handleBlur);
   }
 
   private handleKeyDown = (event: KeyboardEvent) => {

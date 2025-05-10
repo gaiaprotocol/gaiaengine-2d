@@ -43,6 +43,9 @@ export default class DisplayNode<
   public setPosition(x: number, y: number): this {
     super.setPosition(x, y);
     this.container.position.set(x, y);
+    if (this._useYForDrawingOrder) {
+      this.updateDrawingOrder();
+    }
     return this;
   }
 

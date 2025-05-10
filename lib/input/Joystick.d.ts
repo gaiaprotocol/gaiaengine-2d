@@ -8,7 +8,6 @@ export default class Joystick extends GameObject {
     private _options;
     private codesPressed;
     private arrowCodesPressed;
-    private eventNode;
     constructor(_options: JoystickOptions);
     private handleKeyDown;
     private handleKeyUp;

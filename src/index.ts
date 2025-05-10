@@ -16,7 +16,6 @@ export { default as GameNode } from "./core/GameNode.js";
 export { default as GameObject } from "./core/GameObject.js";
 export { default as LayeredGameObject } from "./core/LayeredGameObject.js";
 export { default as TransformableNode } from "./core/TransformableNode.js";
-export { default as WindowEventNode } from "./core/WindowEventNode.js";
 export { default as Atlas } from "./data/Atlas.js";
 export { default as DebugColliderDrawNode } from "./debug/DebugColliderDrawNode.js";
 export { default as DebugDisplay } from "./debug/DebugDisplay.js";

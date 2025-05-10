@@ -24,11 +24,8 @@ export default class Fullscreen extends GameScreen {
       })
       .appendTo(AppRoot);
 
-    AppRoot.bind(
-      "resize",
-      this,
-      () =>
-        this.resize(document.documentElement.clientWidth, window.innerHeight),
-    );
+    AppRoot.bind(this, "resize", () => {
+      this.resize(document.documentElement.clientWidth, window.innerHeight);
+    });
   }
 }
