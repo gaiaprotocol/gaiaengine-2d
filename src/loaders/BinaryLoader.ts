@@ -1,4 +1,4 @@
-import { ResourceLoader } from "@common-module/ts";
+import { ResourceLoader } from "@commonmodule/ts";
 
 class BinaryLoader extends ResourceLoader<Uint8Array> {
   protected async loadResource(src: string): Promise<Uint8Array | undefined> {
