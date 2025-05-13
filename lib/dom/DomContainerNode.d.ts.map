@@ -1,0 +1,1 @@
+{"version":3,"file":"DomContainerNode.d.ts","sourceRoot":"","sources":["../../src/dom/DomContainerNode.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,GAAG,EAAE,MAAM,mBAAmB,CAAC;AAExC,OAAO,WAAW,MAAM,wBAAwB,CAAC;AAEjD,MAAM,CAAC,OAAO,OAAO,gBAAiB,SAAQ,WAAW;IACd,GAAG,EAAE,GAAG;gBAArC,CAAC,EAAE,MAAM,EAAE,CAAC,EAAE,MAAM,EAAS,GAAG,EAAE,GAAG;CAGlD"}

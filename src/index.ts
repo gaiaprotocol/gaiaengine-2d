@@ -21,6 +21,7 @@ export { default as DebugColliderDrawNode } from "./debug/DebugColliderDrawNode.
 export { default as DebugDisplay } from "./debug/DebugDisplay.js";
 export { default as Delay } from "./delay/Delay.js";
 export { default as Interval } from "./delay/Interval.js";
+export { default as DomContainerNode } from "./dom/DomContainerNode.js";
 export { default as DomWrapperNode } from "./dom/DomWrapperNode.js";
 export { default as Movable } from "./dynamic/Movable.js";
 export { default as StateSet } from "./dynamic/StateSet.js";

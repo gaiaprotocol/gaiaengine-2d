@@ -1,4 +1,4 @@
-import { ResourceLoader } from "@common-module/ts";
+import { ResourceLoader } from "@commonmodule/ts";
 declare class TextLoader extends ResourceLoader<string> {
     protected loadResource(src: string): Promise<string | undefined>;
 }
