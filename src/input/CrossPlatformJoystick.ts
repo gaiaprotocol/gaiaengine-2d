@@ -40,10 +40,10 @@ export default class CrossPlatformJoystick extends Joystick {
   protected set screen(screen: GameScreen | undefined) {
     if (screen) {
       screen
-        .on("touchstart", this.handleTouchStart)
-        .on("touchmove", this.handleTouchMove)
-        .on("touchend", this.handleTouchEnd)
-        .on("touchcancel", this.handleTouchEnd);
+        .bind(this, "touchstart", this.handleTouchStart)
+        .bind(this, "touchmove", this.handleTouchMove)
+        .bind(this, "touchend", this.handleTouchEnd)
+        .bind(this, "touchcancel", this.handleTouchEnd);
 
       this.joystickImage?.style({
         left: `${this.defaultPosition.left}px`,
@@ -186,16 +186,8 @@ export default class CrossPlatformJoystick extends Joystick {
   }
 
   public remove(): void {
-    if (this.screen) {
-      this.screen
-        .off("touchstart", this.handleTouchStart)
-        .off("touchmove", this.handleTouchMove)
-        .off("touchend", this.handleTouchEnd)
-        .off("touchcancel", this.handleTouchEnd);
-
-      this.joystickImage?.remove();
-      this.knobImage?.remove();
-    }
+    this.joystickImage?.remove();
+    this.knobImage?.remove();
     super.remove();
   }
 }
